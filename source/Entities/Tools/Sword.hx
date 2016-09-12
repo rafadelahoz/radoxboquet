@@ -7,9 +7,19 @@ import flixel.tweens.FlxEase;
 
 class Sword extends Tool
 {
+    var enabled : Bool;
+
     override function onActivate()
     {
+        name = "SWORD";
+
+        enabled = false;
+
         loadGraphic("assets/images/sword.png");
+        setSize(20, 10);
+        offset.set(0, 6);
+
+        y += 6;
 
         var sourcex = x;
         var targetx = x;
@@ -18,28 +28,44 @@ class Sword extends Tool
         if (flipX)
         {
             targetx = player.x - 20;
+            sourcex = player.x - 5;
         }
         else
         {
             targetx = player.x + 20;
+            sourcex = player.x + 5;
         }
 
-        FlxTween.tween(this, {x : targetx}, 0.27,
-            {ease: FlxEase.quadInOut, startDelay: 0.2, onComplete: function(_t:FlxTween) {
+        x = sourcex;
+
+        FlxTween.tween(this, {x : targetx}, 0.15,
+            {ease: FlxEase.quadInOut, startDelay: 0.1, onComplete: function(_t:FlxTween) {
                 _t.cancel();
-                FlxTween.tween(this, {x : sourcex}, 0.27, {ease: FlxEase.quadInOut, onComplete: function(_t:FlxTween) {
-                    _t.cancel();
-                    onFinish();
-                }});
-        }});
+                FlxTween.tween(this, {x : sourcex}, 0.15, {ease: FlxEase.quadInOut, startDelay: 0.15,
+                    onComplete: function(_t:FlxTween) {
+                        _t.cancel();
+                        onFinish();
+                    }});
+                }
+            });
+
+        // Setup collidable frame
+        new FlxTimer().start(0.20, function(t:FlxTimer) {
+            t.cancel();
+            enabled = true;
+        });
     }
 
     override public function update(elapsed : Float)
     {
-        FlxG.overlap(this, world.breakables, function(sword : Sword, br : Breakable) {
-            br.onCollisionWithSword(this);
-        });
-
+        if (enabled) {
+            FlxG.overlap(this, world.breakables, function(sword : Sword, br : Breakable) {
+                if (enabled) {
+                    br.onCollisionWithSword(this);
+                    enabled = false;
+                }
+            });
+        }
 
         super.update(elapsed);
     }

@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 
 class Player extends Entity
 {
@@ -49,6 +50,20 @@ class Player extends Entity
             return;
         }
 
+        if (FlxG.keys.justPressed.S)
+        {
+            FlxG.overlap(this, world.items, function(player : Player, item : FlxObject) {
+                if (Std.is(item, ToolActor))
+                {
+                    if (cast(item, ToolActor).onPickup())
+                    {
+                        trace("Got " + cast(item, ToolActor).name);
+                        return;
+                    }
+                }
+            });
+        }
+
         // Horizontal movement
         if (FlxG.keys.pressed.LEFT)
             velocity.x = -WalkSpeed;
@@ -91,7 +106,7 @@ class Player extends Entity
         switch (tool.name)
         {
             case "SWORD":
-                world.add(new Sword(x, y, world));
+                world.tools.add(new Sword(x, y, world));
             default:
                 trace("used " + tool.name);
                 onToolFinish(null);

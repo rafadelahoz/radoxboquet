@@ -1,7 +1,5 @@
 package;
 
-
-
 class Money extends Entity
 {
     var value : Int = 0;
@@ -28,7 +26,7 @@ class Money extends Entity
 
     public function onCollideWithPlayer(player : Player)
     {
-        GameState.money += value;
+        GameState.addMoney(value);
         // TODO: Play sound
         destroy();
     }
