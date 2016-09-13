@@ -24,7 +24,7 @@ class Money extends Entity
         animation.play("idle");
     }
 
-    public function onCollideWithPlayer(player : Player)
+    public function onCollisionWithPlayer(player : Player)
     {
         GameState.addMoney(value);
         // TODO: Play sound

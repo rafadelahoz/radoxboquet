@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -14,6 +15,7 @@ class Sword extends Tool
         name = "SWORD";
 
         enabled = false;
+        immovable = false;
 
         loadGraphic("assets/images/sword.png");
         setSize(20, 10);
@@ -66,6 +68,9 @@ class Sword extends Tool
                 }
             });
         }
+        
+        FlxG.overlap(this, world.items, pushItem);
+        FlxG.overlap(this, world.moneys, pushItem);
 
         super.update(elapsed);
     }
@@ -75,5 +80,25 @@ class Sword extends Tool
         super.onFinish();
         destroy();
     }
-
+    
+    function pushItem(sword : Sword, item : FlxObject) : Void
+    {
+        if (!item.immovable) 
+        {
+            var swordCenter = sword.getMidpoint();
+            if (sword.flipX)
+                swordCenter.x - 10;
+            else
+                swordCenter.x + 10;
+            
+            var itemForce = item.getMidpoint();
+            itemForce.x -= swordCenter.x;
+            itemForce.y -= swordCenter.y;
+            itemForce.x *= 1.5;
+            itemForce.y *= 1.5;
+            
+            item.velocity.set(itemForce.x, itemForce.y);
+            item.drag.set(100, 100);
+        }
+    }
 }

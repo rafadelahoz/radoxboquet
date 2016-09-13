@@ -2,11 +2,13 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.math.FlxPoint;
 
 class Player extends Entity
 {
-    public static var IDLE : Int = 0;
-    public static var ACTION : Int = 1;
+    public static var IDLE      : Int = 0;
+    public static var ACTION    : Int = 1;
+    public static var HURT      : Int = 2;
 
     var WalkSpeed : Float = 100;
 
@@ -21,6 +23,7 @@ class Player extends Entity
         animation.add("idle", [0, 1], 4);
         animation.add("walk", [0, 1], 10);
         animation.add("act!", [1]);
+        animation.add("hurt", [1]);
 
         animation.play("idle");
 
@@ -35,6 +38,8 @@ class Player extends Entity
                 onIdleState(elapsed);
             case Player.ACTION:
                 onActingState(elapsed);
+            case Player.HURT:
+                onHurtState(elapsed);
         }
 
         // Delegate
@@ -99,6 +104,16 @@ class Player extends Entity
         animation.play("act!");
         velocity.set(0, 0);
     }
+    
+    function onHurtState(elapsed : Float)
+    {
+        animation.play("hurt");
+        
+        if (Math.abs(velocity.x) < 25 && Math.abs(velocity.y) < 25)
+        {
+            state = IDLE;
+        }
+    }
 
     function handleAction()
     {
@@ -118,5 +133,28 @@ class Player extends Entity
     public function onToolFinish(tool : Tool)
     {
         state = IDLE;
+    }
+    
+    public function onCollisionWithHazard(hazard : Hazard)
+    {
+        if (state != HURT)
+        {
+            var force : FlxPoint = getMidpoint();
+            var hcenter : FlxPoint = hazard.getMidpoint();
+            
+            force.x -= hcenter.x;
+            force.y -= hcenter.y;
+            
+            force.x *= 3;
+            force.y *= 3;
+            
+            velocity.set(force.x, force.y);
+            drag.set(100, 100);
+            
+            flipX = (force.x > 0);
+            
+            state = HURT;
+            GameState.hp -= 5;
+        }
     }
 }

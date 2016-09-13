@@ -25,6 +25,16 @@ class GameState
         currentItem = 0;
     }
 
+    public static function addHP(value : Int)
+    {
+        setHP(hp + value);
+    }
+    
+    public static function setHP(value : Int)
+    {
+        hp = Std.int(Math.max(Math.min(value, 100), 0));
+    }
+
     public static function addItem(name : String, ?property : String = null) : Bool
     {
         trace(items.length);
