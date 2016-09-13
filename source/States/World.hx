@@ -15,23 +15,23 @@ class World extends FlxState
     public var deadState : Bool = false;
     var deadMenu : Bool = false;
     var deadText : FlxText;
-    
+
     public var hud : HUD;
-    
+
     public var player : Player;
     public var tools : FlxGroup;
-    
+
     public var solids : FlxGroup;
     public var hazards : FlxGroup;
-    
+
     public var items : FlxGroup;
     public var moneys : FlxGroup;
     public var breakables : FlxGroup;
 
     override public function create()
     {
-        // bgColor = new FlxRandom().color();
-        // add(new FlxBackdrop("assets/scenery/bg_1.png"));
+        bgColor = new FlxRandom().color();
+        // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
 
         solids = new FlxGroup();
         add(solids);
@@ -50,7 +50,7 @@ class World extends FlxState
 
         hazards = new FlxGroup();
         add(hazards);
-        
+
         tools = new FlxGroup();
         add(tools);
 
@@ -62,9 +62,9 @@ class World extends FlxState
 
         FlxG.camera.setScrollBoundsRect(0, 0, 2560, 2560);
 		FlxG.worldBounds.set(0, 0, 2560, 2560);
-        
+
         FlxG.camera.follow(player);
-        
+
         deadState = false;
     }
 
@@ -81,7 +81,8 @@ class World extends FlxState
 
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
-            
+
+            FlxG.collide(moneys);
             FlxG.collide(player, solids);
             FlxG.collide(player, breakables);
         }
@@ -89,14 +90,14 @@ class World extends FlxState
         {
             if (deadMenu)
             {
-                if (FlxG.keys.justReleased.A || 
+                if (FlxG.keys.justReleased.A ||
                     FlxG.keys.justReleased.S ||
                     FlxG.keys.justReleased.ENTER)
                 {
                     GameController.DeadContinue();
                 }
-                
-                if (FlxG.keys.justPressed.A || 
+
+                if (FlxG.keys.justPressed.A ||
                     FlxG.keys.justPressed.S ||
                     FlxG.keys.justPressed.ENTER)
                 {
@@ -104,7 +105,7 @@ class World extends FlxState
                 }
             }
         }
-        
+
         super.update(elapsed);
     }
 
@@ -112,34 +113,34 @@ class World extends FlxState
     {
         money.onCollisionWithPlayer(_player);
     }
-    
+
     function onCollidePlayerHazard(_player : Player, hazard : Hazard)
     {
         hazard.onCollisionWithPlayer(_player);
     }
-    
+
     public function onPlayerDead()
     {
         trace("PLAYER DEAD");
         if (!deadState)
         {
             deadState = true;
-            
+
             hud.onPlayerDead();
-            
+
             var deadbg = new FlxSprite(60, 0);
             add(deadbg);
             deadbg.makeGraphic(500, 500, 0xFFFF004D);
             deadbg.alpha = 0.2;
             deadbg.scrollFactor.set(0, 0);
-            
+
             FlxTween.tween(deadbg, {alpha:1.0}, 1, {ease: FlxEase.expoOut, onComplete:function(t:FlxTween){
                 t.cancel();
                 deadText = HUD.buildLabel(FlxG.width/2, FlxG.height/2, "TRY HARDER?");
                 deadText.alignment = FlxTextAlign.CENTER;
                 deadText.scrollFactor.set(0, 0);
                 add(deadText);
-                
+
                 deadMenu = true;
             }});
         }

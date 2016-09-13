@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import flixel.util.FlxTimer;
 
 class Player extends Entity
 {
@@ -104,11 +105,11 @@ class Player extends Entity
         animation.play("act!");
         velocity.set(0, 0);
     }
-    
+
     function onHurtState(elapsed : Float)
     {
         animation.play("hurt");
-        
+
         if (Math.abs(velocity.x) < 25 && Math.abs(velocity.y) < 25)
         {
             state = IDLE;
@@ -123,36 +124,48 @@ class Player extends Entity
             case "SWORD":
                 world.tools.add(new Sword(x, y, world));
             default:
-                trace("used " + tool.name);
-                onToolFinish(null);
+                dropTool(tool);
         }
 
         velocity.set(0, 0);
+    }
+
+    function dropTool(tool : Item)
+    {
+        var right : Float = x + 18;
+        var left : Float = x - 18;
+
+        GameState.removeItem(tool);
+        world.items.add(new ToolActor(flipX ? left : right, y, world, tool.name));
+        new FlxTimer().start(0.16, function(t:FlxTimer) {
+            onToolFinish(null);
+            t.destroy();
+        });
     }
 
     public function onToolFinish(tool : Tool)
     {
         state = IDLE;
     }
-    
+
     public function onCollisionWithHazard(hazard : Hazard)
     {
         if (state != HURT)
         {
             var force : FlxPoint = getMidpoint();
             var hcenter : FlxPoint = hazard.getMidpoint();
-            
+
             force.x -= hcenter.x;
             force.y -= hcenter.y;
-            
+
             force.x *= 3;
             force.y *= 3;
-            
+
             velocity.set(force.x, force.y);
             drag.set(100, 100);
-            
+
             flipX = (force.x > 0);
-            
+
             state = HURT;
             GameState.addHP(-5);
         }

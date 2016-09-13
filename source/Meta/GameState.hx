@@ -30,11 +30,11 @@ class GameState
     {
         setHP(hp + value);
     }
-    
+
     public static function setHP(value : Int)
     {
         hp = Std.int(Math.max(Math.min(value, 100), 0));
-        
+
         if (hp <= 0)
         {
             trace("Player dead");
@@ -57,6 +57,13 @@ class GameState
         }
 
         return false;
+    }
+
+    public static function removeItem(item : Item)
+    {
+        items.remove(item);
+        if (currentItem >= items.length)
+            currentItem = items.length-1;
     }
 
     public static function addMoney(value : Int)

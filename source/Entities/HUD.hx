@@ -13,7 +13,7 @@ import flixel.addons.effects.chainable.FlxWaveEffect;*/
 class HUD extends FlxGroup
 {
     var deadState : Bool;
-    
+
     var background : FlxSprite;
 
     var hpValue : Int;
@@ -41,7 +41,7 @@ class HUD extends FlxGroup
         add(hpDisplay);
         hpValue = -1;
         hpTween = null;
-        
+
         hpOverlay = new FlxSprite(0, 0, "assets/images/hud_hp.png");
         hpOverlay.scrollFactor.set(0, 0);
         add(hpOverlay);
@@ -61,7 +61,7 @@ class HUD extends FlxGroup
         coinsLabel = buildLabel(16, 198, "99999");
         coinsLabel.scrollFactor.set(0, 0);
         add(coinsLabel);
-        
+
         deadState = false;
     }
 
@@ -79,13 +79,13 @@ class HUD extends FlxGroup
         if (!deadState)
         {
             updateHP();
-            
+
             if (FlxG.keys.justPressed.SPACE)
             {
                 GameState.currentItem = (GameState.currentItem+1)%
                                     (Std.int(Math.min(GameState.items.length, 10)));
-                cursor.y = 60 + GameState.currentItem*cursor.height;
             }
+            cursor.y = 60 + GameState.currentItem*cursor.height;
 
             updateItemList();
 
@@ -94,7 +94,7 @@ class HUD extends FlxGroup
 
         super.update(elapsed);
     }
-    
+
     function updateHP()
     {
         // DEBUG Increase, Decrease life
@@ -102,27 +102,27 @@ class HUD extends FlxGroup
             GameState.addHP(1);
         else if (FlxG.keys.pressed.O)
             GameState.addHP(-1);
-        
+
         if (GameState.hp != hpValue)
         {
             // Fill the display to the appropriate level
             FlxSpriteUtil.fill(hpDisplay, 0x00000000);
             var top : Int = Std.int(hpDisplay.height - (GameState.hp * hpDisplay.height / 100));
             FlxSpriteUtil.drawRect(hpDisplay, 0, top, hpDisplay.width, hpDisplay.height - top, 0xFFFF004D);
-            
+
             // Flash in red when losing life, in green when getting it
             if (hpValue > GameState.hp)
                 hpOverlay.color = 0xFFFF004D;
             else
                 hpOverlay.color = 0xFF00FF4D;
-            
+
             if (hpTween != null)
                 hpTween.cancel();
             hpTween = FlxTween.tween(hpOverlay, {color: 0xFFFFFFFF}, 0.5, {onComplete: function(t:FlxTween) {
                 t.cancel();
                 hpTween = null;
             }});
-            
+
             // And store the value
             hpValue = GameState.hp;
         }
@@ -147,11 +147,11 @@ class HUD extends FlxGroup
 
         itemList.text = itemLabels;
     }
-    
+
     public function onPlayerDead()
     {
         deadState = true;
-        
+
         hpOverlay.visible = false;
         hpDisplay.visible = false;
         background.makeGraphic(Std.int(background.width), Std.int(background.height), 0xFFFF004D);

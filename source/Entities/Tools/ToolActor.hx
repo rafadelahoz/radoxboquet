@@ -18,6 +18,11 @@ class ToolActor extends Entity
         {
             case "SWORD":
                 //....
+            case "CORPSE":
+                loadGraphic("assets/images/corpse.png");
+                setSize(20, 13);
+                offset.set(0, 6);
+                y += 6;
             default:
         }
     }
