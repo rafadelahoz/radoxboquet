@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.math.FlxRandom;
 
 class GameState
@@ -18,9 +19,9 @@ class GameState
         money = 13;
 
         items = [];
-        //items.push(new Item("SWORD"));
-        //items.push(new Item("FIRROD"));
-        items.push(new Item("KEY"));
+        items.push(new Item("SWORD"));
+        // items.push(new Item("FIRROD"));
+        // items.push(new Item("KEY"));
 
         currentItem = 0;
     }
@@ -33,6 +34,16 @@ class GameState
     public static function setHP(value : Int)
     {
         hp = Std.int(Math.max(Math.min(value, 100), 0));
+        
+        if (hp <= 0)
+        {
+            trace("Player dead");
+            if (Std.is(FlxG.state, World))
+            {
+                trace("Notify world");
+                (cast(FlxG.state, World)).onPlayerDead();
+            }
+        }
     }
 
     public static function addItem(name : String, ?property : String = null) : Bool

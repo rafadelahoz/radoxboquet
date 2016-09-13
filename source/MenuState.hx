@@ -18,8 +18,7 @@ class MenuState extends FlxState
 	{
 		if (FlxG.keys.justPressed.ENTER)
 		{
-			GameState.init();
-			FlxG.switchState(new World());
+			GameController.StartGame();
 		}
 
 		super.update(elapsed);

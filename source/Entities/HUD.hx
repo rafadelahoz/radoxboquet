@@ -7,9 +7,13 @@ import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxSpriteUtil;
 import flixel.tweens.FlxTween;
+/*import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxWaveEffect;*/
 
 class HUD extends FlxGroup
 {
+    var deadState : Bool;
+    
     var background : FlxSprite;
 
     var hpValue : Int;
@@ -31,8 +35,8 @@ class HUD extends FlxGroup
         background.scrollFactor.set(0, 0);
         add(background);
 
-        hpDisplay = new FlxSprite(9, 7);
-        hpDisplay.makeGraphic(43, 50, 0xFFFF004D);
+        hpDisplay = new FlxSprite(0, 7);
+        hpDisplay.makeGraphic(60, 48, 0xFFFF004D);
         hpDisplay.scrollFactor.set(0, 0);
         add(hpDisplay);
         hpValue = -1;
@@ -57,9 +61,11 @@ class HUD extends FlxGroup
         coinsLabel = buildLabel(16, 198, "99999");
         coinsLabel.scrollFactor.set(0, 0);
         add(coinsLabel);
+        
+        deadState = false;
     }
 
-    public function buildLabel(X : Float, Y : Float, Text : String) : FlxText
+    public static function buildLabel(X : Float, Y : Float, Text : String) : FlxText
     {
         var label : FlxText = new FlxText(X, Y);
         label.text = Text;
@@ -70,18 +76,21 @@ class HUD extends FlxGroup
 
     override public function update(elapsed : Float)
     {
-        updateHP();
-        
-        if (FlxG.keys.justPressed.SPACE)
+        if (!deadState)
         {
-            GameState.currentItem = (GameState.currentItem+1)%
-                                (Std.int(Math.min(GameState.items.length, 10)));
-            cursor.y = 60 + GameState.currentItem*cursor.height;
+            updateHP();
+            
+            if (FlxG.keys.justPressed.SPACE)
+            {
+                GameState.currentItem = (GameState.currentItem+1)%
+                                    (Std.int(Math.min(GameState.items.length, 10)));
+                cursor.y = 60 + GameState.currentItem*cursor.height;
+            }
+
+            updateItemList();
+
+            coinsLabel.text = "" + GameState.money;
         }
-
-        updateItemList();
-
-        coinsLabel.text = "" + GameState.money;
 
         super.update(elapsed);
     }
@@ -89,10 +98,10 @@ class HUD extends FlxGroup
     function updateHP()
     {
         // DEBUG Increase, Decrease life
-        if (FlxG.keys.justPressed.L)
-            GameState.addHP(10);
-        else if (FlxG.keys.justPressed.O)
-            GameState.addHP(-10);
+        if (FlxG.keys.pressed.L)
+            GameState.addHP(1);
+        else if (FlxG.keys.pressed.O)
+            GameState.addHP(-1);
         
         if (GameState.hp != hpValue)
         {
@@ -137,5 +146,14 @@ class HUD extends FlxGroup
         }
 
         itemList.text = itemLabels;
+    }
+    
+    public function onPlayerDead()
+    {
+        deadState = true;
+        
+        hpOverlay.visible = false;
+        hpDisplay.visible = false;
+        background.makeGraphic(Std.int(background.width), Std.int(background.height), 0xFFFF004D);
     }
 }

@@ -154,7 +154,7 @@ class Player extends Entity
             flipX = (force.x > 0);
             
             state = HURT;
-            GameState.hp -= 5;
+            GameState.addHP(-5);
         }
     }
 }
