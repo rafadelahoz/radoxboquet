@@ -48,11 +48,10 @@ class GameState
 
     public static function addItem(name : String, ?property : String = null) : Bool
     {
-        trace(items.length);
         if (items.length < 10)
         {
-            trace("Getting " + name);
             items.push(new Item(name, property));
+            currentItem = items.length-1;
             return true;
         }
 

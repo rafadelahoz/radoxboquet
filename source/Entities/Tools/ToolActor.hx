@@ -31,7 +31,6 @@ class ToolActor extends Entity
     {
         if (GameState.addItem(name, property))
         {
-            trace("Got " + name);
             destroy();
             return true;
         }
