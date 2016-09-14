@@ -48,6 +48,8 @@ class World extends FlxState
         items.add(new ToolActor(200, 140, this, "SWORD"));
         items.add(new ToolActor(360, 60, this, "MONKEY"));
 
+        FlxG.watch.add(items, "members.get(0)");
+
         hazards = new FlxGroup();
         add(hazards);
 
@@ -75,7 +77,7 @@ class World extends FlxState
             if (FlxG.keys.justPressed.ONE)
                 breakables.add(new Breakable(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
             else if (FlxG.keys.justPressed.TWO)
-                items.add(new ToolActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this, "CORPSE"));
+                items.add(new CorpseActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
             else if (FlxG.keys.justPressed.THREE)
                 hazards.add(new Hazard(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
 

@@ -68,7 +68,7 @@ class Sword extends Tool
                 }
             });
         }
-        
+
         FlxG.overlap(this, world.items, pushItem);
         FlxG.overlap(this, world.moneys, pushItem);
 
@@ -80,25 +80,30 @@ class Sword extends Tool
         super.onFinish();
         destroy();
     }
-    
+
     function pushItem(sword : Sword, item : FlxObject) : Void
     {
-        if (!item.immovable) 
+        if (!item.immovable)
         {
             var swordCenter = sword.getMidpoint();
             if (sword.flipX)
                 swordCenter.x - 10;
             else
                 swordCenter.x + 10;
-            
+
             var itemForce = item.getMidpoint();
             itemForce.x -= swordCenter.x;
             itemForce.y -= swordCenter.y;
             itemForce.x *= 1.5;
             itemForce.y *= 1.5;
-            
+
             item.velocity.set(itemForce.x, itemForce.y);
             item.drag.set(100, 100);
+        }
+
+        if (Std.is(item, ToolActor))
+        {
+            cast(item, ToolActor).onCollisionWithTool(this);
         }
     }
 }

@@ -31,12 +31,19 @@ class ToolActor extends Entity
     {
         if (GameState.addItem(name, property))
         {
+            kill();
             destroy();
+            world.items.remove(this);
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public function onCollisionWithTool(tool : Tool)
+    {
+        // override!
     }
 }

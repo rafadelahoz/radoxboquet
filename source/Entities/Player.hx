@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
+import flixel.group.FlxGroup;
 
 class Player extends Entity
 {
@@ -58,16 +59,17 @@ class Player extends Entity
 
         if (FlxG.keys.justPressed.S)
         {
-            FlxG.overlap(this, world.items, function(player : Player, item : FlxObject) {
-                if (Std.is(item, ToolActor))
+            var item : FlxObject = findClosestEntity(world.items);
+            if (item != null && Std.is(item, ToolActor))
+            {
+                if (overlaps(item))
                 {
                     if (cast(item, ToolActor).onPickup())
                     {
-                        trace("Got " + cast(item, ToolActor).name);
-                        return;
+                        // Play sound?
                     }
                 }
-            });
+            }
         }
 
         // Horizontal movement
@@ -97,6 +99,39 @@ class Player extends Entity
             flipX = false;
         else if (velocity.x < 0)
             flipX = true;
+    }
+
+    function findClosestEntity(group : FlxGroup) : FlxObject
+    {
+        var me : FlxPoint = getMidpoint();
+        me.y += height/2;
+        var other : FlxPoint = FlxPoint.get();
+
+        var closestDistance : Float = 1e10;
+        var closestObject : FlxObject = null;
+
+        var distance : Float = -1;
+        var member : FlxObject = null;
+
+        for (basic in group.members)
+        {
+            if (Std.is(basic, FlxObject))
+            {
+                member = cast(basic, FlxObject);
+                if (member.alive && member.active)
+                {
+                    other = member.getMidpoint(other);
+                    distance = me.distanceTo(other);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestObject = member;
+                    }
+                }
+            }
+        }
+
+        return closestObject;
     }
 
     function onActingState(elapsed : Float)
@@ -136,7 +171,15 @@ class Player extends Entity
         var left : Float = x - 18;
 
         GameState.removeItem(tool);
-        world.items.add(new ToolActor(flipX ? left : right, y, world, tool.name));
+        switch (tool.name)
+        {
+            case "CORPSE":
+                world.items.add(new CorpseActor(flipX ? left : right, y, world));
+            default:
+                world.items.add(new ToolActor(flipX ? left : right, y, world, tool.name));
+        }
+
+        // Wait for a sec!
         new FlxTimer().start(0.16, function(t:FlxTimer) {
             onToolFinish(null);
             t.destroy();
