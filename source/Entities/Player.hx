@@ -193,24 +193,38 @@ class Player extends Entity
 
     public function onCollisionWithHazard(hazard : Hazard)
     {
+        onHurt(5, hazard);
+    }
+    
+    public function onCollisionWithEnemy(enemy : Enemy)
+    {
+        onHurt(5, enemy);
+    }
+    
+    function onHurt(damage : Int, cause : FlxObject)
+    {
         if (state != HURT)
         {
-            var force : FlxPoint = getMidpoint();
-            var hcenter : FlxPoint = hazard.getMidpoint();
-
-            force.x -= hcenter.x;
-            force.y -= hcenter.y;
-
-            force.x *= 10;
-            force.y *= 10;
-
-            velocity.set(force.x, force.y);
-            drag.set(400, 400);
-
-            flipX = (force.x > 0);
-
+            hurtSlide(cause);
             state = HURT;
-            GameState.addHP(-5);
+            GameState.addHP(-damage);
         }
+    }
+    
+    function hurtSlide(cause : FlxObject)
+    {
+        var force : FlxPoint = getMidpoint();
+        var ccenter : FlxPoint = cause.getMidpoint();
+
+        force.x -= ccenter.x;
+        force.y -= ccenter.y;
+
+        force.x *= 10;
+        force.y *= 10;
+
+        velocity.set(force.x, force.y);
+        drag.set(400, 400);
+
+        flipX = (force.x > 0);
     }
 }

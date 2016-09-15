@@ -20,9 +20,10 @@ class World extends FlxState
 
     public var player : Player;
     public var tools : FlxGroup;
-
+    
     public var solids : FlxGroup;
     public var hazards : FlxGroup;
+    public var enemies : FlxGroup;
 
     public var items : FlxGroup;
     public var moneys : FlxGroup;
@@ -52,6 +53,9 @@ class World extends FlxState
 
         hazards = new FlxGroup();
         add(hazards);
+        
+        enemies = new FlxGroup();
+        add(enemies);
 
         tools = new FlxGroup();
         add(tools);
@@ -82,9 +86,12 @@ class World extends FlxState
                 hazards.add(new Hazard(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
             else if (FlxG.keys.justPressed.FOUR)
                 items.add(new ToolActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this, "WOMBAT"));
+            else if (FlxG.keys.justPressed.FIVE)
+                enemies.add(new Twitcher(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
 
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
+            FlxG.overlap(player, enemies, onCollidePlayerEnemy);
 
             FlxG.collide(moneys);
             FlxG.collide(player, solids);
@@ -121,6 +128,11 @@ class World extends FlxState
     function onCollidePlayerHazard(_player : Player, hazard : Hazard)
     {
         hazard.onCollisionWithPlayer(_player);
+    }
+    
+    function onCollidePlayerEnemy(_player : Player, enemy : Enemy)
+    {
+        enemy.onCollisionWithPlayer(_player);
     }
 
     public function onPlayerDead()
