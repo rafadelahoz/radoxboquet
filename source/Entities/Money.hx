@@ -1,5 +1,7 @@
 package;
 
+import flixel.FlxObject;
+
 class Money extends Entity
 {
     var value : Int = 0;
@@ -22,6 +24,8 @@ class Money extends Entity
         }
 
         animation.play("idle");
+        
+        slide(world.player);
     }
 
     public function onCollisionWithPlayer(player : Player)
@@ -29,5 +33,22 @@ class Money extends Entity
         GameState.addMoney(value);
         // TODO: Play sound
         destroy();
+    }
+    
+    public function slide(from : FlxObject)
+    {
+        if (from != null)
+        {
+            var fromCenter = from.getMidpoint();
+
+            var itemForce = getMidpoint();
+            itemForce.x -= fromCenter.x;
+            itemForce.y -= fromCenter.y;
+            itemForce.x *= 1.5;
+            itemForce.y *= 1.5;
+
+            velocity.set(itemForce.x, itemForce.y);
+            drag.set(100, 100);
+        }
     }
 }

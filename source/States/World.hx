@@ -88,6 +88,15 @@ class World extends FlxState
                 items.add(new ToolActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this, "WOMBAT"));
             else if (FlxG.keys.justPressed.FIVE)
                 enemies.add(new Twitcher(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
+            else if (FlxG.keys.pressed.SIX)
+            {
+                var money : Money = null;
+                for (i in 0...FlxG.random.int(1, 10))
+                {
+                    money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
+                    moneys.add(money);
+                }
+            }
 
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);

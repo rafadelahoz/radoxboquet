@@ -39,11 +39,14 @@ class Sword extends Tool
         }
 
         x = sourcex;
-
-        FlxTween.tween(this, {x : targetx}, 0.15,
-            {ease: FlxEase.quadInOut, startDelay: 0.1, onComplete: function(_t:FlxTween) {
+        
+        FlxTween.tween(this, {x : targetx}, 0.06,
+            {ease: FlxEase.quadIn, startDelay: 0.1, onComplete: function(_t:FlxTween) {
                 _t.cancel();
+                // Disable the sword once it reaches apex
+                enabled = false;
                 FlxTween.tween(this, {x : sourcex}, 0.15, {ease: FlxEase.quadInOut, startDelay: 0.15,
+                    // And destroy it at the end
                     onComplete: function(_t:FlxTween) {
                         _t.cancel();
                         onFinish();
@@ -52,7 +55,7 @@ class Sword extends Tool
             });
 
         // Setup collidable frame
-        new FlxTimer().start(0.20, function(t:FlxTimer) {
+        new FlxTimer().start(0.08, function(t:FlxTimer) {
             t.cancel();
             enabled = true;
         });
@@ -60,17 +63,25 @@ class Sword extends Tool
 
     override public function update(elapsed : Float)
     {
-        if (enabled) {
+        if (enabled) 
+        {
+            color = 0xFFFFFFFF;
             FlxG.overlap(this, world.breakables, function(sword : Sword, br : Breakable) {
                 if (enabled) {
                     br.onCollisionWithSword(this);
                     enabled = false;
                 }
             });
+            
+            FlxG.overlap(this, world.items, pushItem);
+            FlxG.overlap(this, world.moneys, pushItem);
+            
+            FlxG.overlap(this, world.enemies, hitEnemy);
         }
-
-        FlxG.overlap(this, world.items, pushItem);
-        FlxG.overlap(this, world.moneys, pushItem);
+        else 
+        {
+            color = 0xFF000000;
+        }
 
         super.update(elapsed);
     }
@@ -94,8 +105,8 @@ class Sword extends Tool
             var itemForce = item.getMidpoint();
             itemForce.x -= swordCenter.x;
             itemForce.y -= swordCenter.y;
-            itemForce.x *= 1.5;
-            itemForce.y *= 1.5;
+            itemForce.x *= 4.5;
+            itemForce.y *= 4.5;
 
             item.velocity.set(itemForce.x, itemForce.y);
             item.drag.set(100, 100);
@@ -105,5 +116,10 @@ class Sword extends Tool
         {
             cast(item, ToolActor).onCollisionWithTool(this);
         }
+    }
+    
+    function hitEnemy(sword : Sword, enemy : Enemy)
+    {
+        enemy.onCollisionWithTool(this);
     }
 }

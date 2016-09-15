@@ -1,13 +1,14 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.util.FlxTimer;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
 
 class Twitcher extends Enemy
 {
-    static var TwitchDuration : Float = 0.2;
+    static var TwitchDuration : Float = 0.12;
     static var delta : Int = 1;
     
     var center : FlxPoint;
@@ -28,15 +29,16 @@ class Twitcher extends Enemy
     {
         if (timer != null)
         {
-            timer.cancel();
-            timer.start(TwitchDuration, function(t:FlxTimer) {
-                x = center.x+FlxG.random.int(-delta, delta);
-                y = center.y+FlxG.random.int(-delta, delta);
-                if (FlxG.random.bool(11))
-                    center.set(x, y);
-                twitch();
-            });
+            timer.cancel();            
         }
+        
+        timer.start(TwitchDuration, function(t:FlxTimer) {
+            x = center.x+FlxG.random.int(-delta, delta);
+            y = center.y+FlxG.random.int(-delta, delta);
+            if (FlxG.random.bool(11))
+                center.set(x, y);
+            twitch();
+        });
     }
     
     override public function onCollisionWithPlayer(player : Player)
@@ -47,5 +49,28 @@ class Twitcher extends Enemy
     override public function update(elapsed : Float)
     {
         super.update(elapsed);
+    }
+    
+    override function hurtSlide(cause : FlxObject)
+    {
+        super.hurtSlide(cause);
+        // Don't twitch until slide finishes (please?)
+        if (timer != null) 
+        {
+            timer.cancel();
+        }
+        
+        timer.start(0.5, function(t:FlxTimer) {
+            timer.cancel();
+            // Stop sliding
+            velocity.set();
+            
+            // Use the new position
+            center.x = x;
+            center.y = y;
+            
+            // And do your thing?
+            twitch();
+        });
     }
 }
