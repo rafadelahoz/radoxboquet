@@ -1,5 +1,7 @@
 package;
 
+import flixel.FlxObject;
+
 class ToolActor extends Entity
 {
     public var name : String;
@@ -12,19 +14,18 @@ class ToolActor extends Entity
         name = Name;
         property = Property;
 
-        makeGraphic(15, 15, 0xFF2AF035);
+        makeGraphic(14, 14, 0xFF2AF035);
+        x += 3;
+        y += 6;
 
         switch (name)
         {
             case "SWORD":
-                //....
-            case "CORPSE":
-                loadGraphic("assets/images/corpse.png");
-                setSize(20, 13);
-                offset.set(0, 6);
-                y += 6;
+                //...
             default:
         }
+        
+        slide(world.player);
     }
 
     public function onPickup() : Bool
@@ -45,5 +46,22 @@ class ToolActor extends Entity
     public function onCollisionWithTool(tool : Tool)
     {
         // override!
+    }
+    
+    public function slide(from : FlxObject)
+    {
+        if (from != null)
+        {
+            var fromCenter = from.getMidpoint();
+
+            var itemForce = getMidpoint();
+            itemForce.x -= fromCenter.x;
+            itemForce.y -= fromCenter.y;
+            itemForce.x *= 1.5;
+            itemForce.y *= 1.5;
+
+            velocity.set(itemForce.x, itemForce.y);
+            drag.set(100, 100);
+        }
     }
 }

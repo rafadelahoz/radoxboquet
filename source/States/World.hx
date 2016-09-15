@@ -80,6 +80,8 @@ class World extends FlxState
                 items.add(new CorpseActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
             else if (FlxG.keys.justPressed.THREE)
                 hazards.add(new Hazard(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
+            else if (FlxG.keys.justPressed.FOUR)
+                items.add(new ToolActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this, "WOMBAT"));
 
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
