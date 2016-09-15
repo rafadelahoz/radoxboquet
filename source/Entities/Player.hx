@@ -145,7 +145,7 @@ class Player extends Entity
     {
         animation.play("hurt");
 
-        if (Math.abs(velocity.x) < 25 && Math.abs(velocity.y) < 25)
+        if (Math.abs(velocity.x) < 50 && Math.abs(velocity.y) < 50)
         {
             state = IDLE;
         }
@@ -201,11 +201,11 @@ class Player extends Entity
             force.x -= hcenter.x;
             force.y -= hcenter.y;
 
-            force.x *= 3;
-            force.y *= 3;
+            force.x *= 10;
+            force.y *= 10;
 
             velocity.set(force.x, force.y);
-            drag.set(100, 100);
+            drag.set(400, 400);
 
             flipX = (force.x > 0);
 
