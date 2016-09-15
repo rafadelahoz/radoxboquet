@@ -39,7 +39,7 @@ class Sword extends Tool
         }
 
         x = sourcex;
-        
+
         FlxTween.tween(this, {x : targetx}, 0.06,
             {ease: FlxEase.quadIn, startDelay: 0.1, onComplete: function(_t:FlxTween) {
                 _t.cancel();
@@ -63,24 +63,19 @@ class Sword extends Tool
 
     override public function update(elapsed : Float)
     {
-        if (enabled) 
+        if (enabled)
         {
-            color = 0xFFFFFFFF;
             FlxG.overlap(this, world.breakables, function(sword : Sword, br : Breakable) {
                 if (enabled) {
                     br.onCollisionWithSword(this);
                     enabled = false;
                 }
             });
-            
+
             FlxG.overlap(this, world.items, pushItem);
             FlxG.overlap(this, world.moneys, pushItem);
-            
+
             FlxG.overlap(this, world.enemies, hitEnemy);
-        }
-        else 
-        {
-            color = 0xFF000000;
         }
 
         super.update(elapsed);
@@ -117,7 +112,7 @@ class Sword extends Tool
             cast(item, ToolActor).onCollisionWithTool(this);
         }
     }
-    
+
     function hitEnemy(sword : Sword, enemy : Enemy)
     {
         enemy.onCollisionWithTool(this);

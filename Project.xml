@@ -33,6 +33,8 @@
 	<classpath name="source/States"/>
 	<classpath name="source/Entities"/>
 	<classpath name="source/Entities/Tools"/>
+	<classpath name="source/Entities/Actors"/>
+	<classpath name="source/Entities/Enemies"/>
 	<assets path="assets" />
 	<assets path="assets/images" />
 
