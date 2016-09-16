@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.math.FlxRandom;
+import flixel.math.FlxRect;
 import flixel.group.FlxGroup;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxTween;
@@ -32,13 +33,14 @@ class World extends FlxState
 
     public var entities : FlxTypedGroup<Entity>;
 
+    public var scene : TiledScene;
+
     override public function create()
     {
         bgColor = new FlxRandom().color();
         // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
 
         entities = new FlxTypedGroup<Entity>();
-        add(entities);
 
         moneys = new FlxGroup();
         breakables = new FlxGroup();
@@ -47,21 +49,30 @@ class World extends FlxState
         enemies = new FlxGroup();
         tools = new FlxGroup();
 
+        hud = new HUD();
+
+        // Setup level
+        setupLevel();
+        add(entities);
+        add(hud);
+
+        var bounds : FlxRect = scene.getBounds();
+        FlxG.camera.setScrollBoundsRect(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
+		FlxG.worldBounds.set(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
+
+        FlxG.camera.follow(player);
+
+        deadState = false;
+    }
+
+    function setupLevel()
+    {
+        scene = loadScene("d1");
         addEntity(new ToolActor(200, 140, this, "SWORD"));
         addEntity(new ToolActor(360, 60, this, "MONKEY"));
 
         player = new Player(100, 100, this);
         entities.add(player);
-
-        hud = new HUD();
-        add(hud);
-
-        FlxG.camera.setScrollBoundsRect(0, 0, 2560, 2560);
-		FlxG.worldBounds.set(0, 0, 2560, 2560);
-
-        FlxG.camera.follow(player);
-
-        deadState = false;
     }
 
     override public function update(elapsed : Float)
@@ -94,6 +105,11 @@ class World extends FlxState
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
             FlxG.overlap(player, enemies, onCollidePlayerEnemy);
+
+            scene.collideWithLevel(player);
+            for (group in [enemies, items, tools])
+                for (entity in group)
+                    scene.collideWithLevel(cast(entity, FlxObject));
 
             FlxG.collide(moneys);
             FlxG.collide(player, breakables);
@@ -193,4 +209,20 @@ class World extends FlxState
     {
         return FlxSort.byValues(Order, EntA.y + EntA.height, EntB.y + EntB.height);
     }
+
+    function loadScene(sceneName : String) : TiledScene
+	{
+		var scene = new TiledScene(this, sceneName);
+
+		if (scene != null)
+			add(scene.backgroundTiles);
+
+		if (scene != null)
+			scene.loadObjects(this);
+
+		/*if (scene != null)
+			add(scene.overlayTiles);*/
+
+		return scene;
+	}
 }

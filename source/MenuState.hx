@@ -20,10 +20,10 @@ class MenuState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (FlxG.keys.justPressed.ENTER)
-		{
+		//if (FlxG.keys.justPressed.ENTER)
+		//{
 			GameController.StartGame();
-		}
+		//}
 
 		super.update(elapsed);
 	}
