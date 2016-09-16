@@ -175,6 +175,8 @@ class Player extends Entity
         {
             case "CORPSE":
                 world.addEntity(new CorpseActor(flipX ? left : right, y+height, world, true));
+            case "KEY":
+                world.addEntity(new KeyActor(flipX ? left : right, y+height, world, tool.property));
             default:
                 world.addEntity(new ToolActor(flipX ? left : right, y, world, tool.name));
         }

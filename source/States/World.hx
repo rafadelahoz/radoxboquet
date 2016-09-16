@@ -74,7 +74,7 @@ class World extends FlxState
             if (FlxG.keys.justPressed.ONE)
                 addEntity(new Breakable(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
-                addEntity(new CorpseActor(snapX, snapY+20, this));
+                addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
                 addEntity(new Hazard(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)

@@ -18,6 +18,7 @@ class ToolActor extends Entity
         switch (name)
         {
             case "CORPSE":
+            case "KEY":
             default:
                 makeGraphic(14, 14, 0xFF2AF035);
                 x += 3;
