@@ -78,16 +78,19 @@ class World extends FlxState
     {
         if (!deadState)
         {
+            var snapX : Int = snap(FlxG.mouse.x, 20);
+            var snapY : Int = snap(FlxG.mouse.y, 20);
+            
             if (FlxG.keys.justPressed.ONE)
-                breakables.add(new Breakable(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
+                breakables.add(new Breakable(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
-                items.add(new CorpseActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
+                items.add(new CorpseActor(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.THREE)
-                hazards.add(new Hazard(20*Std.int(FlxG.mouse.x/20), 20*Std.int(FlxG.mouse.y/20), this));
+                hazards.add(new Hazard(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)
-                items.add(new ToolActor(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this, "WOMBAT"));
+                items.add(new ToolActor(snapX, snapY, this, "WOMBAT"));
             else if (FlxG.keys.justPressed.FIVE)
-                enemies.add(new Twitcher(20*(Std.int(FlxG.mouse.x/20)), 20*Std.int(FlxG.mouse.y/20), this));
+                enemies.add(new Twitcher(snapX, snapY, this));
             else if (FlxG.keys.pressed.SIX)
             {
                 var money : Money = null;
@@ -169,5 +172,10 @@ class World extends FlxState
                 deadMenu = true;
             }});
         }
+    }
+    
+    public static function snap(value : Float, ?grid : Int = 20)
+    {
+        return grid*Std.int(value/grid);
     }
 }

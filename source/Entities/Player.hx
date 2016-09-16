@@ -174,7 +174,7 @@ class Player extends Entity
         switch (tool.name)
         {
             case "CORPSE":
-                world.items.add(new CorpseActor(flipX ? left : right, y, world));
+                world.items.add(new CorpseActor(flipX ? left : right, y+height, world, true));
             default:
                 world.items.add(new ToolActor(flipX ? left : right, y, world, tool.name));
         }
@@ -213,18 +213,7 @@ class Player extends Entity
     
     function hurtSlide(cause : FlxObject)
     {
-        var force : FlxPoint = getMidpoint();
-        var ccenter : FlxPoint = cause.getMidpoint();
-
-        force.x -= ccenter.x;
-        force.y -= ccenter.y;
-
-        force.x *= 10;
-        force.y *= 10;
-
-        velocity.set(force.x, force.y);
-        drag.set(400, 400);
-
-        flipX = (force.x > 0);
+        doSlide(getMidpoint(), cause.getMidpoint(), 10, 24, 400);
+        flipX = (velocity.x > 0);
     }
 }

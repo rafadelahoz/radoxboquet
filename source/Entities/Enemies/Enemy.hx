@@ -11,6 +11,7 @@ class Enemy extends Entity
     
     var player : Player;
     
+    var hp : Int;
     var invincible : Bool;
     var hurtTimer : FlxTimer;
     
@@ -29,6 +30,7 @@ class Enemy extends Entity
     public function onInit()
     {
         // override
+        hp = 1;
     }
     
     public function onCollisionWithPlayer(player : Player)
@@ -40,16 +42,43 @@ class Enemy extends Entity
     {
         if (!invincible)
         {
-            invincible = true;
-            
-            color = 0xFFFF004D;
-            FlxTween.tween(this, {color: 0xFFFFFFFF}, 0.2);
-            
-            hurtTimer.cancel();
-            hurtTimer.start(InvincibilityTime, finishInvincibility);
+            if (tool.power > 0)
+            {
+                hp -= tool.power;
+                invincible = true;
+                
+                color = 0xFFFF004D;
+                FlxTween.tween(this, {color: 0xFFFFFFFF}, 0.2);
+                
+                hurtTimer.cancel();
+                if (hp > 0)
+                    hurtTimer.start(InvincibilityTime, finishInvincibility);
+                else
+                    hurtTimer.start(InvincibilityTime, onDeath);
+            }
             
             hurtSlide(tool);
         }
+    }
+    
+    public function spawnCorpse()
+    {
+        var baseX : Float = x;
+        var baseY : Float = y + height;
+        
+        var corpse = new CorpseActor(baseX, baseY, world, true);
+        world.items.add(corpse);
+    }
+        
+    function onDeath(?t:FlxTimer = null)
+    {
+        if (t != null)
+            t.cancel();
+            
+        spawnCorpse();
+            
+        kill();
+        destroy();        
     }
     
     function finishInvincibility(?t:FlxTimer = null)
@@ -60,19 +89,8 @@ class Enemy extends Entity
     }
     
     function hurtSlide(cause : FlxObject)
-    {
-        var force : FlxPoint = getMidpoint();
-        var ccenter : FlxPoint = cause.getMidpoint();
-
-        force.x -= ccenter.x;
-        force.y -= ccenter.y;
-
-        force.x *= 5;
-        force.y *= 5;
-
-        velocity.set(force.x, force.y);
-        drag.set(400, 400);
-
-        flipX = (force.x > 0);
+    {   
+        doSlide(getMidpoint(), cause.getMidpoint(), 5, 24, 400);
+        flipX = (velocity.x > 0);
     }
 }

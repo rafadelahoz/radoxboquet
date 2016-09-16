@@ -39,16 +39,22 @@ class Money extends Entity
     {
         if (from != null)
         {
-            var fromCenter = from.getMidpoint();
-
+            doSlide(getMidpoint(), from.getMidpoint(), 1.5);
+            
+            /*var fromCenter = from.getMidpoint();
             var itemForce = getMidpoint();
+            
             itemForce.x -= fromCenter.x;
             itemForce.y -= fromCenter.y;
+            
+            itemForce.x = FlxMath.bound(itemForce.x, -24, 24);
+            itemForce.y = FlxMath.bound(itemForce.y, -24, 24);
+            
             itemForce.x *= 1.5;
             itemForce.y *= 1.5;
 
             velocity.set(itemForce.x, itemForce.y);
-            drag.set(100, 100);
+            drag.set(100, 100);*/
         }
     }
 }

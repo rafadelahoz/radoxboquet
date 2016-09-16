@@ -16,6 +16,10 @@ class Twitcher extends Enemy
     
     override public function onInit()
     {
+        super.onInit();
+        
+        hp = 2;
+        
         makeGraphic(18, 18, 0xFF333333);
         x += 2;
         y += 2;
@@ -54,23 +58,28 @@ class Twitcher extends Enemy
     override function hurtSlide(cause : FlxObject)
     {
         super.hurtSlide(cause);
+        
         // Don't twitch until slide finishes (please?)
         if (timer != null) 
         {
             timer.cancel();
         }
         
-        timer.start(0.5, function(t:FlxTimer) {
-            timer.cancel();
-            // Stop sliding
-            velocity.set();
-            
-            // Use the new position
-            center.x = x;
-            center.y = y;
-            
-            // And do your thing?
-            twitch();
-        });
+        // If you are still alive, then please continue
+        if (hp > 0)
+        {    
+            timer.start(0.5, function(t:FlxTimer) {
+                timer.cancel();
+                // Stop sliding
+                velocity.set();
+                
+                // Use the new position
+                center.x = x;
+                center.y = y;
+                
+                // And do your thing?
+                twitch();
+            });
+        }   
     }
 }

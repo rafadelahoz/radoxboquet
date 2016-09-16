@@ -13,7 +13,8 @@ class Sword extends Tool
     override function onActivate()
     {
         name = "SWORD";
-
+        power = 1;
+        
         enabled = false;
         immovable = false;
 
