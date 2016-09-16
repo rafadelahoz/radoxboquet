@@ -22,14 +22,14 @@ class World extends FlxState
 
     public var player : Player;
     public var tools : FlxGroup;
-    
+
     public var hazards : FlxGroup;
     public var enemies : FlxGroup;
 
     public var items : FlxGroup;
     public var moneys : FlxGroup;
     public var breakables : FlxGroup;
-    
+
     public var entities : FlxTypedGroup<Entity>;
 
     override public function create()
@@ -46,13 +46,13 @@ class World extends FlxState
         hazards = new FlxGroup();
         enemies = new FlxGroup();
         tools = new FlxGroup();
-        
+
         addEntity(new ToolActor(200, 140, this, "SWORD"));
         addEntity(new ToolActor(360, 60, this, "MONKEY"));
-        
+
         player = new Player(100, 100, this);
         entities.add(player);
-        
+
         hud = new HUD();
         add(hud);
 
@@ -70,7 +70,7 @@ class World extends FlxState
         {
             var snapX : Int = snap(FlxG.mouse.x, 20);
             var snapY : Int = snap(FlxG.mouse.y, 20);
-            
+
             if (FlxG.keys.justPressed.ONE)
                 addEntity(new Breakable(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
@@ -78,7 +78,7 @@ class World extends FlxState
             else if (FlxG.keys.justPressed.THREE)
                 addEntity(new Hazard(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)
-                addEntity(new ToolActor(snapX, snapY, this, "WOMBAT"));
+                addEntity(new ToolActor(snapX, snapY+20, this, "WOMBAT"));
             else if (FlxG.keys.justPressed.FIVE)
                 addEntity(new Twitcher(snapX, snapY, this));
             else if (FlxG.keys.pressed.SIX)
@@ -97,6 +97,7 @@ class World extends FlxState
 
             FlxG.collide(moneys);
             FlxG.collide(player, breakables);
+            FlxG.collide(items);
         }
         else
         {
@@ -119,7 +120,7 @@ class World extends FlxState
         }
 
         super.update(elapsed);
-        
+
         entities.sort(depthSort);
     }
 
@@ -132,7 +133,7 @@ class World extends FlxState
     {
         hazard.onCollisionWithPlayer(_player);
     }
-    
+
     function onCollidePlayerEnemy(_player : Player, enemy : Enemy)
     {
         enemy.onCollisionWithPlayer(_player);
@@ -164,12 +165,12 @@ class World extends FlxState
             }});
         }
     }
-    
+
     public static function snap(value : Float, ?grid : Int = 20)
     {
         return grid*Std.int(value/grid);
     }
-    
+
     public function addEntity(entity : Entity)
     {
         if (Std.is(entity, Breakable))
@@ -184,10 +185,10 @@ class World extends FlxState
             moneys.add(entity);
         else if (Std.is(entity, Tool))
             tools.add(entity);
-        
+
         entities.add(entity);
     }
-    
+
     static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int
     {
         return FlxSort.byValues(Order, EntA.y + EntA.height, EntB.y + EntB.height);

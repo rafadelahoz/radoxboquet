@@ -169,16 +169,17 @@ class Player extends Entity
     {
         var right : Float = x + 18;
         var left : Float = x - 18;
+        var ydelta : Float = FlxG.random.float(-3, 3);
 
         GameState.removeItem(tool);
         switch (tool.name)
         {
             case "CORPSE":
-                world.addEntity(new CorpseActor(flipX ? left : right, y+height, world, true));
+                world.addEntity(new CorpseActor(flipX ? left : right, y+height+ydelta, world, true));
             case "KEY":
-                world.addEntity(new KeyActor(flipX ? left : right, y+height, world, tool.property));
+                world.addEntity(new KeyActor(flipX ? left : right, y+height+ydelta, world, tool.property));
             default:
-                world.addEntity(new ToolActor(flipX ? left : right, y, world, tool.name));
+                world.addEntity(new ToolActor(flipX ? left : right, y+height+ydelta, world, tool.name));
         }
 
         // Wait for a sec!
@@ -197,12 +198,12 @@ class Player extends Entity
     {
         onHurt(5, hazard);
     }
-    
+
     public function onCollisionWithEnemy(enemy : Enemy)
     {
         onHurt(5, enemy);
     }
-    
+
     function onHurt(damage : Int, cause : FlxObject)
     {
         if (state != HURT)
@@ -210,9 +211,10 @@ class Player extends Entity
             hurtSlide(cause);
             state = HURT;
             GameState.addHP(-damage);
+            flash();
         }
     }
-    
+
     function hurtSlide(cause : FlxObject)
     {
         doSlide(getMidpoint(), cause.getMidpoint(), 10, 24, 400);

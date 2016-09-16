@@ -20,11 +20,11 @@ class ToolActor extends Entity
             case "CORPSE":
             case "KEY":
             default:
-                makeGraphic(14, 14, 0xFF2AF035);
-                x += 3;
-                y += 6;
+                loadGraphic("assets/images/item_bag.png");
+                x += 10-width/2;
+                y -= height;
         }
-        
+
         if (Slide)
             slide(world.player);
     }
@@ -48,22 +48,22 @@ class ToolActor extends Entity
     {
         // override!
     }
-    
+
     public function slide(from : FlxObject)
     {
         if (from != null)
         {
             doSlide(getMidpoint(), from.getMidpoint(), 1.5);
-            
+
             /*var fromCenter = from.getMidpoint();
 
             var itemForce = getMidpoint();
             itemForce.x -= fromCenter.x;
             itemForce.y -= fromCenter.y;
-            
+
             itemForce.x = FlxMath.bound(itemForce.x, -24, 24);
             itemForce.y = FlxMath.bound(itemForce.y, -24, 24);
-            
+
             itemForce.x *= 1.5;
             itemForce.y *= 1.5;
 
