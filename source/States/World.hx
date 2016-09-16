@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.math.FlxRandom;
 import flixel.group.FlxGroup;
@@ -9,6 +10,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
+import flixel.util.FlxSort;
 
 class World extends FlxState
 {
@@ -21,48 +23,36 @@ class World extends FlxState
     public var player : Player;
     public var tools : FlxGroup;
     
-    public var solids : FlxGroup;
     public var hazards : FlxGroup;
     public var enemies : FlxGroup;
 
     public var items : FlxGroup;
     public var moneys : FlxGroup;
     public var breakables : FlxGroup;
+    
+    public var entities : FlxTypedGroup<Entity>;
 
     override public function create()
     {
         bgColor = new FlxRandom().color();
         // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
 
-        solids = new FlxGroup();
-        add(solids);
+        entities = new FlxTypedGroup<Entity>();
+        add(entities);
 
         moneys = new FlxGroup();
-        add(moneys);
-
         breakables = new FlxGroup();
-        add(breakables);
-
         items = new FlxGroup();
-        add(items);
-
-        items.add(new ToolActor(200, 140, this, "SWORD"));
-        items.add(new ToolActor(360, 60, this, "MONKEY"));
-
-        FlxG.watch.add(items, "members.get(0)");
-
         hazards = new FlxGroup();
-        add(hazards);
-        
         enemies = new FlxGroup();
-        add(enemies);
-
         tools = new FlxGroup();
-        add(tools);
-
+        
+        addEntity(new ToolActor(200, 140, this, "SWORD"));
+        addEntity(new ToolActor(360, 60, this, "MONKEY"));
+        
         player = new Player(100, 100, this);
-        add(player);
-
+        entities.add(player);
+        
         hud = new HUD();
         add(hud);
 
@@ -82,22 +72,22 @@ class World extends FlxState
             var snapY : Int = snap(FlxG.mouse.y, 20);
             
             if (FlxG.keys.justPressed.ONE)
-                breakables.add(new Breakable(snapX, snapY, this));
+                addEntity(new Breakable(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
-                items.add(new CorpseActor(snapX, snapY+20, this));
+                addEntity(new CorpseActor(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.THREE)
-                hazards.add(new Hazard(snapX, snapY, this));
+                addEntity(new Hazard(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)
-                items.add(new ToolActor(snapX, snapY, this, "WOMBAT"));
+                addEntity(new ToolActor(snapX, snapY, this, "WOMBAT"));
             else if (FlxG.keys.justPressed.FIVE)
-                enemies.add(new Twitcher(snapX, snapY, this));
+                addEntity(new Twitcher(snapX, snapY, this));
             else if (FlxG.keys.pressed.SIX)
             {
                 var money : Money = null;
                 for (i in 0...FlxG.random.int(1, 10))
                 {
                     money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
-                    moneys.add(money);
+                    addEntity(money);
                 }
             }
 
@@ -106,7 +96,6 @@ class World extends FlxState
             FlxG.overlap(player, enemies, onCollidePlayerEnemy);
 
             FlxG.collide(moneys);
-            FlxG.collide(player, solids);
             FlxG.collide(player, breakables);
         }
         else
@@ -130,6 +119,8 @@ class World extends FlxState
         }
 
         super.update(elapsed);
+        
+        entities.sort(depthSort);
     }
 
     function onCollidePlayerMoney(_player : Player, money : Money)
@@ -177,5 +168,28 @@ class World extends FlxState
     public static function snap(value : Float, ?grid : Int = 20)
     {
         return grid*Std.int(value/grid);
+    }
+    
+    public function addEntity(entity : Entity)
+    {
+        if (Std.is(entity, Breakable))
+            breakables.add(entity);
+        else if (Std.is(entity, ToolActor))
+            items.add(entity);
+        else if (Std.is(entity, Hazard))
+            hazards.add(entity);
+        else if (Std.is(entity, Enemy))
+            enemies.add(entity);
+        else if (Std.is(entity, Money))
+            moneys.add(entity);
+        else if (Std.is(entity, Tool))
+            tools.add(entity);
+        
+        entities.add(entity);
+    }
+    
+    static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int
+    {
+        return FlxSort.byValues(Order, EntA.y + EntA.height, EntB.y + EntB.height);
     }
 }

@@ -157,7 +157,7 @@ class Player extends Entity
         switch (tool.name)
         {
             case "SWORD":
-                world.tools.add(new Sword(x, y, world));
+                world.addEntity(new Sword(x, y, world));
             default:
                 dropTool(tool);
         }
@@ -174,9 +174,9 @@ class Player extends Entity
         switch (tool.name)
         {
             case "CORPSE":
-                world.items.add(new CorpseActor(flipX ? left : right, y+height, world, true));
+                world.addEntity(new CorpseActor(flipX ? left : right, y+height, world, true));
             default:
-                world.items.add(new ToolActor(flipX ? left : right, y, world, tool.name));
+                world.addEntity(new ToolActor(flipX ? left : right, y, world, tool.name));
         }
 
         // Wait for a sec!

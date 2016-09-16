@@ -67,7 +67,7 @@ class Enemy extends Entity
         var baseY : Float = y + height;
         
         var corpse = new CorpseActor(baseX, baseY, world, true);
-        world.items.add(corpse);
+        world.addEntity(corpse);
     }
         
     function onDeath(?t:FlxTimer = null)
