@@ -29,6 +29,12 @@ class Player extends Entity
 
         animation.play("idle");
 
+        setSize(18, 18);
+        offset.set(1, 1);
+
+        x -= width/2;
+        y -= height/2;
+
         state = IDLE;
     }
 
@@ -170,16 +176,33 @@ class Player extends Entity
         var right : Float = x + 18;
         var left : Float = x - 18;
         var ydelta : Float = FlxG.random.float(-3, 3);
+        var down : Float = y+height+ydelta;
+
+        // Don't place things on walls!
+        if (!flipX)
+        {
+            while (overlapsMapAt(right, y) && right > x)
+            {
+                right -= 2;
+            }
+        }
+        else
+        {
+            while (overlapsMapAt(left, y) && left < x)
+            {
+                left += 2;
+            }
+        }
 
         GameState.removeItem(tool);
         switch (tool.name)
         {
             case "CORPSE":
-                world.addEntity(new CorpseActor(flipX ? left : right, y+height+ydelta, world, true));
+                world.addEntity(new CorpseActor(flipX ? left : right, down, world, true));
             case "KEY":
-                world.addEntity(new KeyActor(flipX ? left : right, y+height+ydelta, world, tool.property));
+                world.addEntity(new KeyActor(flipX ? left : right, down, world, tool.property));
             default:
-                world.addEntity(new ToolActor(flipX ? left : right, y+height+ydelta, world, tool.name));
+                world.addEntity(new ToolActor(flipX ? left : right, down, world, tool.name));
         }
 
         // Wait for a sec!
@@ -211,7 +234,7 @@ class Player extends Entity
             hurtSlide(cause);
             state = HURT;
             GameState.addHP(-damage);
-            flash();
+            flash(0xFF000000);
         }
     }
 
@@ -219,5 +242,26 @@ class Player extends Entity
     {
         doSlide(getMidpoint(), cause.getMidpoint(), 10, 24, 400);
         flipX = (velocity.x > 0);
+    }
+
+    public function face(dir : String)
+    {
+        var cause : FlxPoint = new FlxPoint(x, y);
+
+        switch(dir.toLowerCase())
+        {
+            case "left":
+                flipX = true;
+                cause.x += 10;
+            case "right":
+                flipX = false;
+                cause.x -= 10;
+            case "up":
+                cause.y += 10;
+            case "down":
+                cause.y -= 10;
+        }
+
+        doSlide(getMidpoint(), cause, 3, 24, 300);
     }
 }

@@ -21,7 +21,7 @@ class Breakable extends Entity
 
         var spawnPos : FlxPoint = getMidpoint();
 
-        var money : Money = new Money(spawnPos.x, spawnPos.y, world, value);
+        var money : Money = new Money(spawnPos.x, spawnPos.y, world, value, this);
         world.addEntity(money);
 
         destroy();

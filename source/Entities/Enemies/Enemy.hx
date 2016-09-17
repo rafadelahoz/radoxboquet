@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
@@ -14,6 +15,7 @@ class Enemy extends Entity
     var hp : Int;
     var invincible : Bool;
     var hurtTimer : FlxTimer;
+    var rewards : Array<Int> = [1];
 
     public function new(X : Float, Y : Float, World : World)
     {
@@ -69,12 +71,28 @@ class Enemy extends Entity
         world.addEntity(corpse);
     }
 
+    public function spawnReward()
+    {
+        for (i in 0...FlxG.random.int(1, 5))
+        {
+            var value : Int = FlxG.random.getObject(rewards);
+
+            var spawnPos : FlxPoint = getMidpoint();
+            spawnPos.x += FlxG.random.float(-5, 5);
+            spawnPos.y += FlxG.random.float(-5, 5);
+
+            var money : Money = new Money(spawnPos.x, spawnPos.y, world, value, this);
+            world.addEntity(money);
+        }
+    }
+
     function onDeath(?t:FlxTimer = null)
     {
         if (t != null)
             t.cancel();
 
         spawnCorpse();
+        spawnReward();
 
         kill();
         destroy();

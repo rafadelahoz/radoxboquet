@@ -41,6 +41,7 @@ class HUD extends FlxGroup
         add(hpDisplay);
         hpValue = -1;
         hpTween = null;
+        updateHP(true);
 
         hpOverlay = new FlxSprite(0, 0, "assets/images/hud_hp.png");
         hpOverlay.scrollFactor.set(0, 0);
@@ -95,7 +96,7 @@ class HUD extends FlxGroup
         super.update(elapsed);
     }
 
-    function updateHP()
+    function updateHP(?Silent : Bool = false)
     {
         // DEBUG Increase, Decrease life
         if (FlxG.keys.pressed.L)
@@ -110,18 +111,21 @@ class HUD extends FlxGroup
             var top : Int = Std.int(hpDisplay.height - (GameState.hp * hpDisplay.height / 100));
             FlxSpriteUtil.drawRect(hpDisplay, 0, top, hpDisplay.width, hpDisplay.height - top, 0xFFFF004D);
 
-            // Flash in red when losing life, in green when getting it
-            if (hpValue > GameState.hp)
-                hpOverlay.color = 0xFFFF004D;
-            else
-                hpOverlay.color = 0xFF00FF4D;
+            if (!Silent)
+            {
+                // Flash in red when losing life, in green when getting it
+                if (hpValue > GameState.hp)
+                    hpOverlay.color = 0xFFFF004D;
+                else
+                    hpOverlay.color = 0xFF00FF4D;
 
-            if (hpTween != null)
-                hpTween.cancel();
-            hpTween = FlxTween.tween(hpOverlay, {color: 0xFFFFFFFF}, 0.5, {onComplete: function(t:FlxTween) {
-                t.cancel();
-                hpTween = null;
-            }});
+                if (hpTween != null)
+                    hpTween.cancel();
+                hpTween = FlxTween.tween(hpOverlay, {color: 0xFFFFFFFF}, 0.5, {onComplete: function(t:FlxTween) {
+                    t.cancel();
+                    hpTween = null;
+                }});
+            }
 
             // And store the value
             hpValue = GameState.hp;

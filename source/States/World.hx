@@ -4,7 +4,10 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.TransitionData;
 import flixel.math.FlxRandom;
+import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.group.FlxGroup;
 import flixel.addons.display.FlxBackdrop;
@@ -13,7 +16,7 @@ import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
 import flixel.util.FlxSort;
 
-class World extends FlxState
+class World extends FlxTransitionableState
 {
     public var deadState : Bool = false;
     var deadMenu : Bool = false;
@@ -31,13 +34,47 @@ class World extends FlxState
     public var moneys : FlxGroup;
     public var breakables : FlxGroup;
 
+    public var teleports : FlxGroup;
+    public var solids : FlxGroup;
+
     public var entities : FlxTypedGroup<Entity>;
 
     public var scene : TiledScene;
+    public var sceneName : String;
+    public var spawnDoor : String;
+
+    public function new(?Scene : String = null, ?Door : String = null, ?Dir : String = null)
+    {
+        if (Dir != null)
+        {
+            switch(Dir)
+            {
+                case "left":
+                    FlxTransitionableState.defaultTransOut.direction.set(-1.0, 0);
+                case "right":
+                    FlxTransitionableState.defaultTransOut.direction.set(1.0, 0);
+                case "up":
+                    FlxTransitionableState.defaultTransOut.direction.set(0, -1.0);
+                case "down":
+                    FlxTransitionableState.defaultTransOut.direction.set(0, 1.0);
+            }
+        }
+
+        // super(transIn, transOut);
+        super();
+
+        if (Scene == null)
+            Scene = "w1";
+        if (Door == null)
+            Door = "spawn";
+
+        sceneName = Scene;
+        spawnDoor = Door;
+    }
 
     override public function create()
     {
-        bgColor = new FlxRandom().color();
+        bgColor = FlxG.random.color();
         // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
 
         entities = new FlxTypedGroup<Entity>();
@@ -48,6 +85,8 @@ class World extends FlxState
         hazards = new FlxGroup();
         enemies = new FlxGroup();
         tools = new FlxGroup();
+        solids = new FlxGroup();
+        teleports = new FlxGroup();
 
         hud = new HUD();
 
@@ -67,22 +106,49 @@ class World extends FlxState
 
     function setupLevel()
     {
-        scene = loadScene("d1");
-        addEntity(new ToolActor(200, 140, this, "SWORD"));
-        addEntity(new ToolActor(360, 60, this, "MONKEY"));
+        scene = loadScene(sceneName);
 
+        // Locate spawn door
+        var teleport : Teleport = null;
+        for (point in teleports)
+        {
+
+            if (Std.is(point, Teleport))
+            {
+                teleport = cast(point, Teleport);
+                if (teleport.name == spawnDoor)
+                {
+                    player = new Player(teleport.spawnPoint.x, teleport.spawnPoint.y, this);
+                    player.face(teleport.direction);
+                    entities.add(player);
+                    return;
+                }
+            }
+        }
+
+        trace("Player to default position");
         player = new Player(100, 100, this);
         entities.add(player);
     }
 
     override public function update(elapsed : Float)
     {
+        #if neko
+        if (FlxG.keys.justPressed.E)
+        {
+            if (Sys.command("tiled", ["./assets/scenes/" + scene.name + ".tmx"]) == 0)
+                FlxG.resetState();
+        }
+        #end
+
         if (!deadState)
         {
             var snapX : Int = snap(FlxG.mouse.x, 20);
             var snapY : Int = snap(FlxG.mouse.y, 20);
 
-            if (FlxG.keys.justPressed.ONE)
+            if (FlxG.keys.justPressed.R)
+                bgColor = FlxG.random.color();
+            else if (FlxG.keys.justPressed.ONE)
                 addEntity(new Breakable(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
@@ -106,10 +172,15 @@ class World extends FlxState
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
             FlxG.overlap(player, enemies, onCollidePlayerEnemy);
 
-            scene.collideWithLevel(player);
+            /*scene.collideWithLevel(player);
             for (group in [enemies, items, tools])
                 for (entity in group)
-                    scene.collideWithLevel(cast(entity, FlxObject));
+                    scene.collideWithLevel(cast(entity, FlxObject));*/
+            FlxG.collide(player, solids);
+            FlxG.collide(enemies, solids);
+            FlxG.collide(items, solids);
+            FlxG.collide(tools, solids);
+            FlxG.collide(moneys, solids);
 
             FlxG.collide(moneys);
             FlxG.collide(player, breakables);
@@ -201,6 +272,10 @@ class World extends FlxState
             moneys.add(entity);
         else if (Std.is(entity, Tool))
             tools.add(entity);
+        else if (Std.is(entity, Solid))
+            solids.add(entity);
+        else if (Std.is(entity, Teleport))
+            teleports.add(entity);
 
         entities.add(entity);
     }

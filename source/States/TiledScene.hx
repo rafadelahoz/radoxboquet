@@ -96,7 +96,7 @@ class TiledScene extends TiledMap
 			}
 			else if (tileLayer.properties.contains("solid"))
 			{
-				collidableTileLayers.push(tilemap);
+				// collidableTileLayers.push(tilemap);
 				// tilemap.ignoreDrawDebug = false;
 			}
 			else
@@ -118,9 +118,7 @@ class TiledScene extends TiledMap
 		if (o.gid != -1)
 			y -= g.map.getGidOwner(o.gid).tileHeight;
 
-		trace(o.name);
-
-		switch (o.name.toLowerCase())
+		switch (o.type.toLowerCase())
 		{
 			case "twitcher":
 				var twitcher : Twitcher = new Twitcher(x, y, state);
@@ -144,70 +142,15 @@ class TiledScene extends TiledMap
 
 		/** Elements **/
 			case "solid":
-				/*var solid : SceneEntity = new SceneEntity(x, y, state, this);
-				solid.makeGraphic(o.width, o.height, 0x00DDDDDD);
-				solid.immovable = true;
-				state.ground.add(solid);*/
-			case "decoration":
-				// trace("adding decoration!");
-				/*var gid = o.gid;
-				var tiledImage : TiledImage = getImageSource(gid);
-				if (tiledImage == null)
-				{
-					trace("Could not locate image source for gid=" + gid + "!");
-				}
-				else
-				{
-					var decoration : Decoration = new Decoration(x, y, state, this, tiledImage);
-					state.decoration.add(decoration);
-				}*/
+				var solid : Entity = new Solid(x, y, state, o.width, o.height);
+				state.addEntity(solid);
+			case "teleport":
+				var target : String = o.properties.get("target");
+				var door : String = o.properties.get("door");
+				var dir : String = o.properties.get("dir");
+				var tport : Teleport = new Teleport(x, y, state, o.width, o.height, o.name, target, door, dir);
+				state.addEntity(tport);
 
-			case "backdrop":
-				/*var gid = o.gid;
-				var tiledImage : TiledImage = getImageSource(gid);
-				if (tiledImage == null)
-				{
-					trace("Could not locate image source for gid=" + gid + "!");
-				}
-
-				var scrollX : Float = 1;
-				var scrollY : Float = 1;
-
-				if (o.custom.contains("scrollX"))
-					scrollX = Std.parseFloat(o.custom.get("scrollX"));
-
-				if (o.custom.contains("scrollY"))
-					scrollY = Std.parseFloat(o.custom.get("scrollY"));
-
-				x = Std.int(x * scrollX);
-				y = Std.int(y * scrollY);
-
-				var decoration : Decoration = new Decoration(x, y, state, this, tiledImage);
-				decoration.scrollFactor.x = scrollX;
-				decoration.scrollFactor.y = scrollY;
-				state.decoration.add(decoration);*/
-
-			// TODO: Just a draft!
-			case "background":
-				/*var gid = o.gid;
-				var tiledImage : TiledImage = getImageSource(gid);
-				if (tiledImage == null)
-				{
-					trace("Could not locate image source for gid=" + gid + "!");
-				}
-
-				var scrollX : Float = 1;
-				var scrollY : Float = 1;
-
-				if (o.custom.contains("scrollX"))
-					scrollX = Std.parseFloat(o.custom.get("scrollX"));
-
-				if (o.custom.contains("scrollY"))
-					scrollY = Std.parseFloat(o.custom.get("scrollY"));
-
-				var background : FlxBackdrop = new FlxBackdrop(tiledImage.imagePath, scrollX, scrollY);
-				state.ground.add(background);
-				*/
 			default:
 				// !
 		}
@@ -264,13 +207,13 @@ class TiledScene extends TiledMap
 			}*/
 
 			//objects layer
-			if (layer.name == "Actors")
-			{
+			//if (layer.name == "Actors")
+			//{
 				for (o in objectLayer.objects)
 				{
 					loadObject(state, o, objectLayer);
 				}
-			}
+			//}
 		}
 	}
 
@@ -334,6 +277,24 @@ class TiledScene extends TiledMap
 				return true;
 			}
 		}
+		return false;
+	}
+
+	public function overlapsWithLevel(obj:FlxObject, ?notifyCallback:FlxObject->FlxObject->Void, ?processCallback:FlxObject->FlxObject->Bool):Bool
+	{
+		if (collidableTileLayers == null)
+			return false;
+
+		for (map in collidableTileLayers)
+		{
+			// IMPORTANT: Always collide the map with objects, not the other way around.
+			//			  This prevents odd collision errors (collision separation code off by 1 px).
+			if (FlxG.overlap(map, obj, notifyCallback, processCallback))
+			{
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

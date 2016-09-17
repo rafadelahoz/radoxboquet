@@ -21,6 +21,16 @@ class Entity extends FlxSprite
         FlxTween.tween(this, {color: 0xFFFFFFFF}, Duration);
     }
 
+    public function overlapsMap()
+    {
+        return overlaps(world.solids);
+    }
+
+    public function overlapsMapAt(X : Float, Y : Float)
+    {
+        return overlapsAt(X, Y, world.solids);
+    }
+
     public function doSlide(me : FlxPoint, from : FlxPoint, coefficient : Float, ?bounds : Float = 24, ?friction : Int = 100)
     {
         if (from != null)
