@@ -15,7 +15,7 @@ class Player extends Entity
     var WalkSpeed : Float = 100;
 
     var state : Int;
-    var currentTool : Tool;
+    public var currentTool : Tool;
 
     public function new(X : Float, Y : Float, World : World)
     {
@@ -167,7 +167,8 @@ class Player extends Entity
         switch (tool.name)
         {
             case "SWORD":
-                world.addEntity(new Sword(x, y, world));
+                currentTool = new Sword(x, y, world);
+                world.addEntity(currentTool);
             default:
                 dropTool(tool);
         }
@@ -219,6 +220,7 @@ class Player extends Entity
     public function onToolFinish(tool : Tool)
     {
         state = IDLE;
+        currentTool = null;
     }
 
     public function onCollisionWithHazard(hazard : Hazard)
@@ -235,6 +237,12 @@ class Player extends Entity
     {
         if (state != HURT)
         {
+            if (currentTool != null)
+            {
+                currentTool.destroy();
+                currentTool = null;
+            }
+            
             hurtSlide(cause);
             state = HURT;
             GameState.addHP(-damage);

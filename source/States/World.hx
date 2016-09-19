@@ -145,7 +145,7 @@ class World extends FlxTransitionableState
             else if (FlxG.keys.justPressed.FOUR)
                 addEntity(new ToolActor(snapX, snapY+20, this, "WOMBAT"));
             else if (FlxG.keys.justPressed.FIVE)
-                addEntity(new Twitcher(snapX, snapY, this));
+                addEntity(new RandomWalker(snapX, snapY, this));
             else if (FlxG.keys.pressed.SIX)
             {
                 var money : Money = null;
