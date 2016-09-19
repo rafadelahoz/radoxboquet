@@ -12,6 +12,9 @@ class GameState
 
     public static var items : Array<Item> = [];
     public static var currentItem : Int = 0;
+    
+    public static var savedScene : String;
+    public static var savedSpawn : String;
 
     public static function init()
     {
@@ -24,6 +27,8 @@ class GameState
         // items.push(new Item("KEY"));
 
         currentItem = 0;
+        
+        savedScene = "w1";
     }
 
     public static function addHP(value : Int)

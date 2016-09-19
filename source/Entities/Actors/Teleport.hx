@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.TransitionData;
 
 class Teleport extends Entity
 {
@@ -52,6 +54,28 @@ class Teleport extends Entity
     {
         if (rect.containsPoint(world.player.getMidpoint()))
         {
+            // Prepare transitions
+            if (direction != null)
+            {
+                switch(direction)
+                {
+                    case "left":
+                        FlxTransitionableState.defaultTransOut.direction.set(-1.0, 0);
+                        FlxTransitionableState.defaultTransIn.direction.set(-1.0, 0);
+                    case "right":
+                        FlxTransitionableState.defaultTransOut.direction.set(1.0, 0);
+                        FlxTransitionableState.defaultTransIn.direction.set(1.0, 0);
+                    case "up":
+                        FlxTransitionableState.defaultTransOut.direction.set(0, -1.0);
+                        FlxTransitionableState.defaultTransIn.direction.set(0, -1.0);
+                    case "down":
+                        FlxTransitionableState.defaultTransOut.direction.set(0, 1.0);
+                        FlxTransitionableState.defaultTransIn.direction.set(0,  1.0);
+                    default:
+                        FlxTransitionableState.defaultTransOut.direction.set(0, 0);
+                        FlxTransitionableState.defaultTransIn.direction.set(0, 0);
+                }
+            }
             // Teleport!
             FlxG.switchState(new World(target, door, direction));
         }

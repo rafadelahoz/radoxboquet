@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.addons.transition.FlxTransitionableState;
 
 class GameController
 {
@@ -14,6 +15,11 @@ class GameController
     {
         GameState.setHP(50);
         // Lose money?
-        FlxG.resetState();
+        
+        // Setup transitions
+        FlxTransitionableState.defaultTransIn.direction.set(0, 0);
+        FlxTransitionableState.defaultTransOut.direction.set(0, 0);
+        // And restart
+        FlxG.switchState(new World(GameState.savedScene, GameState.savedSpawn));
     }
 }

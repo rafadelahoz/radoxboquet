@@ -46,22 +46,6 @@ class World extends FlxTransitionableState
 
     public function new(?Scene : String = null, ?Door : String = null, ?Dir : String = null)
     {
-        if (Dir != null)
-        {
-            switch(Dir)
-            {
-                case "left":
-                    FlxTransitionableState.defaultTransOut.direction.set(-1.0, 0);
-                case "right":
-                    FlxTransitionableState.defaultTransOut.direction.set(1.0, 0);
-                case "up":
-                    FlxTransitionableState.defaultTransOut.direction.set(0, -1.0);
-                case "down":
-                    FlxTransitionableState.defaultTransOut.direction.set(0, 1.0);
-            }
-        }
-
-        // super(transIn, transOut);
         super();
 
         if (Scene == null)
@@ -104,6 +88,8 @@ class World extends FlxTransitionableState
         // FlxG.camera.follow(player, FlxCameraFollowStyle.SCREEN_BY_SCREEN);
 
         deadState = false;
+        
+        super.create();
     }
 
     function setupLevel()
