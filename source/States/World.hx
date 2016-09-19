@@ -88,7 +88,7 @@ class World extends FlxTransitionableState
         // FlxG.camera.follow(player, FlxCameraFollowStyle.SCREEN_BY_SCREEN);
 
         deadState = false;
-        
+
         super.create();
     }
 
@@ -137,7 +137,7 @@ class World extends FlxTransitionableState
             if (FlxG.keys.justPressed.R)
                 bgColor = FlxG.random.color();
             else if (FlxG.keys.justPressed.ONE)
-                addEntity(new KeyDoor(snapX, snapY, this, KeyActor.Green));
+                addEntity(new KeyDoor(snapX, snapY, this, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
@@ -266,7 +266,7 @@ class World extends FlxTransitionableState
 
         entities.add(entity);
     }
-    
+
     public function removeEntity(entity : Entity)
     {
         if (Std.is(entity, Breakable))

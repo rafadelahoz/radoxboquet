@@ -101,7 +101,7 @@ class TiledScene extends TiledMap
 			}
 			else
 			{
-				//backgroundTiles.add(tilemap);
+				backgroundTiles.add(tilemap);
 			}
 		}
 	}
@@ -122,7 +122,7 @@ class TiledScene extends TiledMap
 		{
 			case "twitcher":
 				var twitcher : Twitcher = new Twitcher(x, y, state);
-				//state.addEntity(twitcher);
+				state.addEntity(twitcher);
 			case "exit":
 				// trace("Exit at ("+x+","+y+")");
 				/*var dir : String = o.custom.get("direction");
