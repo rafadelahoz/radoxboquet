@@ -14,11 +14,20 @@ class Entity extends FlxSprite
         super(X, Y);
         this.world = World;
     }
+    
+    override public function destroy()
+    {
+        world.removeEntity(this);
+        super.destroy();
+    }
 
-    public function flash(?Color : Int = 0xFFFF004D, ?Duration : Float = 0.2)
+    public function flash(?Color : Int = 0xFFFF004D, ?Duration : Float = 0.2, ?TargetColor = 0xFFFFFFFF, ?Weird : Bool = false)
     {
         color = Color;
-        FlxTween.tween(this, {color: 0xFFFFFFFF}, Duration);
+        if (Weird)
+            FlxTween.tween(this, {color: TargetColor}, Duration);
+        else
+            FlxTween.color(this, Duration, Color, TargetColor);
     }
 
     public function overlapsMap()

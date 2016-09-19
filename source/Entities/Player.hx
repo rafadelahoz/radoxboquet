@@ -102,9 +102,13 @@ class Player extends Entity
 
         // Facing
         if (velocity.x > 0)
+        {
             flipX = false;
+        }
         else if (velocity.x < 0)
+        {
             flipX = true;
+        }
     }
 
     function findClosestEntity(group : FlxGroup) : FlxObject
@@ -234,7 +238,7 @@ class Player extends Entity
             hurtSlide(cause);
             state = HURT;
             GameState.addHP(-damage);
-            flash(0xFF000000);
+            flash(0xFF000000, true);
         }
     }
 

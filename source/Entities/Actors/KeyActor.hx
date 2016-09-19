@@ -14,7 +14,7 @@ class KeyActor extends ToolActor
 
     var overlay : FlxSprite;
     var invulnerable : Bool;
-    var currentColor : String;
+    public var currentColor : String;
 
     public function new(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true)
     {
@@ -35,7 +35,10 @@ class KeyActor extends ToolActor
         invulnerable = false;
 
         if (Slide)
+        {
             slide(world.player);
+            //doSlide(getMidpoint(), world.player.getMidpoint(), 3);
+        }
     }
 
     override public function onCollisionWithTool(tool : Tool)
@@ -44,7 +47,7 @@ class KeyActor extends ToolActor
         {
             invulnerable = true;
 
-            new FlxTimer().start(0.2, function(t:FlxTimer){
+            new FlxTimer().start(0.6, function(t:FlxTimer){
                 t.cancel();
                 t.destroy();
                 invulnerable = false;
@@ -76,10 +79,20 @@ class KeyActor extends ToolActor
         }
 
         setColor(next);
+        flash(0xFFFFFFFF, 0.6, color);
     }
 
     public function setColor(Color : String)
     {
+        color = getColorCode(Color);
+        currentColor = Color;
+        property = currentColor;
+    }
+    
+    public static function getColorCode(Color : String) : Int
+    {
+        var color : Int = 0xFFFFFFFF;
+        
         switch (Color)
         {
             case "YELLOW":
@@ -91,8 +104,7 @@ class KeyActor extends ToolActor
             default:
                 color = FlxG.random.color();
         }
-
-        currentColor = Color;
-        property = currentColor;
+        
+        return color;
     }
 }

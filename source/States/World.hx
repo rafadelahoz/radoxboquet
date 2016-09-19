@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxState;
+import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import flixel.math.FlxRandom;
@@ -100,6 +101,7 @@ class World extends FlxTransitionableState
 		FlxG.worldBounds.set(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
 
         FlxG.camera.follow(player);
+        // FlxG.camera.follow(player, FlxCameraFollowStyle.SCREEN_BY_SCREEN);
 
         deadState = false;
     }
@@ -149,7 +151,7 @@ class World extends FlxTransitionableState
             if (FlxG.keys.justPressed.R)
                 bgColor = FlxG.random.color();
             else if (FlxG.keys.justPressed.ONE)
-                addEntity(new Breakable(snapX, snapY, this));
+                addEntity(new KeyDoor(snapX, snapY, this, KeyActor.Green));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
@@ -171,11 +173,8 @@ class World extends FlxTransitionableState
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
             FlxG.overlap(player, enemies, onCollidePlayerEnemy);
+            FlxG.overlap(items);
 
-            /*scene.collideWithLevel(player);
-            for (group in [enemies, items, tools])
-                for (entity in group)
-                    scene.collideWithLevel(cast(entity, FlxObject));*/
             FlxG.collide(player, solids);
             FlxG.collide(enemies, solids);
             FlxG.collide(items, solids);
@@ -276,13 +275,44 @@ class World extends FlxTransitionableState
             solids.add(entity);
         else if (Std.is(entity, Teleport))
             teleports.add(entity);
+        else if (Std.is(entity, KeyDoor))
+            solids.add(entity);
 
         entities.add(entity);
+    }
+    
+    public function removeEntity(entity : Entity)
+    {
+        if (Std.is(entity, Breakable))
+            breakables.remove(entity);
+        else if (Std.is(entity, ToolActor))
+            items.remove(entity);
+        else if (Std.is(entity, Hazard))
+            hazards.remove(entity);
+        else if (Std.is(entity, Enemy))
+            enemies.remove(entity);
+        else if (Std.is(entity, Money))
+            moneys.remove(entity);
+        else if (Std.is(entity, Tool))
+            tools.remove(entity);
+        else if (Std.is(entity, Solid))
+            solids.remove(entity);
+        else if (Std.is(entity, Teleport))
+            teleports.remove(entity);
+        else if (Std.is(entity, KeyDoor))
+            solids.remove(entity);
+
+        entities.remove(entity, true);
     }
 
     static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int
     {
-        return FlxSort.byValues(Order, EntA.y + EntA.height, EntB.y + EntB.height);
+        if (Std.is(EntA, KeyDoor) && Std.is(EntB, KeyActor))
+            return -1;
+        else if (Std.is(EntB, KeyDoor) && Std.is(EntA, KeyActor))
+            return 1;
+        else
+            return FlxSort.byValues(Order, EntA.y + EntA.height, EntB.y + EntB.height);
     }
 
     function loadScene(sceneName : String) : TiledScene
