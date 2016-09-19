@@ -12,7 +12,9 @@ class GameState
 
     public static var items : Array<Item> = [];
     public static var currentItem : Int = 0;
-    
+
+    public static var doors : Map<String, Map<String, Bool>>;
+
     public static var savedScene : String;
     public static var savedSpawn : String;
 
@@ -27,8 +29,11 @@ class GameState
         // items.push(new Item("KEY"));
 
         currentItem = 0;
-        
-        savedScene = "w1";
+
+        doors = new Map<String, Map<String, Bool>>();
+
+        savedScene = "d2";
+        savedSpawn = null;
     }
 
     public static function addHP(value : Int)
@@ -77,5 +82,34 @@ class GameState
             money = 0;
         else if (money > MAXMONEY)
             money = MAXMONEY;
+    }
+
+    public static function isDoorOpen(scene : String, door : String) : Bool
+    {
+        if (scene == null || door == null)
+            return false;
+
+        if (doors[scene] != null)
+        {
+            if (doors[scene][door] != null)
+            {
+                return doors[scene][door];
+            }
+        }
+
+        return false;
+    }
+
+    public static function openDoor(scene : String, door : String)
+    {
+        if (scene == null || door == null)
+            return;
+            
+        if (doors[scene] == null)
+        {
+            doors[scene] = new Map<String, Bool>();
+        }
+
+        doors[scene][door] = true;
     }
 }

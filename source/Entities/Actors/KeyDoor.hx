@@ -7,6 +7,7 @@ import flixel.tweens.FlxEase;
 
 class KeyDoor extends Entity
 {
+    public var name : String;
     public var lockColor : String;
     public var unlockDistance : Float = 24;
 
@@ -14,7 +15,7 @@ class KeyDoor extends Entity
 
     var overlay : FlxSprite;
 
-    public function new(X : Float, Y : Float, World : World, Color : String)
+    public function new(X : Float, Y : Float, World : World, Name : String, Color : String)
     {
         super(X, Y, World);
 
@@ -22,9 +23,16 @@ class KeyDoor extends Entity
 
         overlay = new FlxSprite(X, Y, "assets/images/lock_door.png");
 
+        name = Name;
         lockColor = Color;
         immovable = true;
         opening = false;
+
+        if (name != null && GameState.isDoorOpen(world.sceneName, name))
+        {
+            kill();
+            destroy();
+        }
     }
 
     override public function destroy()
@@ -76,6 +84,8 @@ class KeyDoor extends Entity
             t.destroy();
             doOpen(key);
         }});
+
+        GameState.openDoor(world.sceneName, name);
     }
 
     public function doOpen(key : KeyActor)

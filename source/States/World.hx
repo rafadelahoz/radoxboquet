@@ -137,7 +137,7 @@ class World extends FlxTransitionableState
             if (FlxG.keys.justPressed.R)
                 bgColor = FlxG.random.color();
             else if (FlxG.keys.justPressed.ONE)
-                addEntity(new KeyDoor(snapX, snapY, this, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
+                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)

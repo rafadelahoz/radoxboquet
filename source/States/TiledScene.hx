@@ -150,7 +150,10 @@ class TiledScene extends TiledMap
 				var dir : String = o.properties.get("dir");
 				var tport : Teleport = new Teleport(x, y, state, o.width, o.height, o.name, target, door, dir);
 				state.addEntity(tport);
-
+			case "lockdoor":
+				var color : String = o.properties.get("color");
+				var door : KeyDoor = new KeyDoor(x, y, state, o.name, color);
+				state.addEntity(door);
 			default:
 				// !
 		}
