@@ -48,11 +48,6 @@ class World extends FlxTransitionableState
     {
         super();
 
-        if (Scene == null)
-            Scene = "w1";
-        if (Door == null)
-            Door = "spawn";
-
         sceneName = Scene;
         spawnDoor = Door;
     }
@@ -96,23 +91,55 @@ class World extends FlxTransitionableState
 
     function setupLevel()
     {
+        // Load the scene
         scene = loadScene(sceneName);
         
+        // Add stored actors
         loadStoredActors(sceneName);
 
-        // Locate spawn door
-        var teleport : Teleport = findTeleportByName(spawnDoor);
-        if (teleport != null)
+        // And add the player
+        spawnPlayer();
+    }
+    
+    function spawnPlayer()
+    {
+        var spawnPoint : FlxPoint = null;
+        var direction : String = null;
+        
+        // If no entry point provided, try with hospital
+        if (spawnDoor == null)
         {
-            player = new Player(teleport.spawnPoint.x, teleport.spawnPoint.y, this);
-            player.face(teleport.direction);
+            var hospital : ToolActor = findActorByName("HOSPTL");
+            // If the hospital is located, spawn there
+            if (hospital != null && Std.is(hospital, Hospital))
+            {
+                spawnPoint = hospital.getMidpoint();
+            }
+            // Else try with a "spawn" point
+            else
+            {
+                spawnDoor = "SPAWN";
+            }
         }
-        else
+
+        if (spawnPoint == null)
         {
-            trace("Player to default position");
-            player = new Player(100, 100, this);
+            // Locate provided door or spawn        
+            var teleport : Teleport = findTeleportByName(spawnDoor);
+            if (teleport != null)
+            {
+                spawnPoint = teleport.spawnPoint;
+                direction = teleport.direction;
+            }
+            else
+            {
+                trace("Player to default position");
+                spawnPoint = new FlxPoint(100, 100);
+            }
         }
         
+        player = new Player(spawnPoint.x, spawnPoint.y, this);
+        player.face(direction);
         entities.add(player);
     }
 
@@ -314,9 +341,28 @@ class World extends FlxTransitionableState
         return null;
     }
     
+    function findActorByName(name : String) : ToolActor
+    {
+        var actor : ToolActor = null;
+        for (point in items)
+        {
+            if (Std.is(point, ToolActor))
+            {
+                actor = cast(point, ToolActor);
+                if (actor.name.toLowerCase() == name.toLowerCase())
+                {
+                    return actor;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
     public static var STORED_ACTORS : Array<String> = ["KEY", "HOSPTL"];
     override public function switchTo(next : FlxState) : Bool
     {
+        trace("switchTo");
         storeSceneActors();
         return super.switchTo(next);
     }
@@ -337,6 +383,8 @@ class World extends FlxTransitionableState
         }
         
         GameState.storeActors(sceneName, actors);
+        
+        GameState.printActors();
     }
     
     function loadStoredActors(scene : String)
@@ -404,16 +452,7 @@ class World extends FlxTransitionableState
         
         if (FlxG.keys.justPressed.D)
         {
-            trace("DUMPING STORED ACTORS");
-            for (scene in GameState.actors.keys())
-            {
-                trace("[" + scene + "]");
-                for (posItem in GameState.actors.get(scene))
-                {
-                    trace("\t" + posItem.item.name + (posItem.item.property == null ? "" : posItem.item.property) + 
-                        "@(" + posItem.x + ", " + posItem.y + ")");
-                }
-            }
+            GameState.printActors();
         }
     }
 }

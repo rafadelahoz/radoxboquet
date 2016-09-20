@@ -264,21 +264,24 @@ class Player extends Entity
     public function face(dir : String)
     {
         var cause : FlxPoint = new FlxPoint(x, y);
-
-        switch(dir.toLowerCase())
+        
+        if (dir != null)
         {
-            case "left":
-                flipX = true;
-                cause.x += 10;
-            case "right":
-                flipX = false;
-                cause.x -= 10;
-            case "up":
-                cause.y += 10;
-            case "down":
-                cause.y -= 10;
+            switch(dir.toLowerCase())
+            {
+                case "left":
+                    flipX = true;
+                    cause.x += 10;
+                case "right":
+                    flipX = false;
+                    cause.x -= 10;
+                case "up":
+                    cause.y += 10;
+                case "down":
+                    cause.y -= 10;
+            }
         }
-
+        
         doSlide(getMidpoint(), cause, 3, 24, 300);
     }
 }

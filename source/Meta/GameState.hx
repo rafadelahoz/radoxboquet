@@ -128,4 +128,47 @@ class GameState
     {
         actors.set(scene, sceneActors);
     }
+    
+    public static function findHospital() : String
+    {
+        for (scene in actors.keys())
+        {
+            var hospital : PositionItem = findActorByName("HOSPTL", scene);
+            if (hospital != null)
+                return scene;
+        }
+        
+        return null;
+    }
+    
+    public static function findActorByName(name : String, scene : String) : PositionItem
+    {
+        if (actors.get(scene) != null)
+        {
+            for (actor in actors.get(scene))
+            {
+                if (actor.name == name)
+                {
+                    return actor;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    /** DEBUG AREA **/
+    public static function printActors()
+    {
+        trace("DUMPING STORED ACTORS");
+        for (scene in actors.keys())
+        {
+            trace("[" + scene + "]");
+            for (posItem in actors.get(scene))
+            {
+                trace("\t" + posItem.item.name + (posItem.item.property == null ? "" : posItem.item.property) + 
+                    "@(" + posItem.x + ", " + posItem.y + ")");
+            }
+        }
+    }
 }
