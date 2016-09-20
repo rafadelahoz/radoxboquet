@@ -10,20 +10,20 @@ class Hospital extends ToolActor
     {
         super(X, Y, World, "HOSPTL", false);
 
-        makeGraphic(14, 14, 0xFFDDCDCD);
+        loadGraphic("assets/images/hospital.png");
+        y -= height;
+
+        setSize(14, 14);
         offset.set(1, 1);
         x += offset.x;
         y += offset.y;
 
-        // The Y is specified as base y
-        y -= height;
-
         if (Slide)
             slide(world.player);
     }
-    
+
     override public function update(elapsed : Float)
-    {        
+    {
         super.update(elapsed);
     }
 }

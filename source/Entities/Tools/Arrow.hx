@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.effects.FlxFlicker;
 
 class Arrow extends Tool
 {
@@ -15,11 +16,10 @@ class Arrow extends Tool
     {
         name = "ARROW";
         power = 1;
-        
+
         enabled = false;
-        
-        // loadGraphic("assets/images/sword.png");
-        makeGraphic(4, 18);
+
+        loadGraphic("assets/images/arrow.png");
         setSize(4, 12);
         offset.set(0, 4);
 
@@ -31,7 +31,7 @@ class Arrow extends Tool
             t.cancel();
             enabled = true;
         });
-        
+
         velocity.set(0, -speed);
     }
 
@@ -39,13 +39,13 @@ class Arrow extends Tool
     {
         if (enabled)
         {
-            if (overlapsAt(x, y-2, world.solids)) 
+            if (overlapsAt(x, y-2, world.solids))
             {
                 onHitSomething();
             }
-            
+
             FlxG.overlap(this, world.breakables, function(tool : Tool, br : Breakable) {
-                if (enabled) 
+                if (enabled)
                 {
                     br.onCollisionWithTool(this);
                     enabled = false;
@@ -67,7 +67,7 @@ class Arrow extends Tool
     }
 
     function pushItem(self : Tool, item : FlxObject) : Void
-    {        
+    {
         if (!item.immovable)
         {
             var selfCenter = self.getMidpoint();
@@ -86,7 +86,7 @@ class Arrow extends Tool
         {
             cast(item, ToolActor).onCollisionWithTool(this);
         }
-        
+
         if (Std.is(item, KeyActor))
         {
             onHitSomething();
@@ -102,19 +102,22 @@ class Arrow extends Tool
             onHitSomething();
         }
     }
-    
+
     function onHitSomething()
     {
         // Don't do anything to anyone
         enabled = false;
         solid = false;
-        
+
         // Bounce
         velocity.set(FlxG.random.int(-50, 50), velocity.y*(-0.1));
         angle = FlxG.random.getObject([-15, 15]);
-        
+
+        // Flicker
+        FlxFlicker.flicker(this, 0.12, 0.02, false);
+
         // And go away
-        new FlxTimer().start(0.06, function(t:FlxTimer) {
+        new FlxTimer().start(0.12, function(t:FlxTimer) {
             t.destroy();
             kill();
             destroy();

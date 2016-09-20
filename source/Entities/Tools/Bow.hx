@@ -9,28 +9,25 @@ import flixel.tweens.FlxEase;
 class Bow extends Tool
 {
     var arrowCost : Int = 2;
-    
+
     override function onActivate()
     {
         name = "BOW";
         power = 0;
-        
-        solid = false;
-        
-        // loadGraphic("assets/images/sword.png");
-        makeGraphic(20, 3, 0xFFFA0033);
-        // setSize(20, 10);
-        // offset.set(0, 6);
 
-        x = player.x;
-        y = player.y;
+        solid = false;
+
+        loadGraphic("assets/images/bow.png");
+
+        x = player.x-2;
+        y = player.y-8;
 
         if (GameState.money >= arrowCost)
         {
             // Pay the price
             GameState.addMoney(-arrowCost);
             // Instantiate arrow
-            world.addEntity(new Arrow(x, y, world));
+            world.addEntity(new Arrow(x, y+8, world));
         }
         else
         {

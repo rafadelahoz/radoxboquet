@@ -93,19 +93,19 @@ class World extends FlxTransitionableState
     {
         // Load the scene
         scene = loadScene(sceneName);
-        
+
         // Add stored actors
         loadStoredActors(sceneName);
 
         // And add the player
         spawnPlayer();
     }
-    
+
     function spawnPlayer()
     {
         var spawnPoint : FlxPoint = null;
         var direction : String = null;
-        
+
         // If no entry point provided, try with hospital
         if (spawnDoor == null)
         {
@@ -124,7 +124,7 @@ class World extends FlxTransitionableState
 
         if (spawnPoint == null)
         {
-            // Locate provided door or spawn        
+            // Locate provided door or spawn
             var teleport : Teleport = findTeleportByName(spawnDoor);
             if (teleport != null)
             {
@@ -137,7 +137,7 @@ class World extends FlxTransitionableState
                 spawnPoint = new FlxPoint(100, 100);
             }
         }
-        
+
         player = new Player(spawnPoint.x, spawnPoint.y, this);
         player.face(direction);
         entities.add(player);
@@ -310,7 +310,7 @@ class World extends FlxTransitionableState
 
 		return scene;
 	}
-    
+
     function handleGameState()
     {
         // Store game state appropriately
@@ -322,7 +322,7 @@ class World extends FlxTransitionableState
             GameState.saveLocation(sceneName, spawnPoint.name);
         }
     }
-    
+
     function findTeleportByName(name : String) : Teleport
     {
         var teleport : Teleport = null;
@@ -337,10 +337,10 @@ class World extends FlxTransitionableState
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     function findActorByName(name : String) : ToolActor
     {
         var actor : ToolActor = null;
@@ -355,10 +355,10 @@ class World extends FlxTransitionableState
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     public static var STORED_ACTORS : Array<String> = ["KEY", "HOSPTL"];
     override public function switchTo(next : FlxState) : Bool
     {
@@ -366,7 +366,7 @@ class World extends FlxTransitionableState
         storeSceneActors();
         return super.switchTo(next);
     }
-    
+
     function storeSceneActors()
     {
         var actors : Array<PositionItem> = [];
@@ -381,12 +381,12 @@ class World extends FlxTransitionableState
                     actors.push(actor);
             }
         }
-        
+
         GameState.storeActors(sceneName, actors);
-        
+
         GameState.printActors();
     }
-    
+
     function loadStoredActors(scene : String)
     {
         var actors : Array<PositionItem> = GameState.actors.get(scene);
@@ -405,7 +405,7 @@ class World extends FlxTransitionableState
                         actor = new ToolActor(posItem.x, posItem.y, this, posItem.name, posItem.item.property);
                         trace("Load " + posItem.name + " at (" + posItem.x + ", " + posItem.y + ")");
                 }
-                
+
                 if (actor != null)
                 {
                     addEntity(actor);
@@ -414,17 +414,17 @@ class World extends FlxTransitionableState
             }
         }
     }
-    
+
     function handleDebugRoutines()
     {
-        #if neko
+        /*#if neko
         if (FlxG.keys.justPressed.E)
         {
             if (Sys.command("tiled", ["./assets/scenes/" + scene.name + ".tmx"]) == 0)
                 FlxG.resetState();
         }
-        #end
-        
+        #end*/
+
         var snapX : Int = snap(FlxG.mouse.x, 20);
         var snapY : Int = snap(FlxG.mouse.y, 20);
 
@@ -449,7 +449,7 @@ class World extends FlxTransitionableState
                 addEntity(money);
             }
         }
-        
+
         if (FlxG.keys.justPressed.D)
         {
             GameState.printActors();

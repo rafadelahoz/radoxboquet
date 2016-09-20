@@ -36,9 +36,9 @@
  </objectgroup>
  <objectgroup name="Actors">
   <object id="7" name="Twitcher" type="Twitcher" x="240" y="300" width="20" height="20"/>
-  <object id="28" name="spawn" type="Teleport" x="320" y="320" width="20" height="20">
+  <object id="28" name="spawn" type="Teleport" x="320" y="160" width="20" height="20">
    <properties>
-    <property name="dir" value="up"/>
+    <property name="dir" value="down"/>
     <property name="door" value="none"/>
     <property name="target" value="none"/>
    </properties>

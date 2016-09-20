@@ -37,7 +37,7 @@ class GameState
         doors = new Map<String, Map<String, Bool>>();
         actors = new Map<String, Array<PositionItem>>();
 
-        savedScene = "d2";
+        savedScene = "w1";
         savedSpawn = null;
     }
 
@@ -109,7 +109,7 @@ class GameState
     {
         if (scene == null || door == null)
             return;
-            
+
         if (doors[scene] == null)
         {
             doors[scene] = new Map<String, Bool>();
@@ -117,18 +117,18 @@ class GameState
 
         doors[scene][door] = true;
     }
-    
+
     public static function saveLocation(scene : String, spawn : String)
     {
         savedScene = scene;
         savedSpawn = spawn;
     }
-    
+
     public static function storeActors(scene : String, sceneActors : Array<PositionItem>)
     {
         actors.set(scene, sceneActors);
     }
-    
+
     public static function findHospital() : String
     {
         for (scene in actors.keys())
@@ -137,10 +137,10 @@ class GameState
             if (hospital != null)
                 return scene;
         }
-        
+
         return null;
     }
-    
+
     public static function findActorByName(name : String, scene : String) : PositionItem
     {
         if (actors.get(scene) != null)
@@ -153,10 +153,10 @@ class GameState
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /** DEBUG AREA **/
     public static function printActors()
     {
@@ -166,7 +166,7 @@ class GameState
             trace("[" + scene + "]");
             for (posItem in actors.get(scene))
             {
-                trace("\t" + posItem.item.name + (posItem.item.property == null ? "" : posItem.item.property) + 
+                trace("\t" + posItem.item.name + (posItem.item.property == null ? "" : posItem.item.property) +
                     "@(" + posItem.x + ", " + posItem.y + ")");
             }
         }
