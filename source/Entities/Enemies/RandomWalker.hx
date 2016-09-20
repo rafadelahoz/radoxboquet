@@ -100,7 +100,11 @@ class RandomWalker extends Enemy
         // Don't twitch until slide finishes (please?)
         if (timer != null)
         {
-            timer.cancel();
+            timer.cancel();            
+        }
+        
+        if (tween != null)
+        {
             tween.cancel();
         }
 

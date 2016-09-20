@@ -171,7 +171,7 @@ class Player extends Entity
                 world.addEntity(currentTool);
             case "BOWARR":
                 currentTool = new Bow(x, y, world);
-                world.addEntity(currentTool);
+                world.addEntity(currentTool);                            
             default:
                 dropTool(tool);
         }
@@ -189,14 +189,14 @@ class Player extends Entity
         // Don't place things on walls!
         if (!flipX)
         {
-            while (overlapsMapAt(right, y) && right > x)
+            while ((overlapsMapAt(right, y) || overlapsAt(right, y, world.teleports)) && right > x)
             {
                 right -= 2;
             }
         }
         else
         {
-            while (overlapsMapAt(left, y) && left < x)
+            while ((overlapsMapAt(left, y) || overlapsAt(left, y, world.teleports)) && left < x)
             {
                 left += 2;
             }
@@ -209,6 +209,8 @@ class Player extends Entity
                 world.addEntity(new CorpseActor(flipX ? left : right, down, world, true));
             case "KEY":
                 world.addEntity(new KeyActor(flipX ? left : right, down, world, tool.property));
+            case "HOSPTL":
+                world.addEntity(new Hospital(flipX ? left : right, down, world, true));
             default:
                 world.addEntity(new ToolActor(flipX ? left : right, down, world, tool.name));
         }

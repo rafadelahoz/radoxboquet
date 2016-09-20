@@ -14,9 +14,12 @@ class GameState
     public static var currentItem : Int = 0;
 
     public static var doors : Map<String, Map<String, Bool>>;
+    public static var actors : Map<String, Array<PositionItem>>;
 
     public static var savedScene : String;
     public static var savedSpawn : String;
+    public static var hospitalX : Float;
+    public static var hospitalY : Float;
 
     public static function init()
     {
@@ -32,6 +35,7 @@ class GameState
         currentItem = 0;
 
         doors = new Map<String, Map<String, Bool>>();
+        actors = new Map<String, Array<PositionItem>>();
 
         savedScene = "d2";
         savedSpawn = null;
@@ -112,5 +116,16 @@ class GameState
         }
 
         doors[scene][door] = true;
+    }
+    
+    public static function saveLocation(scene : String, spawn : String)
+    {
+        savedScene = scene;
+        savedSpawn = spawn;
+    }
+    
+    public static function storeActors(scene : String, sceneActors : Array<PositionItem>)
+    {
+        actors.set(scene, sceneActors);
     }
 }

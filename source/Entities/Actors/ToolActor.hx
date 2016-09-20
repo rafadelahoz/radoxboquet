@@ -19,6 +19,7 @@ class ToolActor extends Entity
         {
             case "CORPSE":
             case "KEY":
+            case "HOSPTL":
             default:
                 loadGraphic("assets/images/item_bag.png");
                 x += 10-width/2;
@@ -54,21 +55,12 @@ class ToolActor extends Entity
         if (from != null)
         {
             doSlide(getMidpoint(), from.getMidpoint(), 1.5);
-
-            /*var fromCenter = from.getMidpoint();
-
-            var itemForce = getMidpoint();
-            itemForce.x -= fromCenter.x;
-            itemForce.y -= fromCenter.y;
-
-            itemForce.x = FlxMath.bound(itemForce.x, -24, 24);
-            itemForce.y = FlxMath.bound(itemForce.y, -24, 24);
-
-            itemForce.x *= 1.5;
-            itemForce.y *= 1.5;
-
-            velocity.set(itemForce.x, itemForce.y);
-            drag.set(100, 100);*/
         }
+    }
+    
+    public function getPositionItem() : PositionItem
+    {
+        var pitem : PositionItem = new PositionItem(x-offset.x, y-offset.y+height, new Item(name, property));
+        return pitem;
     }
 }

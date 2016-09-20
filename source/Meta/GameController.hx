@@ -8,11 +8,12 @@ class GameController
     public static function StartGame()
     {
         GameState.init();
-        FlxG.switchState(new World());
+        FlxG.switchState(new World(GameState.savedScene, GameState.savedSpawn));
     }
     
     public static function DeadContinue()
     {
+        // Setup player state
         GameState.setHP(50);
         // Lose money?
         

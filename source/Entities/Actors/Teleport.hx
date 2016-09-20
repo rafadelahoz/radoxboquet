@@ -25,6 +25,8 @@ class Teleport extends Entity
         direction = Dir;
         target = Target;
         door = Door;
+        
+        immovable = true;
 
         var border = 4;
 

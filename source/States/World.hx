@@ -89,72 +89,38 @@ class World extends FlxTransitionableState
 
         deadState = false;
 
+        handleGameState();
+
         super.create();
     }
 
     function setupLevel()
     {
         scene = loadScene(sceneName);
+        
+        loadStoredActors(sceneName);
 
         // Locate spawn door
-        var teleport : Teleport = null;
-        for (point in teleports)
+        var teleport : Teleport = findTeleportByName(spawnDoor);
+        if (teleport != null)
         {
-
-            if (Std.is(point, Teleport))
-            {
-                teleport = cast(point, Teleport);
-                if (teleport.name == spawnDoor)
-                {
-                    player = new Player(teleport.spawnPoint.x, teleport.spawnPoint.y, this);
-                    player.face(teleport.direction);
-                    entities.add(player);
-                    return;
-                }
-            }
+            player = new Player(teleport.spawnPoint.x, teleport.spawnPoint.y, this);
+            player.face(teleport.direction);
         }
-
-        trace("Player to default position");
-        player = new Player(100, 100, this);
+        else
+        {
+            trace("Player to default position");
+            player = new Player(100, 100, this);
+        }
+        
         entities.add(player);
     }
 
     override public function update(elapsed : Float)
     {
-        #if neko
-        if (FlxG.keys.justPressed.E)
-        {
-            if (Sys.command("tiled", ["./assets/scenes/" + scene.name + ".tmx"]) == 0)
-                FlxG.resetState();
-        }
-        #end
-
         if (!deadState)
         {
-            var snapX : Int = snap(FlxG.mouse.x, 20);
-            var snapY : Int = snap(FlxG.mouse.y, 20);
-
-            if (FlxG.keys.justPressed.R)
-                bgColor = FlxG.random.color();
-            else if (FlxG.keys.justPressed.ONE)
-                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
-            else if (FlxG.keys.justPressed.TWO)
-                addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
-            else if (FlxG.keys.justPressed.THREE)
-                addEntity(new Hazard(snapX, snapY, this));
-            else if (FlxG.keys.justPressed.FOUR)
-                addEntity(new ToolActor(snapX, snapY+20, this, "WOMBAT"));
-            else if (FlxG.keys.justPressed.FIVE)
-                addEntity(new RandomWalker(snapX, snapY, this));
-            else if (FlxG.keys.pressed.SIX)
-            {
-                var money : Money = null;
-                for (i in 0...FlxG.random.int(1, 10))
-                {
-                    money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
-                    addEntity(money);
-                }
-            }
+            handleDebugRoutines();
 
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
@@ -164,6 +130,7 @@ class World extends FlxTransitionableState
             FlxG.collide(player, solids);
             FlxG.collide(enemies, solids);
             FlxG.collide(items, solids);
+            FlxG.collide(items, teleports);
             FlxG.collide(tools, solids);
             FlxG.collide(moneys, solids);
 
@@ -316,4 +283,135 @@ class World extends FlxTransitionableState
 
 		return scene;
 	}
+    
+    function handleGameState()
+    {
+        // Store game state appropriately
+        // Only store map if it has a spawn point
+        var spawnPoint : Teleport = findTeleportByName("spawn");
+        if (spawnPoint != null)
+        {
+            trace("Saving location (" + sceneName + ", " + spawnPoint.name + ")");
+            GameState.saveLocation(sceneName, spawnPoint.name);
+        }
+    }
+    
+    function findTeleportByName(name : String) : Teleport
+    {
+        var teleport : Teleport = null;
+        for (point in teleports)
+        {
+            if (Std.is(point, Teleport))
+            {
+                teleport = cast(point, Teleport);
+                if (teleport.name.toLowerCase() == name.toLowerCase())
+                {
+                    return teleport;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    public static var STORED_ACTORS : Array<String> = ["HOSPTL"];
+    override public function switchTo(next : FlxState) : Bool
+    {
+        storeSceneActors();
+        return super.switchTo(next);
+    }
+    
+    function storeSceneActors()
+    {
+        var actors : Array<PositionItem> = [];
+        // Before leaving, store important items!
+        var actor : PositionItem = null;
+        for (item in items)
+        {
+            if (Std.is(item, ToolActor))
+            {
+                actor = (cast (item, ToolActor)).getPositionItem();
+                if (actor != null && STORED_ACTORS.indexOf(actor.name) >= 0)
+                    actors.push(actor);
+            }
+        }
+        
+        GameState.storeActors(sceneName, actors);
+    }
+    
+    function loadStoredActors(scene : String)
+    {
+        var actors : Array<PositionItem> = GameState.actors.get(scene);
+        if (actors != null && actors.length > 0)
+        {
+            var actor : ToolActor = null;
+            for (posItem in actors)
+            {
+                switch (posItem.name)
+                {
+                    case "HOSPTL":
+                        actor = new Hospital(posItem.x, posItem.y, this);
+                    default:
+                        actor = new ToolActor(posItem.x, posItem.y, this, posItem.name, posItem.item.property);
+                        trace("Load " + posItem.name + " at (" + posItem.x + ", " + posItem.y + ")");
+                }
+                
+                if (actor != null)
+                {
+                    addEntity(actor);
+                    actor = null;
+                }
+            }
+        }
+    }
+    
+    function handleDebugRoutines()
+    {
+        #if neko
+        if (FlxG.keys.justPressed.E)
+        {
+            if (Sys.command("tiled", ["./assets/scenes/" + scene.name + ".tmx"]) == 0)
+                FlxG.resetState();
+        }
+        #end
+        
+        var snapX : Int = snap(FlxG.mouse.x, 20);
+        var snapY : Int = snap(FlxG.mouse.y, 20);
+
+        if (FlxG.keys.justPressed.R)
+            bgColor = FlxG.random.color();
+        else if (FlxG.keys.justPressed.ONE)
+            addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
+        else if (FlxG.keys.justPressed.TWO)
+            addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
+        else if (FlxG.keys.justPressed.THREE)
+            addEntity(new Hazard(snapX, snapY, this));
+        else if (FlxG.keys.justPressed.FOUR)
+            addEntity(new Hospital(snapX, snapY+20, this));
+        else if (FlxG.keys.justPressed.FIVE)
+            addEntity(new RandomWalker(snapX, snapY, this));
+        else if (FlxG.keys.pressed.SIX)
+        {
+            var money : Money = null;
+            for (i in 0...FlxG.random.int(1, 10))
+            {
+                money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
+                addEntity(money);
+            }
+        }
+        
+        if (FlxG.keys.justPressed.D)
+        {
+            trace("DUMPING STORED ACTORS");
+            for (scene in GameState.actors.keys())
+            {
+                trace("[" + scene + "]");
+                for (posItem in GameState.actors.get(scene))
+                {
+                    trace("\t" + posItem.item.name + (posItem.item.property == null ? "" : posItem.item.property) + 
+                        "@(" + posItem.x + ", " + posItem.y + ")");
+                }
+            }
+        }
+    }
 }
