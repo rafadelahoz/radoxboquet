@@ -7,6 +7,7 @@ class PositionItem
     public var item : Item;
     
     public var name(get, null) : String;
+    public var property(get, null) : String;
     
     public function new(X : Float, Y : Float, Item : Item)
     {
@@ -21,5 +22,13 @@ class PositionItem
             return null;
             
         return item.name;
+    }
+    
+    public function get_property() : String
+    {
+        if (item == null)
+            return null;
+            
+        return item.property;
     }
 }

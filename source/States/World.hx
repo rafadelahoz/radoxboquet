@@ -314,7 +314,7 @@ class World extends FlxTransitionableState
         return null;
     }
     
-    public static var STORED_ACTORS : Array<String> = ["HOSPTL"];
+    public static var STORED_ACTORS : Array<String> = ["KEY", "HOSPTL"];
     override public function switchTo(next : FlxState) : Bool
     {
         storeSceneActors();
@@ -351,6 +351,8 @@ class World extends FlxTransitionableState
                 {
                     case "HOSPTL":
                         actor = new Hospital(posItem.x, posItem.y, this);
+                    case "KEY":
+                        actor = new KeyActor(posItem.x, posItem.y, this, posItem.property, false);
                     default:
                         actor = new ToolActor(posItem.x, posItem.y, this, posItem.name, posItem.item.property);
                         trace("Load " + posItem.name + " at (" + posItem.x + ", " + posItem.y + ")");
