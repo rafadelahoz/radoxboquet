@@ -164,10 +164,13 @@ class Player extends Entity
     function handleAction()
     {
         var tool : Item = GameState.items[GameState.currentItem];
-        switch (tool.name)
+        switch (StringTools.trim(tool.name).toUpperCase())
         {
             case "SWORD":
                 currentTool = new Sword(x, y, world);
+                world.addEntity(currentTool);
+            case "BOWARR":
+                currentTool = new Bow(x, y, world);
                 world.addEntity(currentTool);
             default:
                 dropTool(tool);

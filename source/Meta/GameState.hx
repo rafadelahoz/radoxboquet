@@ -24,7 +24,8 @@ class GameState
         money = 13;
 
         items = [];
-        items.push(new Item("SWORD"));
+        items.push(new Item(" SWORD"));
+        items.push(new Item("BOWARR"));
         // items.push(new Item("FIRROD"));
         // items.push(new Item("KEY"));
 

@@ -37,8 +37,9 @@ class RandomWalker extends Enemy
         center = new FlxPoint(x, y);
         timer = new FlxTimer();
         tween = null;
-
-        scale.set(1.2, 1.2);
+        
+        var factor : Float = FlxG.random.float(1.0, 1.5);
+        scale.set(factor, factor);
 
         walk();
     }

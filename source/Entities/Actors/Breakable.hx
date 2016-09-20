@@ -15,7 +15,7 @@ class Breakable extends Entity
         immovable = true;
     }
 
-    public function onCollisionWithSword(sword : Sword)
+    public function onCollisionWithTool(tool : Tool)
     {
         var value : Int = FlxG.random.getObject([1, 5, 10]);
 

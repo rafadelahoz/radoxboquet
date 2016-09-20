@@ -66,9 +66,9 @@ class Sword extends Tool
     {
         if (enabled)
         {
-            FlxG.overlap(this, world.breakables, function(sword : Sword, br : Breakable) {
+            FlxG.overlap(this, world.breakables, function(tool : Tool, br : Breakable) {
                 if (enabled) {
-                    br.onCollisionWithSword(this);
+                    br.onCollisionWithTool(this);
                     enabled = false;
                 }
             });
@@ -88,19 +88,19 @@ class Sword extends Tool
         destroy();
     }
 
-    function pushItem(sword : Sword, item : FlxObject) : Void
+    function pushItem(tool : Tool, item : FlxObject) : Void
     {
         if (!item.immovable)
         {
-            var swordCenter = sword.getMidpoint();
-            if (sword.flipX)
-                swordCenter.x - 10;
+            var toolCenter = tool.getMidpoint();
+            if (tool.flipX)
+                toolCenter.x - 10;
             else
-                swordCenter.x + 10;
+                toolCenter.x + 10;
 
             var itemForce = item.getMidpoint();
-            itemForce.x -= swordCenter.x;
-            itemForce.y -= swordCenter.y;
+            itemForce.x -= toolCenter.x;
+            itemForce.y -= toolCenter.y;
             itemForce.x *= 4.5;
             itemForce.y *= 4.5;
 
