@@ -67,7 +67,7 @@ class Arrow extends Tool
     }
 
     function pushItem(self : Tool, item : FlxObject) : Void
-    {
+    {        
         if (!item.immovable)
         {
             var selfCenter = self.getMidpoint();
@@ -85,6 +85,11 @@ class Arrow extends Tool
         if (Std.is(item, ToolActor))
         {
             cast(item, ToolActor).onCollisionWithTool(this);
+        }
+        
+        if (Std.is(item, KeyActor))
+        {
+            onHitSomething();
         }
     }
 
