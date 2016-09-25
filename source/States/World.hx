@@ -28,6 +28,8 @@ class World extends FlxTransitionableState
     public var player : Player;
     public var tools : FlxGroup;
 
+    public var npcs : FlxGroup;
+
     public var hazards : FlxGroup;
     public var enemies : FlxGroup;
 
@@ -39,6 +41,7 @@ class World extends FlxTransitionableState
     public var solids : FlxGroup;
 
     public var entities : FlxTypedGroup<Entity>;
+    public var messages : FlxGroup;
 
     public var scene : TiledScene;
     public var sceneName : String;
@@ -67,12 +70,15 @@ class World extends FlxTransitionableState
         tools = new FlxGroup();
         solids = new FlxGroup();
         teleports = new FlxGroup();
+        npcs = new FlxGroup();
 
+        messages = new FlxGroup();
         hud = new HUD();
 
         // Setup level
         setupLevel();
         add(entities);
+        add(messages);
         add(hud);
 
         var bounds : FlxRect = scene.getBounds();
@@ -164,6 +170,7 @@ class World extends FlxTransitionableState
             FlxG.collide(moneys);
             FlxG.collide(player, breakables);
             FlxG.collide(items);
+            FlxG.collide(player, npcs);
         }
         else
         {
@@ -257,6 +264,8 @@ class World extends FlxTransitionableState
             teleports.add(entity);
         else if (Std.is(entity, KeyDoor))
             solids.add(entity);
+        else if (Std.is(entity, NPC))
+            npcs.add(entity);
 
         entities.add(entity);
     }
@@ -281,8 +290,21 @@ class World extends FlxTransitionableState
             teleports.remove(entity);
         else if (Std.is(entity, KeyDoor))
             solids.remove(entity);
+        else if (Std.is(entity, NPC))
+            npcs.remove(entity);
 
         entities.remove(entity, true);
+    }
+
+    public function addMessage(message : String, ?callback : Void -> Void = null)
+    {
+        var msg : Message = new Message(this, message, callback);
+        messages.add(msg);
+    }
+
+    public function removeMessage(message : Message)
+    {
+        messages.remove(message);
     }
 
     static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int
@@ -449,6 +471,8 @@ class World extends FlxTransitionableState
                 addEntity(money);
             }
         }
+        else if (FlxG.keys.justPressed.SEVEN)
+            addEntity(new NPC(snapX, snapY, this, "it seems we are going into a republic, but what do i get from it?"));
 
         if (FlxG.keys.justPressed.D)
         {

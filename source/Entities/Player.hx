@@ -11,6 +11,7 @@ class Player extends Entity
     public static var IDLE      : Int = 0;
     public static var ACTION    : Int = 1;
     public static var HURT      : Int = 2;
+    public static var INTERACT  : Int = 3;
 
     var WalkSpeed : Float = 100;
 
@@ -65,6 +66,19 @@ class Player extends Entity
 
         if (FlxG.keys.justPressed.S)
         {
+            for (entity in world.npcs)
+            {
+                if (Std.is(entity, NPC))
+                {
+                    var npc : NPC = cast(entity, NPC);
+                    if (npc.canInteract(this))
+                    {
+                        npc.onInteract();
+                        state = INTERACT;
+                        return;
+                    }
+                }
+            }
             var item : FlxObject = findClosestEntity(world.items);
             if (item != null && Std.is(item, ToolActor))
             {
@@ -161,6 +175,11 @@ class Player extends Entity
         }
     }
 
+    function onInteractState(elapsed : Float)
+    {
+        velocity.set(0, 0);
+    }
+
     function handleAction()
     {
         var tool : Item = GameState.items[GameState.currentItem];
@@ -171,7 +190,7 @@ class Player extends Entity
                 world.addEntity(currentTool);
             case "BOWARR":
                 currentTool = new Bow(x, y, world);
-                world.addEntity(currentTool);                            
+                world.addEntity(currentTool);
             default:
                 dropTool(tool);
         }
@@ -247,12 +266,17 @@ class Player extends Entity
                 currentTool.destroy();
                 currentTool = null;
             }
-            
+
             hurtSlide(cause);
             state = HURT;
             GameState.addHP(-damage);
             flash(0xFF000000, true);
         }
+    }
+
+    public function onInteractionEnd()
+    {
+        state = IDLE;
     }
 
     function hurtSlide(cause : FlxObject)
@@ -264,7 +288,7 @@ class Player extends Entity
     public function face(dir : String)
     {
         var cause : FlxPoint = new FlxPoint(x, y);
-        
+
         if (dir != null)
         {
             switch(dir.toLowerCase())
@@ -281,7 +305,7 @@ class Player extends Entity
                     cause.y -= 10;
             }
         }
-        
+
         doSlide(getMidpoint(), cause, 3, 24, 300);
     }
 }

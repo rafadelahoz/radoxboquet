@@ -98,7 +98,9 @@ class Arrow extends Tool
         if (enabled)
         {
             // Notify enemy
+            y += 10;
             enemy.onCollisionWithTool(this);
+            y -= 10;
             onHitSomething();
         }
     }
