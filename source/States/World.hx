@@ -473,6 +473,12 @@ class World extends FlxTransitionableState
         }
         else if (FlxG.keys.justPressed.SEVEN)
             addEntity(new NPC(snapX, snapY, this, "it seems we are going into a republic, but what do i get from it?"));
+        else if (FlxG.keys.justPressed.EIGHT)
+        {
+            var npc : NPC = new NPC(snapX, snapY, this, "I was made for loving you baby and I was made for loving you.\nI was made for loving you \tbaby\t ok?\n\nYES THANKYOU THANK YOU");
+            npc.setupGraphic("player_sheet", 20, 20, 2, 1);
+            addEntity(npc);
+        }
 
         if (FlxG.keys.justPressed.D)
         {

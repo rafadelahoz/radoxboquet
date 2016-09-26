@@ -49,6 +49,8 @@ class Player extends Entity
                 onActingState(elapsed);
             case Player.HURT:
                 onHurtState(elapsed);
+            case Player.INTERACT:
+                onInteractState(elapsed);
         }
 
         // Delegate
@@ -79,6 +81,7 @@ class Player extends Entity
                     }
                 }
             }
+            
             var item : FlxObject = findClosestEntity(world.items);
             if (item != null && Std.is(item, ToolActor))
             {
@@ -177,7 +180,9 @@ class Player extends Entity
 
     function onInteractState(elapsed : Float)
     {
+        animation.play("idle");
         velocity.set(0, 0);
+        acceleration.set(0, 0);
     }
 
     function handleAction()

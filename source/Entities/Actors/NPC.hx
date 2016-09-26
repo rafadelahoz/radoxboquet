@@ -12,6 +12,7 @@ class NPC extends Entity
     public var message : String;
     // public var facing : Int;
 
+    public var canFlip : Bool;
     public var hotspot : FlxPoint;
     public var backspot : FlxPoint;
 
@@ -20,13 +21,47 @@ class NPC extends Entity
         super(X, Y, World);
         immovable = true;
 
-        loadGraphic("assets/images/npc_dummy.png");
+        // loadGraphic("assets/images/npc_dummy.png");
+        makeGraphic(20, 20, 0xFF4DFF10);
 
         message = Message;
-        hotspot = new FlxPoint(x + width + 10, y + 10);
-        if (CanFlip)
-            backspot = new FlxPoint(x - 10, y + 10);
+        canFlip = CanFlip;
+        
+        if (canFlip)
+            flipX = FlxG.random.bool(50);
+        
+        setupHotspots();
+        
         player = world.player;
+    }
+    
+    public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : Int = -1, ?speed : Int = 10)
+    {
+        var graphic : String = "assets/images/" + asset + ".png";
+        var animated : Bool = (w > 0 && h > 0 && speed > 0);
+        if (!animated)
+            loadGraphic(graphic);
+        else
+        {
+            loadGraphic(graphic, true, Std.int(w), Std.int(h));
+            var frames : Int = frames;
+            if (frames < 0)
+                frames = animation.frames;
+            var frarr : Array<Int> = [];
+            for (i in 0...(frames-1))
+                frarr.push(i);
+            animation.add("idle", frarr, speed);
+            animation.play("idle");
+        }
+        
+        setupHotspots();
+    }
+    
+    function setupHotspots()
+    {
+        hotspot = new FlxPoint(x + width + 10, y + height - 10);
+        if (canFlip)
+            backspot = new FlxPoint(x - 10, y + height - 10);
     }
 
     override public function update(elapsed : Float)
@@ -56,7 +91,8 @@ class NPC extends Entity
                 spot = backspot;
         }
 
-        return other.getHitbox().containsPoint(spot);
+        return (other.flipX != flipX && // We are facing each other
+                other.getHitbox().containsPoint(spot)); // And we are close
     }
 
     public function onInteract()
