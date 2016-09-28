@@ -10,6 +10,8 @@ class Hazard extends Entity
 
         setSize(16, 16);
         centerOffsets(true);
+
+        flat = true;
     }
 
     public function onCollisionWithPlayer(player : Player)

@@ -26,15 +26,15 @@ class NPC extends Entity
 
         message = Message;
         canFlip = CanFlip;
-        
+
         if (canFlip)
             flipX = FlxG.random.bool(50);
-        
+
         setupHotspots();
-        
+
         player = world.player;
     }
-    
+
     public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : Int = -1, ?speed : Int = 10)
     {
         var graphic : String = "assets/images/" + asset + ".png";
@@ -48,15 +48,15 @@ class NPC extends Entity
             if (frames < 0)
                 frames = animation.frames;
             var frarr : Array<Int> = [];
-            for (i in 0...(frames-1))
+            for (i in 0...(frames))
                 frarr.push(i);
             animation.add("idle", frarr, speed);
             animation.play("idle");
         }
-        
+
         setupHotspots();
     }
-    
+
     function setupHotspots()
     {
         hotspot = new FlxPoint(x + width + 10, y + height - 10);
@@ -83,6 +83,7 @@ class NPC extends Entity
 
     public function canInteract(other : Entity, ?spot : FlxPoint=null) : Bool
     {
+        var ignoreFacing : Bool = false;
         if (spot == null)
         {
             if (!flipX)
@@ -90,9 +91,17 @@ class NPC extends Entity
             else
                 spot = backspot;
         }
+        else
+        {
+            ignoreFacing = true;
+        }
 
-        return (other.flipX != flipX && // We are facing each other
-                other.getHitbox().containsPoint(spot)); // And we are close
+        // We can interact if:
+        // - we don't care about facing, or
+        // - we are facing each other
+        // and we are close to each other
+        return ((ignoreFacing || other.flipX != flipX) &&
+                other.getHitbox().containsPoint(spot));
     }
 
     public function onInteract()

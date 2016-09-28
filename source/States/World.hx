@@ -309,7 +309,11 @@ class World extends FlxTransitionableState
 
     static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int
     {
-        if (Std.is(EntA, KeyDoor) && Std.is(EntB, KeyActor))
+        if (Std.is(EntA, Entity) && cast(EntA, Entity).flat)
+            return -1;
+        else if (Std.is(EntB, Entity) && cast(EntB, Entity).flat)
+            return 1;
+        else if (Std.is(EntA, KeyDoor) && Std.is(EntB, KeyActor))
             return -1;
         else if (Std.is(EntB, KeyDoor) && Std.is(EntA, KeyActor))
             return 1;
@@ -472,11 +476,11 @@ class World extends FlxTransitionableState
             }
         }
         else if (FlxG.keys.justPressed.SEVEN)
-            addEntity(new NPC(snapX, snapY, this, "it seems we are going into a republic, but what do i get from it?"));
+            addEntity(new HazardSpikes(snapX, snapY, this, true, 2, 2));
         else if (FlxG.keys.justPressed.EIGHT)
         {
             var npc : NPC = new NPC(snapX, snapY, this, "I was made for loving you baby and I was made for loving you.\nI was made for loving you \tbaby\t ok?\n\nYES THANKYOU THANK YOU");
-            npc.setupGraphic("player_sheet", 20, 20, 2, 1);
+            npc.setupGraphic("player_sheet", 20, 20, 2, 10);
             addEntity(npc);
         }
 

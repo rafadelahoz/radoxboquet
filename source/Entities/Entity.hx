@@ -8,13 +8,15 @@ import flixel.tweens.FlxTween;
 class Entity extends FlxSprite
 {
     var world : World;
+    public var flat : Bool;
 
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y);
         this.world = World;
+        flat = false;
     }
-    
+
     override public function destroy()
     {
         world.removeEntity(this);
