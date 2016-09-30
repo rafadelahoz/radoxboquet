@@ -23,6 +23,7 @@ class NPC extends Entity
 
         // loadGraphic("assets/images/npc_dummy.png");
         makeGraphic(20, 20, 0xFF4DFF10);
+        alpha = 0.1;
 
         message = Message;
         canFlip = CanFlip;
@@ -37,21 +38,30 @@ class NPC extends Entity
 
     public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : Int = -1, ?speed : Int = 10)
     {
-        var graphic : String = "assets/images/" + asset + ".png";
-        var animated : Bool = (w > 0 && h > 0 && speed > 0);
-        if (!animated)
-            loadGraphic(graphic);
+        if (asset != null)
+        {
+            var graphic : String = "assets/images/" + asset + ".png";
+            var animated : Bool = (w > 0 && h > 0 && speed > 0);
+
+            if (!animated)
+                loadGraphic(graphic);
+            else
+            {
+                loadGraphic(graphic, true, Std.int(w), Std.int(h));
+                var frames : Int = frames;
+                if (frames < 0)
+                    frames = animation.frames;
+                var frarr : Array<Int> = [];
+                for (i in 0...(frames))
+                    frarr.push(i);
+                animation.add("idle", frarr, speed);
+                animation.play("idle");
+            }
+        }
         else
         {
-            loadGraphic(graphic, true, Std.int(w), Std.int(h));
-            var frames : Int = frames;
-            if (frames < 0)
-                frames = animation.frames;
-            var frarr : Array<Int> = [];
-            for (i in 0...(frames))
-                frarr.push(i);
-            animation.add("idle", frarr, speed);
-            animation.play("idle");
+            if (w > 0 && h > 0)
+                makeGraphic(Std.int(w), Std.int(h), 0x00000000);
         }
 
         setupHotspots();

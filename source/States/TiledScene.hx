@@ -120,23 +120,20 @@ class TiledScene extends TiledMap
 
 		switch (o.type.toLowerCase())
 		{
+		/** Enemies **/
 			case "twitcher":
 				var twitcher : Twitcher = new Twitcher(x, y, state);
 				state.addEntity(twitcher);
-			case "exit":
-				// trace("Exit at ("+x+","+y+")");
-				/*var dir : String = o.custom.get("direction");
-				var name : String = o.custom.get("name");
 
-				var exit : Exit = new Exit(x, y, state, this, o.width, o.height);
-				exit.init(name, dir);
-				state.exits.add(exit);*/
-
-			/*case "oneway":
-				var oneway : FlxObject = new FlxObject(x, y, o.width, o.height);
-				oneway.allowCollisions = FlxObject.UP;
-				oneway.immovable = true;
-				state.oneways.add(oneway);*/
+		/** NPCs **/
+			case "npc":
+				var npc : NPC = new NPC(x, y, state, o.properties.get("message"), o.properties.get("canflip") == "true");
+				npc.setupGraphic(o.properties.get("graphic_asset"),
+									Std.parseInt(o.properties.get("graphic_width")),
+									Std.parseInt(o.properties.get("graphic_height")),
+									Std.parseInt(o.properties.get("graphic_frames")),
+									Std.parseInt(o.properties.get("graphic_speed")));
+				state.addEntity(npc);
 
 		/** Collectibles **/
 
