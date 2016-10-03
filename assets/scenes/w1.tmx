@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="20" tileheight="20" nextobjectid="62">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="20" tileheight="20" nextobjectid="63">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -49,6 +49,7 @@
   <object id="35" name="Twitcher" type="Twitcher" x="460" y="340" width="20" height="20"/>
   <object id="58" name="Errol" type="NPC" x="460" y="200" width="20" height="20">
    <properties>
+    <property name="graphic_asset" value="npc_dummy"/>
     <property name="message" value="I am errol"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
@@ -57,7 +58,18 @@
   <object id="60" name="Another Errol" type="NPC" x="400" y="240" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="true"/>
+    <property name="graphic_asset" value="npc_dummy"/>
     <property name="message" value="I AM ANOTHER ERROR"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="62" name="Scripted" type="NPC" x="260" y="360" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="graphic_frames" type="int" value="-1"/>
+    <property name="message" value="I AM ANOTHER ERROR"/>
+    <property name="script" value="0.npc"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
    <ellipse/>

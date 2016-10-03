@@ -1,0 +1,17 @@
+default
+solid false
+visible true
+"HELLO"
+
+# enabled false
+# graphic npc_dummy 20 20 1 10
+# flip false
+# solid false
+
+#if !has.corpse
+# enabled false
+#"YOU DONT HAVE A CORPSE"
+
+#if has.corpse
+# enabled true
+#"YOU HAVE A CORPSE"

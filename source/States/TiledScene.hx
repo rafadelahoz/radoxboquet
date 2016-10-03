@@ -127,13 +127,8 @@ class TiledScene extends TiledMap
 
 		/** NPCs **/
 			case "npc":
-				var npc : NPC = new NPC(x, y, state, o.properties.get("message"), o.properties.get("canflip") == "true");
-				npc.setupGraphic(o.properties.get("graphic_asset"),
-									Std.parseInt(o.properties.get("graphic_width")),
-									Std.parseInt(o.properties.get("graphic_height")),
-									Std.parseInt(o.properties.get("graphic_frames")),
-									Std.parseInt(o.properties.get("graphic_speed")));
-				state.addEntity(npc);
+				var parser : NPCParser = new NPCParser(state);
+				parser.parse(x, y, o);
 
 		/** Collectibles **/
 

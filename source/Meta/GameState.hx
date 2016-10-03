@@ -13,6 +13,7 @@ class GameState
     public static var items : Array<Item> = [];
     public static var currentItem : Int = 0;
 
+    public static var flags : Map<String, Bool>;
     public static var doors : Map<String, Map<String, Bool>>;
     public static var actors : Map<String, Array<PositionItem>>;
 
@@ -34,6 +35,7 @@ class GameState
 
         currentItem = 0;
 
+        flags = new Map<String, Bool>();
         doors = new Map<String, Map<String, Bool>>();
         actors = new Map<String, Array<PositionItem>>();
 
@@ -65,7 +67,7 @@ class GameState
     {
         if (items.length < 10)
         {
-            items.push(new Item(name, property));
+            items.push(new Item(name.toUpperCase(), property));
             currentItem = items.length-1;
             return true;
         }
@@ -80,6 +82,17 @@ class GameState
             currentItem = items.length-1;
     }
 
+    public static function hasItem(name : String)
+    {
+        for (item in items)
+        {
+            if (item.name.toUpperCase() == name.toUpperCase())
+                return true;
+        }
+
+        return false;
+    }
+
     public static function addMoney(value : Int)
     {
         money += value;
@@ -89,6 +102,16 @@ class GameState
             money = MAXMONEY;
     }
 
+    public static function getFlag(flag : String) : Bool
+    {
+        return flags.get(flag.toUpperCase());
+    }
+
+    public static function setFlag(flag : String, value : Bool)
+    {
+        flags.set(flag.toUpperCase(), value);
+    }
+
     public static function isDoorOpen(scene : String, door : String) : Bool
     {
         if (scene == null || door == null)
@@ -96,9 +119,9 @@ class GameState
 
         if (doors[scene] != null)
         {
-            if (doors[scene][door] != null)
+            if (doors[scene][door.toUpperCase()] != null)
             {
-                return doors[scene][door];
+                return doors[scene][door.toUpperCase()];
             }
         }
 
@@ -115,7 +138,7 @@ class GameState
             doors[scene] = new Map<String, Bool>();
         }
 
-        doors[scene][door] = true;
+        doors[scene][door.toUpperCase()] = true;
     }
 
     public static function saveLocation(scene : String, spawn : String)

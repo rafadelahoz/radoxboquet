@@ -9,6 +9,11 @@ class NPC extends Entity
 {
     var player : Player;
 
+    public var enabled : Bool;
+
+    public var configs : Array<NPCConfig>;
+    public var currentConfig : NPCConfig;
+
     public var message : String;
     // public var facing : Int;
 
@@ -28,6 +33,13 @@ class NPC extends Entity
         message = Message;
         canFlip = CanFlip;
 
+        configs = [];
+        currentConfig = null;
+        enabled = true;
+
+        hotspot = new FlxPoint();
+        backspot = new FlxPoint();
+
         if (canFlip)
             flipX = FlxG.random.bool(50);
 
@@ -36,7 +48,7 @@ class NPC extends Entity
         player = world.player;
     }
 
-    public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : Int = -1, ?speed : Int = 10)
+    public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : String = null, ?speed : Int = 10, ?SetupHotspots : Bool = true)
     {
         if (asset != null)
         {
@@ -48,12 +60,26 @@ class NPC extends Entity
             else
             {
                 loadGraphic(graphic, true, Std.int(w), Std.int(h));
-                var frames : Int = frames;
-                if (frames < 0)
-                    frames = animation.frames;
                 var frarr : Array<Int> = [];
-                for (i in 0...(frames))
-                    frarr.push(i);
+                var numFrames : Int = -1;
+
+                if (frames != null && frames.charAt(0) == "[")
+                {
+                    for (frame in frames.substring(0, frames.length-1).split(","))
+                    {
+                        frarr.push(Std.parseInt(frame));
+                    }
+                }
+                else
+                {
+                    if (frames == null)
+                        numFrames = animation.frames;
+                    else
+                        numFrames = Std.parseInt(frames);
+
+                    for (i in 0...numFrames)
+                        frarr.push(i);
+                }
                 animation.add("idle", frarr, speed);
                 animation.play("idle");
             }
@@ -64,19 +90,44 @@ class NPC extends Entity
                 makeGraphic(Std.int(w), Std.int(h), 0x00000000);
         }
 
-        setupHotspots();
+        alpha = 1;
+
+        if (SetupHotspots)
+            setupHotspots();
     }
 
     function setupHotspots()
     {
-        hotspot = new FlxPoint(x + width + 10, y + height - 10);
-        if (canFlip)
-            backspot = new FlxPoint(x - 10, y + height - 10);
+        if (!enabled)
+        {
+            hotspot.set(-1, -1);
+            backspot.set(-1, -1);
+        }
+        else if (solid)
+        {
+            hotspot.set(x + width + 10, y + height - 10);
+            if (canFlip)
+                backspot.set(x - 10, y + height - 10);
+        }
+        else
+        {
+            hotspot.set(getMidpoint().x, getMidpoint().y);
+            backspot.set(-1, -1);
+            trace("Hotspot: " + hotspot);
+        }
+    }
+
+    public function setupConfigurations(Configs : Array<NPCConfig>)
+    {
+        configs = Configs;
+        loadDefaultConfig();
     }
 
     override public function update(elapsed : Float)
     {
-        if (backspot != null)
+        checkConditions();
+
+        if (canFlip)
         {
             if (!flipX && canInteract(world.player, backspot))
             {
@@ -93,10 +144,13 @@ class NPC extends Entity
 
     public function canInteract(other : Entity, ?spot : FlxPoint=null) : Bool
     {
+        if (!enabled)
+            return false;
+
         var ignoreFacing : Bool = false;
         if (spot == null)
         {
-            if (!flipX)
+            if (!flipX || !solid)
                 spot = hotspot;
             else
                 spot = backspot;
@@ -122,5 +176,107 @@ class NPC extends Entity
             scale.set(1, 1);
             world.player.onInteractionEnd();
         });
+    }
+
+    function checkConditions()
+    {
+        var loadedSomething : Bool = false;
+
+        for (config in configs)
+        {
+            if (config.condition != "default")
+            {
+                if (evalCondition(config.condition))
+                {
+                    loadedSomething = true;
+                    loadConfig(config);
+                    break;
+                }
+            }
+        }
+
+        if (!loadedSomething)
+            loadDefaultConfig();
+    }
+
+    function loadDefaultConfig()
+    {
+        for (config in configs)
+        {
+            if (config.condition == "default")
+            {
+                loadConfig(config);
+                return;
+            }
+        }
+    }
+
+    function loadConfig(config : NPCConfig)
+    {
+        // Load!
+        if (currentConfig != config)
+        {
+            trace("Loading " + config);
+            currentConfig = config;
+
+            enabled = config.enabled;
+
+            if (config.enabled)
+            {
+                visible = true;
+
+                solid = config.solid;
+                canFlip = config.flip;
+                visible = config.visible;
+
+                if (config.graphic_asset != null)
+                {
+                    setupGraphic(config.graphic_asset, config.graphic_width,
+                                config.graphic_height, config.graphic_frames,
+                                config.graphic_speed, false);
+                }
+
+                if (config.messages.length > 0)
+                    message = config.messages[0];
+            }
+            else
+            {
+                visible = false;
+                solid = false;
+            }
+
+            setupHotspots();
+        }
+    }
+
+    function evalCondition(condition : String) : Bool
+    {
+        if (condition == "default")
+            return true;
+        else
+        {
+            var cond = condition;
+            var negated : Bool = false;
+            var value : Bool = false;
+
+            if (condition.charAt(0) == "!")
+            {
+                negated = true;
+                cond = cond.substring(1, cond.length);
+            }
+
+            var tokens : Array<String> = cond.split(".");
+            switch (tokens[0])
+            {
+                case "flag":
+                    value = GameState.getFlag(tokens[1]);
+                case "has":
+                    value = GameState.hasItem(tokens[1]);
+                default:
+                    trace("Unknown condition: " + cond);
+            }
+
+            return (negated ? !value : value);
+        }
     }
 }
