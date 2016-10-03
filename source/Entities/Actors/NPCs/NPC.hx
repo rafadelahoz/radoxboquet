@@ -8,6 +8,7 @@ import flixel.tweens.FlxTween;
 class NPC extends Entity
 {
     var player : Player;
+    var tween : FlxTween;
 
     public var enabled : Bool;
 
@@ -36,6 +37,7 @@ class NPC extends Entity
         configs = [];
         currentConfig = null;
         enabled = true;
+        tween = null;
 
         hotspot = new FlxPoint();
         backspot = new FlxPoint();
@@ -169,12 +171,20 @@ class NPC extends Entity
 
     public function onInteract()
     {
-        var t : FlxTween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
-        world.addMessage(messages, function() {
-            t.cancel();
-            scale.set(1, 1);
-            world.player.onInteractionEnd();
-        });
+        tween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
+        world.addMessage(messages, onMessageFinish, onMessageCancel);
+    }
+
+    public function onMessageFinish()
+    {
+        onMessageCancel();
+        world.player.onInteractionEnd();
+    }
+
+    public function onMessageCancel()
+    {
+        tween.cancel();
+        scale.set(1, 1);
     }
 
     function checkConditions()

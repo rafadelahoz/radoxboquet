@@ -20,8 +20,9 @@ class Message extends FlxGroup
     var state : Int;
 
     var callback : Void -> Void;
+    var cancelCallback : Void -> Void;
 
-    public function new(World : World, Text : String, ?Callback : Void -> Void = null)
+    public function new(World : World, Text : String, ?Callback : Void -> Void = null, ?CancelCallback : Void -> Void = null)
     {
         super();
 
@@ -32,6 +33,7 @@ class Message extends FlxGroup
         text = Text;
         state = 0;
         callback = Callback;
+        cancelCallback = CancelCallback;
 
         textField = new FlxText(x+6, y+8, 268);
         textField.setFormat("assets/data/adventurePixels.ttf", 16);
@@ -65,6 +67,15 @@ class Message extends FlxGroup
         world.removeMessage(this);
         super.destroy();
     }
+
+    public function cancel()
+    {
+        if (cancelCallback != null)
+            cancelCallback();
+
+        kill();
+    }
+
 
     override public function update(elapsed : Float)
     {

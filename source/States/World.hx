@@ -153,28 +153,7 @@ class World extends FlxTransitionableState
 
     override public function update(elapsed : Float)
     {
-        if (!deadState)
-        {
-            handleDebugRoutines();
-
-            FlxG.overlap(player, moneys, onCollidePlayerMoney);
-            FlxG.overlap(player, hazards, onCollidePlayerHazard);
-            FlxG.overlap(player, enemies, onCollidePlayerEnemy);
-            FlxG.overlap(items);
-
-            FlxG.collide(player, solids);
-            FlxG.collide(enemies, solids);
-            FlxG.collide(items, solids);
-            FlxG.collide(items, teleports);
-            FlxG.collide(tools, solids);
-            FlxG.collide(moneys, solids);
-
-            FlxG.collide(moneys);
-            FlxG.collide(player, breakables);
-            FlxG.collide(items);
-            FlxG.collide(player, npcs);
-        }
-        else
+        if (deadState)
         {
             if (deadMenu)
             {
@@ -193,6 +172,27 @@ class World extends FlxTransitionableState
                 }
             }
         }
+        else
+        {
+            handleDebugRoutines();
+
+            FlxG.overlap(player, moneys, onCollidePlayerMoney);
+            FlxG.overlap(player, hazards, onCollidePlayerHazard);
+            FlxG.overlap(player, enemies, onCollidePlayerEnemy);
+            FlxG.overlap(items);
+        }
+
+        FlxG.collide(player, solids);
+        FlxG.collide(enemies, solids);
+        FlxG.collide(items, solids);
+        FlxG.collide(items, teleports);
+        FlxG.collide(tools, solids);
+        FlxG.collide(moneys, solids);
+
+        FlxG.collide(moneys);
+        FlxG.collide(player, breakables);
+        FlxG.collide(items);
+        FlxG.collide(player, npcs);
 
         super.update(elapsed);
 
@@ -222,14 +222,15 @@ class World extends FlxTransitionableState
             deadState = true;
 
             hud.onPlayerDead();
+            // player.onDead();
 
             var deadbg = new FlxSprite(60, 0);
             add(deadbg);
             deadbg.makeGraphic(500, 500, 0xFFFF004D);
-            deadbg.alpha = 0.2;
+            deadbg.alpha = 0.0;
             deadbg.scrollFactor.set(0, 0);
 
-            FlxTween.tween(deadbg, {alpha:1.0}, 1, {ease: FlxEase.expoOut, onComplete:function(t:FlxTween){
+            FlxTween.tween(deadbg, {alpha:1.0}, 2, {startDelay: 2, ease: FlxEase.expoOut, onComplete:function(t:FlxTween){
                 t.cancel();
                 deadText = HUD.buildLabel(FlxG.width/2, FlxG.height/2, "TRY HARDER?");
                 deadText.alignment = FlxTextAlign.CENTER;
@@ -298,7 +299,7 @@ class World extends FlxTransitionableState
         entities.remove(entity, true);
     }
 
-    public function addMessage(messageList : Array<String>, ?callback : Void -> Void = null)
+    public function addMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
     {
         for (index in 0...messageList.length)
         {
@@ -311,7 +312,7 @@ class World extends FlxTransitionableState
             else
                 _callback = callback;
 
-            var msg : Message = new Message(this, message, _callback);
+            var msg : Message = new Message(this, message, _callback, cancelCallback);
             messageQueue.push(msg);
         }
 
@@ -321,6 +322,22 @@ class World extends FlxTransitionableState
     public function removeMessage(message : Message)
     {
         messages.remove(message);
+    }
+
+    public function cancelMessages()
+    {
+        for (message in messages)
+        {
+            cast (message, Message).cancel();
+            message.destroy();
+        }
+
+        for (message in messageQueue)
+        {
+            messageQueue.remove(message);
+            cast (message, Message).cancel();
+            message.destroy();
+        }
     }
 
     static function depthSort(Order : Int, EntA : FlxObject, EntB : FlxObject) : Int

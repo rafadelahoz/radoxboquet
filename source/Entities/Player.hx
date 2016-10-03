@@ -8,6 +8,7 @@ import flixel.group.FlxGroup;
 
 class Player extends Entity
 {
+    public static var DEAD      : Int = -1;
     public static var IDLE      : Int = 0;
     public static var ACTION    : Int = 1;
     public static var HURT      : Int = 2;
@@ -36,6 +37,8 @@ class Player extends Entity
         x -= width/2;
         y -= height/2;
 
+        FlxG.watch.add(this, "state");
+
         state = IDLE;
     }
 
@@ -51,6 +54,8 @@ class Player extends Entity
                 onHurtState(elapsed);
             case Player.INTERACT:
                 onInteractState(elapsed);
+            case Player.DEAD:
+                onDeadState(elapsed);
         }
 
         // Delegate
@@ -81,7 +86,7 @@ class Player extends Entity
                     }
                 }
             }
-            
+
             var item : FlxObject = findClosestEntity(world.items);
             if (item != null && Std.is(item, ToolActor))
             {
@@ -174,13 +179,25 @@ class Player extends Entity
 
         if (Math.abs(velocity.x) < 50 && Math.abs(velocity.y) < 50)
         {
-            state = IDLE;
+            if (GameState.hp <= 0)
+                onDead();
+            else
+                state = IDLE;
         }
     }
 
     function onInteractState(elapsed : Float)
     {
         animation.play("idle");
+        velocity.set(0, 0);
+        acceleration.set(0, 0);
+    }
+
+    function onDeadState(elapsed : Float)
+    {
+        solid = false;
+        animation.play("hurt");
+        flipX = !flipX;
         velocity.set(0, 0);
         acceleration.set(0, 0);
     }
@@ -264,8 +281,13 @@ class Player extends Entity
 
     function onHurt(damage : Int, cause : FlxObject)
     {
-        if (state != HURT)
+        if (state != HURT && state != DEAD)
         {
+            if (state == INTERACT)
+            {
+                world.cancelMessages();
+            }
+
             if (currentTool != null)
             {
                 currentTool.destroy();
@@ -282,6 +304,30 @@ class Player extends Entity
     public function onInteractionEnd()
     {
         state = IDLE;
+    }
+
+    public function onDead()
+    {
+        state = DEAD;
+
+        // Lose money
+        GameState.money = Std.int(GameState.money/2);
+
+        flash(0xFF000000, 1, true);
+
+        // Generate the lost money
+        var midpoint : FlxPoint = getMidpoint();
+        var generated : Int = 0;
+        var money : Money = null;
+        while (generated < GameState.money)
+        {
+            var value : Int = FlxG.random.getObject([1, 5, 10]);
+            generated += value;
+            money = new Money(midpoint.x + FlxG.random.int(-20, 20),
+                            midpoint.y + FlxG.random.int(-20, 20),
+                            world, value);
+            world.addEntity(money);
+        }
     }
 
     function hurtSlide(cause : FlxObject)

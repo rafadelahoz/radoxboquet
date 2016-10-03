@@ -89,9 +89,9 @@ class HUD extends FlxGroup
             cursor.y = 60 + GameState.currentItem*cursor.height;
 
             updateItemList();
-
-            coinsLabel.text = "" + GameState.money;
         }
+
+        coinsLabel.text = "" + GameState.money;
 
         super.update(elapsed);
     }
