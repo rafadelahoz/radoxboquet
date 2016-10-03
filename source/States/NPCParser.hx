@@ -115,6 +115,8 @@ class NPCParser
                 config.enabled = (line == "true");
             case "flip":
                 config.flip = (line == "true");
+            case "face":
+                config.face = line;
             case "solid":
                 config.solid = (line == "true");
             case "visible":

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="11" tilewidth="20" tileheight="20" nextobjectid="41">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <layer name="Tiles" width="20" height="11">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   VQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAVQAAABkAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABkAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAABkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAGQAAABkAAAAZAAAAAAAAAAAAAAAAAAAAAAAAABkAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAABkAAAAAAAAAGQAAABkAAAAZAAAAGQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAA==
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="9" type="solid" x="160" y="40" width="160" height="60"/>
+  <object id="36" type="solid" x="140" y="80" width="20" height="100"/>
+  <object id="37" type="solid" x="300" y="100" width="20" height="100"/>
+  <object id="38" type="solid" x="160" y="160" width="60" height="40"/>
+  <object id="39" type="solid" x="240" y="180" width="60" height="40"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="29" name="door" type="Teleport" x="220" y="180" width="20" height="20">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="door" value="top"/>
+    <property name="target" value="d1"/>
+   </properties>
+  </object>
+  <object id="40" name="Old man" type="NPC" x="160" y="100" width="20" height="20">
+   <properties>
+    <property name="script" value="d3oldman.npc"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

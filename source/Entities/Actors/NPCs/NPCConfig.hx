@@ -8,6 +8,7 @@ class NPCConfig
     public var visible : Bool;
     public var solid : Bool;
 
+    public var face : String;
     public var flip : Bool;
     public var flat : Bool;
 
@@ -25,6 +26,6 @@ class NPCConfig
         enabled = true;
         solid = true;
         visible = true;
-        flat = false;
+        flat = false;        
     }
 }

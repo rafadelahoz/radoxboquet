@@ -238,6 +238,15 @@ class NPC extends Entity
                 visible = config.visible;
                 flat = config.flat;
 
+                switch (config.face)
+                {
+                    case null:
+                    case "left":
+                        flipX = true;
+                    case "right":
+                        flipX = false;
+                }
+
                 if (config.graphic_asset != null)
                 {
                     setupGraphic(config.graphic_asset, config.graphic_width,

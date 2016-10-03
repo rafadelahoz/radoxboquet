@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="20" tileheight="20" nextobjectid="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="20" tileheight="20" nextobjectid="36">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -61,6 +61,13 @@
     <property name="dir" value="up"/>
     <property name="door" value="none"/>
     <property name="target" value="none"/>
+   </properties>
+  </object>
+  <object id="35" name="top" type="Teleport" x="460" y="80" width="20" height="20">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="door" value="door"/>
+    <property name="target" value="d3"/>
    </properties>
   </object>
  </objectgroup>

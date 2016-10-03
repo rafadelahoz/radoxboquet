@@ -1,0 +1,12 @@
+default
+solid true
+graphic npc_dummy 20 20 1 10
+visible true
+flip false
+face left
+
+if has.corpse
+flip true
+face right
+"YOU HAVE A CORPSE"
+"HOW ARE YOU SO COOL?"
