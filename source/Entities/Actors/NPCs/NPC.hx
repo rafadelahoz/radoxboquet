@@ -85,14 +85,14 @@ class NPC extends Entity
                 animation.add("idle", frarr, speed);
                 animation.play("idle");
             }
+
+            alpha = 1;
         }
         else
         {
             if (w > 0 && h > 0)
                 makeGraphic(Std.int(w), Std.int(h), 0x00000000);
         }
-
-        alpha = 1;
 
         if (SetupHotspots)
             setupHotspots();

@@ -43,6 +43,9 @@ class NPCParser
                         Std.parseInt(o.properties.get("graphic_height")),
                         o.properties.get("graphic_frames"),
                         Std.parseInt(o.properties.get("graphic_speed")));
+
+            if (o.properties.get("solid") == "false")
+                npc.solid = false;
         }
 
         world.addEntity(npc);
