@@ -28,6 +28,7 @@ class Player extends Entity
         animation.add("walk", [0, 1], 10);
         animation.add("act!", [1]);
         animation.add("hurt", [1]);
+        animation.add("dead", [2]);
 
         animation.play("idle");
 
@@ -201,8 +202,7 @@ class Player extends Entity
     function onDeadState(elapsed : Float)
     {
         solid = false;
-        animation.play("hurt");
-        flipX = !flipX;
+        animation.play("dead");
         velocity.set(0, 0);
         acceleration.set(0, 0);
     }
@@ -235,14 +235,14 @@ class Player extends Entity
         // Don't place things on walls!
         if (!flipX)
         {
-            while ((overlapsMapAt(right, y) || overlapsAt(right, y, world.teleports)) && right > x)
+            while ((overlapsMapAt(right, y) || overlapsAt(right, y, world.teleports) || overlapsAt(right, y, world.npcs)) && right > x)
             {
                 right -= 2;
             }
         }
         else
         {
-            while ((overlapsMapAt(left, y) || overlapsAt(left, y, world.teleports)) && left < x)
+            while ((overlapsMapAt(left, y) || overlapsAt(left, y, world.teleports) || overlapsAt(left, y, world.npcs)) && left < x)
             {
                 left += 2;
             }

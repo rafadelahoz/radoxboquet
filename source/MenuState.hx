@@ -13,6 +13,8 @@ import flixel.addons.transition.TransitionData;
 
 import flixel.system.scaleModes.PixelPerfectScaleMode;
 
+import flixel.effects.postprocess.PostProcess;
+
 class MenuState extends FlxState
 {
 	override public function create():Void
@@ -30,6 +32,10 @@ class MenuState extends FlxState
         FlxTransitionableState.defaultTransOut = transOut;
 
 		FlxG.scaleMode = new PixelPerfectScaleMode();
+
+		var shaders : Array<String> = ["tiltshift", "hq2x", "scanline", "grain"];
+		for (shader in shaders)
+			FlxG.addPostProcess(new PostProcess("assets/shaders/" + shader + ".frag"));
 	}
 
 	override public function update(elapsed:Float):Void
