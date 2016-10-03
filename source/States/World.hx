@@ -42,6 +42,7 @@ class World extends FlxTransitionableState
 
     public var entities : FlxTypedGroup<Entity>;
     public var messages : FlxGroup;
+    public var messageQueue : Array<Message>;
 
     public var scene : TiledScene;
     public var sceneName : String;
@@ -89,6 +90,7 @@ class World extends FlxTransitionableState
         // FlxG.camera.follow(player, FlxCameraFollowStyle.SCREEN_BY_SCREEN);
 
         deadState = false;
+        messageQueue = [];
 
         handleGameState();
 
@@ -296,10 +298,24 @@ class World extends FlxTransitionableState
         entities.remove(entity, true);
     }
 
-    public function addMessage(message : String, ?callback : Void -> Void = null)
+    public function addMessage(messageList : Array<String>, ?callback : Void -> Void = null)
     {
-        var msg : Message = new Message(this, message, callback);
-        messages.add(msg);
+        for (index in 0...messageList.length)
+        {
+            var message : String = messageList[index];
+            var _callback : Void -> Void;
+            if (index < messageList.length - 1)
+                _callback = function() {
+                    messages.add(messageQueue.shift());
+                }
+            else
+                _callback = callback;
+
+            var msg : Message = new Message(this, message, _callback);
+            messageQueue.push(msg);
+        }
+
+        messages.add(messageQueue.shift());
     }
 
     public function removeMessage(message : Message)

@@ -1,10 +1,14 @@
 default
 solid false
+graphic npc_dummy 20 20 1 10
 visible true
+flat true
 "HELLO"
+"im patrick"
+"ok"
 
 # enabled false
-# graphic npc_dummy 20 20 1 10
+graphic npc_dummy 20 20 1 10
 # flip false
 # solid false
 
@@ -12,6 +16,6 @@ visible true
 # enabled false
 #"YOU DONT HAVE A CORPSE"
 
-#if has.corpse
-# enabled true
-#"YOU HAVE A CORPSE"
+if has.corpse
+enabled true
+"YOU HAVE A CORPSE"

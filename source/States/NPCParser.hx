@@ -33,12 +33,10 @@ class NPCParser
 
             var script : String = o.properties.get("script");
             var configs : Array<NPCConfig> = parseScript(script);
-            trace(configs);
             npc.setupConfigurations(configs);
         }
         else
         {
-            trace("Simple NPC: " + o.properties.get("graphic_asset"));
             npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("canflip") == "true");
             npc.setupGraphic(o.properties.get("graphic_asset"),
                         Std.parseInt(o.properties.get("graphic_width")),
@@ -121,6 +119,8 @@ class NPCParser
                 config.solid = (line == "true");
             case "visible":
                 config.visible = (line == "true");
+            case "flat":
+                config.flat = (line == "true");
             case "graphic":
                 parseGraphic(line);
             case "behaviour":

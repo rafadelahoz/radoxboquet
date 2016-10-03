@@ -9,6 +9,7 @@ class NPCConfig
     public var solid : Bool;
 
     public var flip : Bool;
+    public var flat : Bool;
 
     public var graphic_asset : String;
     public var graphic_width : Int;
@@ -24,5 +25,6 @@ class NPCConfig
         enabled = true;
         solid = true;
         visible = true;
+        flat = false;
     }
 }

@@ -14,7 +14,7 @@ class NPC extends Entity
     public var configs : Array<NPCConfig>;
     public var currentConfig : NPCConfig;
 
-    public var message : String;
+    public var messages : Array<String>;
     // public var facing : Int;
 
     public var canFlip : Bool;
@@ -30,7 +30,7 @@ class NPC extends Entity
         makeGraphic(20, 20, 0xFF4DFF10);
         alpha = 0.1;
 
-        message = Message;
+        messages = [Message];
         canFlip = CanFlip;
 
         configs = [];
@@ -113,7 +113,6 @@ class NPC extends Entity
         {
             hotspot.set(getMidpoint().x, getMidpoint().y);
             backspot.set(-1, -1);
-            trace("Hotspot: " + hotspot);
         }
     }
 
@@ -171,7 +170,7 @@ class NPC extends Entity
     public function onInteract()
     {
         var t : FlxTween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
-        world.addMessage(message, function() {
+        world.addMessage(messages, function() {
             t.cancel();
             scale.set(1, 1);
             world.player.onInteractionEnd();
@@ -216,7 +215,6 @@ class NPC extends Entity
         // Load!
         if (currentConfig != config)
         {
-            trace("Loading " + config);
             currentConfig = config;
 
             enabled = config.enabled;
@@ -228,6 +226,7 @@ class NPC extends Entity
                 solid = config.solid;
                 canFlip = config.flip;
                 visible = config.visible;
+                flat = config.flat;
 
                 if (config.graphic_asset != null)
                 {
@@ -236,8 +235,7 @@ class NPC extends Entity
                                 config.graphic_speed, false);
                 }
 
-                if (config.messages.length > 0)
-                    message = config.messages[0];
+                messages = config.messages;
             }
             else
             {
