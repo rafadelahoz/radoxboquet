@@ -15,6 +15,7 @@
 
 	<!--These window settings apply to all targets-->
 	<window width="768" height="432" fps="60" background="#000000" hardware="true" vsync="true" />
+	<!--<window width="384" height="216" fps="60" background="#000000" hardware="true" vsync="true" />-->
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="false" />
@@ -35,6 +36,8 @@
 	<classpath name="source/Entities/Tools"/>
 	<classpath name="source/Entities/Actors"/>
 	<classpath name="source/Entities/Enemies"/>
+	<classpath name="source/Entities/Hazards"/>
+	<classpath name="source/Entities/Actors/NPCs"/>
 	<assets path="assets" />
 	<assets path="assets/images" />
 
