@@ -93,6 +93,11 @@ class GameState
         return false;
     }
 
+    public static function switchItem()
+    {
+        currentItem = (currentItem+1)%(Std.int(Math.min(items.length, 10)));
+    }
+
     public static function addMoney(value : Int)
     {
         money += value;

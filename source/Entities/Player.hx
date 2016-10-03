@@ -100,6 +100,11 @@ class Player extends Entity
             }
         }
 
+        if (FlxG.keys.justPressed.SPACE)
+        {
+            GameState.switchItem();
+        }
+
         // Horizontal movement
         if (FlxG.keys.pressed.LEFT)
             velocity.x = -WalkSpeed;

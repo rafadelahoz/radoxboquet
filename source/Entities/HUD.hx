@@ -81,11 +81,6 @@ class HUD extends FlxGroup
         {
             updateHP();
 
-            if (FlxG.keys.justPressed.SPACE)
-            {
-                GameState.currentItem = (GameState.currentItem+1)%
-                                    (Std.int(Math.min(GameState.items.length, 10)));
-            }
             cursor.y = 60 + GameState.currentItem*cursor.height;
 
             updateItemList();

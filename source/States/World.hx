@@ -498,7 +498,7 @@ class World extends FlxTransitionableState
         else if (FlxG.keys.justPressed.FOUR)
             addEntity(new Hospital(snapX, snapY+20, this));
         else if (FlxG.keys.justPressed.FIVE)
-            addEntity(new RandomWalker(snapX, snapY, this));
+            addEntity(new Idler(snapX, snapY, this));
         else if (FlxG.keys.pressed.SIX)
         {
             var money : Money = null;

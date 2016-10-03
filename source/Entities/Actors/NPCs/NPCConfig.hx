@@ -26,6 +26,6 @@ class NPCConfig
         enabled = true;
         solid = true;
         visible = true;
-        flat = false;        
+        flat = false;
     }
 }
