@@ -68,6 +68,16 @@ class TargetShooter extends Enemy
         FlxObject.separate(this, player);
     }
 
+    override public function onCollisionWithTool(tool : Tool)
+    {
+        super.onCollisionWithTool(tool);
+        
+        if (invincible)
+        {
+            tool.cancel();
+        }
+    }
+
     override function hurtSlide(cause : FlxObject)
     {
         // Nothing?

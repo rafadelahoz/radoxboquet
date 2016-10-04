@@ -129,7 +129,7 @@ class Sword extends Tool
         if (tween != null)
         {
             solid = false;
-            
+
             // Cancel the motion
             tween.cancel();
 

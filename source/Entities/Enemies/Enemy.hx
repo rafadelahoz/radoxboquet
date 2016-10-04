@@ -14,8 +14,9 @@ class Enemy extends Entity
 
     var player : Player;
 
-    var hp : Int;
-    var invincible : Bool;
+    public var hp : Int;
+    public var invincible : Bool;
+
     var hurtTimer : FlxTimer;
     var rewards : Array<Int> = [1];
 
@@ -62,10 +63,6 @@ class Enemy extends Entity
             }
 
             hurtSlide(tool);
-        }
-        else
-        {
-            tool.cancel();
         }
     }
 
