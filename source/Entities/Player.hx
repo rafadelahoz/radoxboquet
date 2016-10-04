@@ -19,6 +19,8 @@ class Player extends Entity
     var state : Int;
     public var currentTool : Tool;
 
+    public var invincible : Bool;
+
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y, World);
@@ -41,6 +43,7 @@ class Player extends Entity
         FlxG.watch.add(this, "state");
 
         state = IDLE;
+        invincible = false;
     }
 
     override public function update(elapsed : Float)
@@ -276,12 +279,12 @@ class Player extends Entity
 
     public function onCollisionWithHazard(hazard : Hazard)
     {
-        onHurt(5, hazard);
+        onHurt(hazard.power, hazard);
     }
 
     public function onCollisionWithEnemy(enemy : Enemy)
     {
-        onHurt(5, enemy);
+        onHurt(enemy.power, enemy);
     }
 
     function onHurt(damage : Int, cause : FlxObject)

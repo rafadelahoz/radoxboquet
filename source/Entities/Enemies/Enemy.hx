@@ -10,6 +10,8 @@ class Enemy extends Entity
 {
     var InvincibilityTime : Float = 0.2;
 
+    public var power : Int = 5;
+
     var player : Player;
 
     var hp : Int;
@@ -33,11 +35,12 @@ class Enemy extends Entity
     {
         // override
         hp = 1;
+        power = 5;
     }
 
     public function onCollisionWithPlayer(player : Player)
     {
-        // override
+        player.onCollisionWithEnemy(this);
     }
 
     public function onCollisionWithTool(tool : Tool)
@@ -59,6 +62,10 @@ class Enemy extends Entity
             }
 
             hurtSlide(tool);
+        }
+        else
+        {
+            tool.cancel();
         }
     }
 

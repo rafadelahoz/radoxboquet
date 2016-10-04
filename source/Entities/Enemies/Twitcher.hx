@@ -19,6 +19,7 @@ class Twitcher extends Enemy
         super.onInit();
 
         hp = 2;
+        power = 1;
 
         loadGraphic("assets/images/twitcher.png", true, 20, 20);
         setSize(18, 18);
@@ -50,11 +51,6 @@ class Twitcher extends Enemy
                 center.set(x, y);
             twitch();
         });
-    }
-
-    override public function onCollisionWithPlayer(player : Player)
-    {
-        player.onCollisionWithEnemy(this);
     }
 
     override public function update(elapsed : Float)

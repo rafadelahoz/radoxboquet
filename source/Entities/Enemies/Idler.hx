@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 
@@ -13,12 +14,13 @@ class Idler extends Enemy
     var state : Int;
     var step : Int = 20;
     var tween : FlxTween;
-    var waitDuration : Float = 0.5;
-    var stepDuration : Float = 1;
+    var waitDuration : Float = 0;
+    var stepDuration : Float = 0.75;
 
     override public function onInit()
     {
         hp = 3;
+        power = 10;
 
         loadGraphic("assets/images/skelewalker.png", true, 20, 20);
         animation.add("walk", [0, 1], 20);
@@ -29,7 +31,7 @@ class Idler extends Enemy
         x += offset.x;
         y += offset.y;
 
-        var factor : Float = FlxG.random.float(1.0, 1.5);
+        var factor : Float = FlxG.random.float(0.9, 1.4);
         scale.set(factor, factor);
 
         tween = null;
@@ -103,6 +105,26 @@ class Idler extends Enemy
 
     function onHurtState()
     {
+        if (Math.abs(velocity.x) < 50 && Math.abs(velocity.y) < 50)
+        {
+            state = DECIDE;
+        }
+    }
 
+    override function hurtSlide(cause : FlxObject)
+    {
+        super.hurtSlide(cause);
+
+        // Don't move until slide finishes (please?)
+        if (tween != null)
+        {
+            tween.cancel();
+        }
+
+        // If you are still alive, then please continue
+        if (hp > 0)
+        {
+            state = HURT;
+        }
     }
 }

@@ -25,4 +25,9 @@ class Tool extends Entity
     {
         player.onToolFinish(this);
     }
+
+    public function cancel()
+    {
+        // Override for when the tool is ineffective
+    }
 }

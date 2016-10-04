@@ -8,13 +8,15 @@ import flixel.tweens.FlxEase;
 
 class Sword extends Tool
 {
+    var originx : Float;
+    var tween : FlxTween;
     var enabled : Bool;
 
     override function onActivate()
     {
         name = "SWORD";
         power = 1;
-        
+
         enabled = false;
         immovable = false;
 
@@ -41,15 +43,18 @@ class Sword extends Tool
 
         x = sourcex;
 
-        FlxTween.tween(this, {x : targetx}, 0.06,
+        originx = x;
+
+        tween = FlxTween.tween(this, {x : targetx}, 0.06,
             {ease: FlxEase.quadIn, startDelay: 0.1, onComplete: function(_t:FlxTween) {
                 _t.cancel();
                 // Disable the sword once it reaches apex
                 enabled = false;
-                FlxTween.tween(this, {x : sourcex}, 0.15, {ease: FlxEase.quadInOut, startDelay: 0.15,
+                tween = FlxTween.tween(this, {x : sourcex}, 0.15, {ease: FlxEase.quadInOut, startDelay: 0.15,
                     // And destroy it at the end
                     onComplete: function(_t:FlxTween) {
                         _t.cancel();
+                        tween = null;
                         onFinish();
                     }});
                 }
@@ -117,5 +122,27 @@ class Sword extends Tool
     function hitEnemy(sword : Sword, enemy : Enemy)
     {
         enemy.onCollisionWithTool(this);
+    }
+
+    override public function cancel()
+    {
+        if (tween != null)
+        {
+            solid = false;
+            
+            // Cancel the motion
+            tween.cancel();
+
+            // Play some "not working" sound
+
+            // Bounce back
+            tween = FlxTween.tween(this, {x : originx}, 0.15, {ease: FlxEase.quadInOut, startDelay: 0.15,
+                // And destroy it at the end
+                onComplete: function(_t:FlxTween) {
+                    _t.cancel();
+                    tween = null;
+                    onFinish();
+                }});
+        }
     }
 }
