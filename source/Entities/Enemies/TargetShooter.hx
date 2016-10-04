@@ -13,9 +13,11 @@ class TargetShooter extends Enemy
     var WaitTime : Float = 5;
     var ShootTime : Float = 0.65;
     var HurtTime : Float = 0.4;
+    var BulletSpeed : Int = 200;
 
     var state : Int;
     var timer : FlxTimer;
+    var fxTimer : FlxTimer;
 
     override public function onInit()
     {
@@ -31,6 +33,7 @@ class TargetShooter extends Enemy
         loadGraphic("assets/images/transition.png");
 
         timer = new FlxTimer();
+        fxTimer = new FlxTimer();
         wait();
     }
 
@@ -38,7 +41,9 @@ class TargetShooter extends Enemy
     {
         timer.cancel();
         state = IDLE;
-        timer.start(WaitTime + FlxG.random.float(-2.5, 2.5), shoot);
+        var length : Float = WaitTime + FlxG.random.float(-2.5, 2.5);
+        timer.start(length, shoot);
+        fxTimer.start(length-0.25, doShake);
     }
 
     function shoot(?t:FlxTimer = null)
@@ -47,9 +52,15 @@ class TargetShooter extends Enemy
         // Shoot
         flash(0xFF000000, ShootTime);
 
-        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, player));
+        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, player, BulletSpeed));
 
         timer.start(ShootTime, wait);
+    }
+
+    function doShake(?t:FlxTimer = null)
+    {
+        fxTimer.cancel();
+        shake(0.5);
     }
 
     override public function onCollisionWithPlayer(player : Player)
@@ -57,26 +68,8 @@ class TargetShooter extends Enemy
         FlxObject.separate(this, player);
     }
 
-    /*override function hurtSlide(cause : FlxObject)
+    override function hurtSlide(cause : FlxObject)
     {
-        if (state != HURT)
-        {
-            state = HURT;
-
-            // Don't shoot again until slide finishes (please?)
-            if (timer != null)
-            {
-                timer.cancel();
-            }
-
-            // If you are still alive, then please continue
-            if (hp > 0)
-            {
-                timer.start(HurtTime, function(t:FlxTimer) {
-                    timer.cancel();
-                    wait();
-                });
-            }
-        }
-    }*/
+        // Nothing?
+    }
 }

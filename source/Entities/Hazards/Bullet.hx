@@ -8,7 +8,7 @@ class Bullet extends Hazard
 {
     var target : FlxPoint;
 
-    public function new(X : Float, Y : Float, World : World, Target : FlxObject)
+    public function new(X : Float, Y : Float, World : World, Target : FlxObject, ?Speed : Int = 300)
     {
         super(X, Y, World);
 
@@ -22,7 +22,7 @@ class Bullet extends Hazard
 
         target = Target.getMidpoint();
 
-        flixel.math.FlxVelocity.moveTowardsPoint(this, target, 300);
+        flixel.math.FlxVelocity.moveTowardsPoint(this, target, Speed);
     }
 
     override public function update(elapsed : Float)

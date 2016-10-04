@@ -306,6 +306,7 @@ class Player extends Entity
             state = HURT;
             GameState.addHP(-damage);
             flash(0xFF000000, true);
+            shake();
         }
     }
 

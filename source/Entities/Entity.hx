@@ -1,20 +1,29 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 
 class Entity extends FlxSprite
 {
     var world : World;
+
     public var flat : Bool;
+
+    var shaking : Bool;
+    var shakeIntensity : Int;
+    var shakeTimer : FlxTimer;
 
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y);
         this.world = World;
         flat = false;
+        shaking = false;
+        shakeTimer = new FlxTimer();
     }
 
     override public function destroy()
@@ -60,5 +69,36 @@ class Entity extends FlxSprite
             velocity.set(force.x, force.y);
             drag.set(friction, friction);
         }
+    }
+
+    public function shake(?duration : Float = 0.2, ?intensity : Int = 2)
+    {
+        shakeTimer.cancel();
+        shaking = true;
+        shakeIntensity = intensity;
+        shakeTimer.start(duration, stopShake);
+    }
+
+    public function stopShake(?t:FlxTimer = null)
+    {
+        shakeTimer.cancel();
+        shaking = false;
+    }
+
+    override public function draw()
+    {
+        if (shaking)
+        {
+            var xx : Float = x;
+            var yy : Float = y;
+
+            x += FlxG.random.int(-shakeIntensity, shakeIntensity);
+            y += FlxG.random.int(-shakeIntensity, shakeIntensity);
+            super.draw();
+            x = xx;
+            y = yy;
+        }
+        else
+            super.draw();
     }
 }
