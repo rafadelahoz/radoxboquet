@@ -15,11 +15,13 @@ class Player extends Entity
     public static var INTERACT  : Int = 3;
 
     var WalkSpeed : Float = 100;
+    var InvincibleTime : Float = 0.7;
 
     var state : Int;
     public var currentTool : Tool;
 
     public var invincible : Bool;
+    var invincibleTimer : FlxTimer;
 
     public function new(X : Float, Y : Float, World : World)
     {
@@ -44,6 +46,7 @@ class Player extends Entity
 
         state = IDLE;
         invincible = false;
+        invincibleTimer = new FlxTimer();
     }
 
     override public function update(elapsed : Float)
@@ -289,7 +292,7 @@ class Player extends Entity
 
     function onHurt(damage : Int, cause : FlxObject)
     {
-        if (state != HURT && state != DEAD)
+        if (!invincible && state != HURT && state != DEAD)
         {
             if (state == INTERACT)
             {
@@ -307,6 +310,11 @@ class Player extends Entity
             GameState.addHP(-damage);
             flash(0xFF000000, true);
             shake();
+
+            invincible = true;
+            invincibleTimer.start(InvincibleTime, function(t:FlxTimer) {
+                invincible = false;
+            });
         }
     }
 

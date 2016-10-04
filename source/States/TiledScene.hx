@@ -112,9 +112,6 @@ class TiledScene extends TiledMap
 		var y : Int = o.y + this.y;
 
 		// The Y position of objects created from tiles must be corrected by the object height
-		/*if (o.gid != -1) {
-			y -= o.height;
-		}*/
 		if (o.gid != -1)
 			y -= g.map.getGidOwner(o.gid).tileHeight;
 
@@ -124,6 +121,19 @@ class TiledScene extends TiledMap
 			case "twitcher":
 				var twitcher : Twitcher = new Twitcher(x, y, state);
 				state.addEntity(twitcher);
+
+		/** Hazards **/
+			case "spikes":
+				var enabled : Bool = (o.properties.get("enabled") != "false");
+				var enabledTime : Float = -1;
+				var disabledTime : Float = -1;
+				if (o.properties.contains("enabledTime"))
+					enabledTime = Std.parseFloat(o.properties.get("enabledTime"));
+				if (o.properties.contains("disabledTime"))
+					disabledTime = Std.parseFloat(o.properties.get("disabledTime"));
+
+				var spikes : HazardSpikes = new HazardSpikes(x, y, state, enabled, enabledTime, disabledTime);
+				state.addEntity(spikes);
 
 		/** NPCs **/
 			case "npc":
