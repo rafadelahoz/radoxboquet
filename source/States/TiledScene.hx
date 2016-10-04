@@ -121,6 +121,15 @@ class TiledScene extends TiledMap
 			case "twitcher":
 				var twitcher : Twitcher = new Twitcher(x, y, state);
 				state.addEntity(twitcher);
+			case "targetshooter":
+				var shooter : TargetShooter = new TargetShooter(x, y, state);
+				state.addEntity(shooter);
+			case "randomwalker":
+				var walker : RandomWalker = new RandomWalker(x, y, state);
+				state.addEntity(walker);
+			case "idler":
+				var idler : Idler = new Idler(x, y, state);
+				state.addEntity(idler);
 
 		/** Hazards **/
 			case "spikes":

@@ -23,7 +23,7 @@ class Idler extends Enemy
         power = 10;
 
         loadGraphic("assets/images/skelewalker.png", true, 20, 20);
-        animation.add("walk", [0, 1], 20);
+        animation.add("walk", [0, 1], 10);
         animation.play("walk");
 
         setSize(16, 16);

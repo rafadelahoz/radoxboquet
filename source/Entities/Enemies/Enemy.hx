@@ -12,8 +12,6 @@ class Enemy extends Entity
 
     public var power : Int = 5;
 
-    var player : Player;
-
     public var hp : Int;
     public var invincible : Bool;
 
@@ -23,8 +21,6 @@ class Enemy extends Entity
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y, World);
-
-        player = world.player;
 
         invincible = false;
         hurtTimer = new FlxTimer();

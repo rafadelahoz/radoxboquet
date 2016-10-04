@@ -52,7 +52,7 @@ class TargetShooter extends Enemy
         // Shoot
         flash(0xFF000000, ShootTime);
 
-        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, player, BulletSpeed));
+        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, world.player, BulletSpeed));
 
         timer.start(ShootTime, wait);
     }
@@ -71,7 +71,7 @@ class TargetShooter extends Enemy
     override public function onCollisionWithTool(tool : Tool)
     {
         super.onCollisionWithTool(tool);
-        
+
         if (invincible)
         {
             tool.cancel();

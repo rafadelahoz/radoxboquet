@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="36" height="20" tilewidth="20" tileheight="20" nextobjectid="60">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="36" height="20" tilewidth="20" tileheight="20" nextobjectid="65">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -36,10 +36,10 @@
   <object id="52" type="solid" x="500" y="160" width="60" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="2" name="Twitcher" type="Twitcher" x="200" y="260" width="20" height="20"/>
+  <object id="2" name="Idler" type="Idler" x="200" y="260" width="20" height="20"/>
   <object id="4" name="Twitcher" type="Twitcher" x="240" y="200" width="20" height="20"/>
   <object id="5" name="Twitcher" type="Twitcher" x="320" y="300" width="20" height="20"/>
-  <object id="6" name="Twitcher" type="Twitcher" x="500" y="320" width="20" height="20"/>
+  <object id="6" name="Idler" type="Idler" x="500" y="280" width="20" height="20"/>
   <object id="7" name="Twitcher" type="Twitcher" x="420" y="260" width="20" height="20"/>
   <object id="28" name="west" type="Teleport" x="40" y="200" width="20" height="20">
    <properties>
@@ -96,5 +96,9 @@
     <property name="enabledTime" type="float" value="5"/>
    </properties>
   </object>
+  <object id="60" name="TargetShooter" type="TargetShooter" x="340" y="160" width="20" height="20"/>
+  <object id="62" name="TargetShooter" type="TargetShooter" x="480" y="160" width="20" height="20"/>
+  <object id="63" name="TargetShooter" type="TargetShooter" x="440" y="320" width="20" height="20"/>
+  <object id="64" name="TargetShooter" type="TargetShooter" x="240" y="320" width="20" height="20"/>
  </objectgroup>
 </map>
