@@ -520,6 +520,7 @@ class World extends FlxTransitionableState
             }
             else if (FlxG.keys.justReleased.S)
             {
+                storeSceneActors();
                 GamePersistence.save();
             }
             else if (FlxG.keys.justReleased.L)
