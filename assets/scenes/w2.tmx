@@ -43,8 +43,8 @@
  <objectgroup name="Actors">
   <object id="32" type="Area" x="80" y="60" width="300" height="200">
    <properties>
-    <property name="idler" type="int" value="3"/>
-    <property name="twitcher" type="int" value="2"/>
+    <property name="idler" type="int" value="3...5"/>
+    <property name="twitcher" type="int" value="1...6"/>
    </properties>
   </object>
   <object id="58" name="Guard" type="NPC" x="380" y="160" width="20" height="20">
