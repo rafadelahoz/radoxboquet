@@ -25,7 +25,7 @@ class Teleport extends Entity
         direction = Dir;
         target = Target;
         door = Door;
-        
+
         immovable = true;
 
         var border = 4;
@@ -78,6 +78,7 @@ class Teleport extends Entity
                         FlxTransitionableState.defaultTransIn.direction.set(0, 0);
                 }
             }
+
             // Teleport!
             FlxG.switchState(new World(target, door, direction));
         }

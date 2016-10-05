@@ -19,8 +19,9 @@ import flixel.util.FlxSort;
 
 class World extends FlxTransitionableState
 {
-    public var deadState : Bool = false;
-    var deadMenu : Bool = false;
+    public var initialized : Bool;
+    public var deadState : Bool;
+    var deadMenu : Bool;
     var deadText : FlxText;
 
     public var hud : HUD;
@@ -58,6 +59,10 @@ class World extends FlxTransitionableState
 
     override public function create()
     {
+        initialized = false;
+        deadState = false;
+        deadMenu = false;
+
         bgColor = FlxG.random.color();
         // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
 
@@ -76,24 +81,34 @@ class World extends FlxTransitionableState
         messages = new FlxGroup();
         hud = new HUD();
 
-        // Setup level
+        // Setup level elements
         setupLevel();
         add(entities);
         add(messages);
         add(hud);
 
+        // Setup the world bounds and camera
         var bounds : FlxRect = scene.getBounds();
         FlxG.camera.setScrollBoundsRect(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
 		FlxG.worldBounds.set(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
-
         FlxG.camera.follow(player);
-        // FlxG.camera.follow(player, FlxCameraFollowStyle.SCREEN_BY_SCREEN);
 
+        // Setup the world state
         deadState = false;
         messageQueue = [];
 
+        // Init all entities
+        for (entity in entities)
+        {
+            entity.onInit();
+        }
+
+        // Store the game state if required
         handleGameState();
 
+        initialized = true;
+
+        // And delegate to the parent
         super.create();
     }
 
@@ -141,8 +156,7 @@ class World extends FlxTransitionableState
             }
             else
             {
-                trace("Player to default position");
-                spawnPoint = new FlxPoint(100, 100);
+                throw "NO SUITABLE PLAYER POSITION FOUND";
             }
         }
 
@@ -161,6 +175,7 @@ class World extends FlxTransitionableState
                     FlxG.keys.justReleased.S ||
                     FlxG.keys.justReleased.ENTER)
                 {
+                    storeSceneActors();
                     GameController.DeadContinue();
                 }
 
@@ -271,6 +286,12 @@ class World extends FlxTransitionableState
             npcs.add(entity);
 
         entities.add(entity);
+
+        // Once the world has been initalized, init all entities automatically
+        if (initialized)
+        {
+            entity.onInit();
+        }
     }
 
     public function removeEntity(entity : Entity)
@@ -377,7 +398,6 @@ class World extends FlxTransitionableState
         var spawnPoint : Teleport = findTeleportByName("spawn");
         if (spawnPoint != null)
         {
-            trace("Saving location (" + sceneName + ", " + spawnPoint.name + ")");
             GameState.saveLocation(sceneName, spawnPoint.name);
         }
     }
@@ -418,12 +438,17 @@ class World extends FlxTransitionableState
         return null;
     }
 
+    var num : Int = 0;
     public static var STORED_ACTORS : Array<String> = ["KEY", "HOSPTL"];
     override public function switchTo(next : FlxState) : Bool
     {
-        trace("switchTo");
-        storeSceneActors();
-        return super.switchTo(next);
+        // Check whether the transition has finished
+        var transitionFinished : Bool = super.switchTo(next);
+        // Store scene data only when transition has finished
+        if (transitionFinished)
+            storeSceneActors();
+        // Return
+        return transitionFinished;
     }
 
     function storeSceneActors()

@@ -24,11 +24,9 @@ class Enemy extends Entity
 
         invincible = false;
         hurtTimer = new FlxTimer();
-
-        onInit();
     }
 
-    public function onInit()
+    override public function onInit()
     {
         // override
         hp = 1;

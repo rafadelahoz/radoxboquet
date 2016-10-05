@@ -26,6 +26,11 @@ class Entity extends FlxSprite
         shakeTimer = new FlxTimer();
     }
 
+    public function onInit()
+    {
+        // override me!
+    }
+
     override public function destroy()
     {
         world.removeEntity(this);
