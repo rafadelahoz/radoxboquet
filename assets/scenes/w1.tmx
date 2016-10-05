@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="20" tileheight="20" nextobjectid="77">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="20" tileheight="20" nextobjectid="78">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -47,7 +47,7 @@
   <object id="74" type="solid" x="300" y="340" width="20" height="20"/>
   <object id="76" type="solid" x="340" y="300" width="20" height="20"/>
  </objectgroup>
- <objectgroup name="Actors" visible="0">
+ <objectgroup name="Actors">
   <object id="7" name="Twitcher" type="Twitcher" x="240" y="300" width="20" height="20"/>
   <object id="28" name="spawn" type="Teleport" x="320" y="160" width="20" height="20">
    <properties>
@@ -86,6 +86,13 @@
     <property name="solid" type="bool" value="true"/>
    </properties>
    <ellipse/>
+  </object>
+  <object id="77" name="w1south" type="Teleport" x="320" y="380" width="20" height="20">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="door" value="w2north"/>
+    <property name="target" value="w2"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

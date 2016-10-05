@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 
 class SpawnArea
 {
@@ -8,29 +9,43 @@ class SpawnArea
     {
         var x, y : Float;
         var number : Int;
+        var enemy : Enemy;
+
+        var tester : FlxObject = new FlxObject(0, 0);
+        tester.setSize(20, 20);
+
+        trace(Elements);
+
         for (element in Elements.keys())
         {
-            x = FlxG.random.float(X, X+Width-20);
-            y = FlxG.random.float(Y, Y+Height-20);
-            number : Int = Elements.get(element);
+            number = Elements.get(element);
             for (times in 0...number)
             {
-                 : FlxG.random
+                x = FlxG.random.float(X, X+Width-20);
+                y = FlxG.random.float(Y, Y+Height-20);
+                while (tester.overlapsAt(x, y, World.solids) ||
+                        tester.overlapsAt(x, y, World.enemies))
+                {
+                    x = FlxG.random.float(X, X+Width-20);
+                    y = FlxG.random.float(Y, Y+Height-20);
+                }
+
+                enemy = null;
+
                 switch (element)
                 {
                     case "twitcher":
-                        var twitcher : Twitcher = new Twitcher(x, y, World);
-                        World.addEntity(twitcher);
+                        enemy = new Twitcher(x, y, World);
                     case "targetshooter":
-                        var shooter : TargetShooter = new TargetShooter(x, y, World);
-                        World.addEntity(shooter);
+                        enemy = new TargetShooter(x, y, World);
                     case "randomwalker":
-                        var walker : RandomWalker = new RandomWalker(x, y, World);
-                        World.addEntity(walker);
+                        enemy = new RandomWalker(x, y, World);
                     case "idler":
-                        var idler : Idler = new Idler(x, y, World);
-                        World.addEntity(idler);
+                        enemy = new Idler(x, y, World);
                 }
+
+                if (enemy != null)
+                    World.addEntity(enemy);
             }
         }
     }

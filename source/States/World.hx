@@ -488,7 +488,10 @@ class World extends FlxTransitionableState
         var snapY : Int = snap(FlxG.mouse.y, 20);
 
         if (FlxG.keys.justPressed.R)
-            bgColor = FlxG.random.color();
+            if (FlxG.keys.pressed.CONTROL)
+                GameController.DeadContinue();
+            else
+                bgColor = FlxG.random.color();
         else if (FlxG.keys.justPressed.ONE)
             addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
         else if (FlxG.keys.justPressed.TWO)

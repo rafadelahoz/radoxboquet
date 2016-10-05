@@ -132,9 +132,9 @@ class TiledScene extends TiledMap
 				state.addEntity(idler);
 			case "area":
 				var elements : Map<String, Int> = new Map<String, Int>();
-				for (prop in o.properties.keys())
-					elements.put(prop, Std.parseInt(o.properties.get(prop)));
-				new SpawnArea(x, y, state, o.width, o.height)
+				for (prop in o.properties.keysIterator())
+					elements.set(prop, Std.parseInt(o.properties.get(prop)));
+				new SpawnArea(x, y, state, o.width, o.height, elements);
 		/** Hazards **/
 			case "spikes":
 				var enabled : Bool = (o.properties.get("enabled") != "false");
