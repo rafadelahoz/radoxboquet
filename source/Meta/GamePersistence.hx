@@ -31,13 +31,22 @@ class GamePersistence
             save.data.flags.push({"flag": flag, "value": GameState.flags.get(flag)});
         }
 
+        // Doors list
+        save.data.doors = new Array();
+        for (scene in GameState.doors.keys())
+        {
+            for (door in GameState.doors.get(scene).keys())
+            {
+                save.data.doors.push({"scene": scene, "door": door, "open": GameState.doors.get(scene).get(door)});
+            }
+        }
+
         // Actors list
         save.data.actors = new Array();
         for (scene in GameState.actors.keys())
         {
             for (actor in GameState.actors.get(scene))
             {
-                trace({"scene": scene, "x": actor.x, "y": actor.y, "name": actor.name, "property": actor.property});
                 save.data.actors.push({"scene": scene, "x": actor.x, "y": actor.y, "name": actor.name, "property": actor.property});
             }
         }
@@ -80,6 +89,15 @@ class GamePersistence
         for (flag in cast(save.data.flags, Array<Dynamic>))
         {
             GameState.setFlag(flag.flag, flag.value);
+        }
+
+        // Doors list
+        GameState.doors = new Map<String, Map<String, Bool>>();
+        for (door in cast(save.data.doors, Array<Dynamic>))
+        {
+            if (GameState.doors.get(door.scene) == null)
+                GameState.doors.set(door.scene, new Map<String, Bool>());
+            GameState.doors.get(door.scene).set(door.door, door.open);
         }
 
         // Actors list
