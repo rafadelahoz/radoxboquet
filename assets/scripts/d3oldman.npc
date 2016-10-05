@@ -5,8 +5,40 @@ visible true
 flip false
 face left
 
+if flag.GaveSkeleThrice
+"LEAVE ME"
+
+if flag.GaveSkeleTwice
+"OK OK TAKE ALL THE SKELETONS YOU WANT"
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+give SKELETN
+"NOW LEAVE ME ALONE!"
+set GaveSkeleThrice true
+
+if flag.GaveSkeleOnce
+"I SAID I'M NOT GIVING YOU MORE SKELETONS"
+set GaveSkeleTwice true
+
+if flag.GaveSkeleton
+flip true
+face right
+"I ALREADY GAVE YOU A SKELETON, WHAT ELSE DO YOU WANT?"
+"YOU FREAK"
+set GaveSkeleOnce true
+
 if has.corpse
 flip true
 face right
 "YOU HAVE A CORPSE"
 "HOW ARE YOU SO COOL?"
+"I WILL GIVE A SKELETON"
+give SKELTN GREEN
+remove CORPSE
+set GaveSkeleton true

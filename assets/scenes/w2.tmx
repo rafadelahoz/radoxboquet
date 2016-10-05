@@ -43,10 +43,10 @@
  <objectgroup name="Actors">
   <object id="32" type="Area" x="80" y="60" width="300" height="200">
    <properties>
-    <property name="idler" type="int" value="3...5"/>
-    <property name="twitcher" type="int" value="1...6"/>
     <property name="dilidoo" type="int" value="1"/>
-    <property name="targetshooter" type="int" value="wombat"/>
+    <property name="idler" value="0...3"/>
+    <property name="randomwalker" value="1...4"/>
+    <property name="targetshooter" value="0...1"/>
    </properties>
   </object>
   <object id="58" name="Guard" type="NPC" x="380" y="160" width="20" height="20">
@@ -58,11 +58,12 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="60" name="Guard" type="NPC" x="380" y="120" width="20" height="20">
+  <object id="60" name="Guard" type="NPC" x="140" y="20" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="true"/>
     <property name="graphic_asset" value="transition"/>
     <property name="message" value="YES WERLCOME"/>
+    <property name="script" value="d3oldman.npc"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
    <ellipse/>

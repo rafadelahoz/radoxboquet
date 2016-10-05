@@ -73,6 +73,18 @@ class GameState
         return false;
     }
 
+    public static function removeItemWithData(name : String, ?property : String = null)
+    {
+        for (item in items)
+        {
+            if (item.name == name && (property == null || item.property == property))
+            {
+                removeItem(item);
+                return;
+            }
+        }
+    }
+
     public static function removeItem(item : Item)
     {
         items.remove(item);

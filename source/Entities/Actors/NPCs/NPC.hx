@@ -177,6 +177,9 @@ class NPC extends Entity
 
     public function onMessageFinish()
     {
+        if (currentConfig.commands.length > 0)
+            executeCommands();
+
         onMessageCancel();
         world.player.onInteractionEnd();
     }
@@ -294,6 +297,34 @@ class NPC extends Entity
             }
 
             return (negated ? !value : value);
+        }
+    }
+
+    function executeCommands()
+    {
+        var commands : Array<String> = currentConfig.commands;
+        for (command in commands)
+        {
+            var tokens : Array<String> = command.split(" ");
+            switch (tokens[0])
+            {
+                case "give":
+                    var name : String = tokens[1];
+                    var prop : String = null;
+                    if (tokens.length > 1)
+                        prop = tokens[2];
+                    GameState.addItem(name, prop);
+                case "remove":
+                    var name : String = tokens[1];
+                    var prop : String = null;
+                    if (tokens.length > 1)
+                        prop = tokens[2];
+                    GameState.removeItemWithData(name, prop);
+                case "set":
+                    var value : Bool = tokens.length == 1 ||
+                                        tokens[2].toLowerCase() == "true";
+                    GameState.setFlag(tokens[1], value);
+            }
         }
     }
 }

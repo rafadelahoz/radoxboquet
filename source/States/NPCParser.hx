@@ -132,6 +132,8 @@ class NPCParser
                 trace("behavour not implemented");
             case "message":
                 config.messages.push(line);
+            case "give", "remove", "set":
+                config.commands.push(propName + " " + line);
             default:
                 throw "Unrecognized property " + propName;
         }
