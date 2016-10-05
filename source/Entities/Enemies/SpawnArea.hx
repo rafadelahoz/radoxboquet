@@ -13,7 +13,7 @@ class SpawnArea
         var enemy : Enemy;
 
         var tester : FlxObject = new FlxObject(0, 0);
-        tester.setSize(20, 20);        
+        tester.setSize(20, 20);
 
         for (element in Elements.keys())
         {
@@ -64,6 +64,8 @@ class SpawnArea
                         enemy = new RandomWalker(x, y, World);
                     case "idler":
                         enemy = new Idler(x, y, World);
+                    default:
+                        trace("Not spawning anything for " + element);
                 }
 
                 if (enemy != null)

@@ -45,6 +45,8 @@
    <properties>
     <property name="idler" type="int" value="3...5"/>
     <property name="twitcher" type="int" value="1...6"/>
+    <property name="dilidoo" type="int" value="1"/>
+    <property name="targetshooter" type="int" value="wombat"/>
    </properties>
   </object>
   <object id="58" name="Guard" type="NPC" x="380" y="160" width="20" height="20">
