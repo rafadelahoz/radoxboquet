@@ -512,38 +512,60 @@ class World extends FlxTransitionableState
         var snapX : Int = snap(FlxG.mouse.x, 20);
         var snapY : Int = snap(FlxG.mouse.y, 20);
 
-        if (FlxG.keys.justPressed.R)
-            if (FlxG.keys.pressed.CONTROL)
-                GameController.DeadContinue();
-            else
-                bgColor = FlxG.random.color();
-        else if (FlxG.keys.justPressed.ONE)
-            addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
-        else if (FlxG.keys.justPressed.TWO)
-            addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
-        else if (FlxG.keys.justPressed.THREE)
-            // addEntity(new Hazard(snapX, snapY, this));
-            addEntity(new TargetShooter(snapX, snapY, this));
-        else if (FlxG.keys.justPressed.FOUR)
-            addEntity(new Hospital(snapX, snapY+20, this));
-        else if (FlxG.keys.justPressed.FIVE)
-            addEntity(new Idler(snapX, snapY, this));
-        else if (FlxG.keys.pressed.SIX)
+        if (FlxG.keys.pressed.CONTROL)
         {
-            var money : Money = null;
-            for (i in 0...FlxG.random.int(1, 10))
+            if (FlxG.keys.justPressed.R)
             {
-                money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
-                addEntity(money);
+                GameController.DeadContinue();
+            }
+            else if (FlxG.keys.justReleased.S)
+            {
+                GamePersistence.save();
+            }
+            else if (FlxG.keys.justReleased.L)
+            {
+                GamePersistence.load();
             }
         }
-        else if (FlxG.keys.justPressed.SEVEN)
-            addEntity(new HazardSpikes(snapX, snapY, this, true, 2, 2));
-        else if (FlxG.keys.justPressed.EIGHT)
+        else
         {
-            var npc : NPC = new NPC(snapX, snapY, this, "I was made for loving you baby and I was made for loving you.\nI was made for loving you \tbaby\t ok?\n\nYES THANKYOU THANK YOU");
-            npc.setupGraphic("player_sheet", 20, 20, "2", 10);
-            addEntity(npc);
+            if (FlxG.keys.justPressed.ONE)
+                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
+            else if (FlxG.keys.justPressed.TWO)
+                addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
+            else if (FlxG.keys.justPressed.THREE)
+                // addEntity(new Hazard(snapX, snapY, this));
+                addEntity(new TargetShooter(snapX, snapY, this));
+            else if (FlxG.keys.justPressed.FOUR)
+                addEntity(new Hospital(snapX, snapY+20, this));
+            else if (FlxG.keys.justPressed.FIVE)
+                addEntity(new Idler(snapX, snapY, this));
+            else if (FlxG.keys.pressed.SIX)
+            {
+                var money : Money = null;
+                for (i in 0...FlxG.random.int(1, 10))
+                {
+                    money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
+                    addEntity(money);
+                }
+            }
+            else if (FlxG.keys.justPressed.SEVEN)
+                addEntity(new HazardSpikes(snapX, snapY, this, true, 2, 2));
+            else if (FlxG.keys.justPressed.EIGHT)
+            {
+                var npc : NPC = new NPC(snapX, snapY, this, "I was made for loving you baby and I was made for loving you.\nI was made for loving you \tbaby\t ok?\n\nYES THANKYOU THANK YOU");
+                npc.setupGraphic("player_sheet", 20, 20, "2", 10);
+                addEntity(npc);
+            }
+            else if (FlxG.keys.justPressed.R)
+            {
+                bgColor = FlxG.random.color();
+            }
+            else if (FlxG.keys.justPressed.K)
+            {
+                GameState.setFlag("k-flag", !GameState.getFlag("k-flag"));
+                trace("K-FLAG: " + GameState.getFlag("k-flag"));
+            }
         }
 
         if (FlxG.keys.justPressed.D)

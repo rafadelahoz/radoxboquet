@@ -8,6 +8,10 @@ class GameController
     public static function StartGame()
     {
         GameState.init();
+        if (!GamePersistence.load())
+            trace("NEW GAME");
+        else
+            trace("LOAD");
         FlxG.switchState(new World(GameState.savedScene, GameState.savedSpawn));
     }
 

@@ -19,8 +19,6 @@ class GameState
 
     public static var savedScene : String;
     public static var savedSpawn : String;
-    public static var hospitalX : Float;
-    public static var hospitalY : Float;
 
     public static function init()
     {
