@@ -87,8 +87,8 @@ class Player extends Entity
                     var npc : NPC = cast(entity, NPC);
                     if (npc.canInteract(this))
                     {
-                        npc.onInteract();
                         state = INTERACT;
+                        npc.onInteract();
                         return;
                     }
                 }

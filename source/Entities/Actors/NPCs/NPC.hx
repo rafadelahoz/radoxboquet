@@ -16,6 +16,7 @@ class NPC extends Entity
     public var currentConfig : NPCConfig;
 
     public var messages : Array<String>;
+    public var commands : Array<String>;
     // public var facing : Int;
 
     public var canFlip : Bool;
@@ -32,6 +33,7 @@ class NPC extends Entity
         alpha = 0.1;
 
         messages = [Message];
+        commands = [];
         canFlip = CanFlip;
 
         configs = [];
@@ -171,13 +173,20 @@ class NPC extends Entity
 
     public function onInteract()
     {
-        tween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
-        world.addMessage(messages, onMessageFinish, onMessageCancel);
+        if (messages.length > 0 || commands.length > 0)
+        {
+            tween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
+            world.addMessage(messages, onMessageFinish, onMessageCancel);
+        }
+        else
+        {
+            onMessageFinish();
+        }
     }
 
     public function onMessageFinish()
     {
-        if (currentConfig.commands.length > 0)
+        if (commands.length > 0)
             executeCommands();
 
         onMessageCancel();
@@ -186,7 +195,8 @@ class NPC extends Entity
 
     public function onMessageCancel()
     {
-        tween.cancel();
+        if (tween != null)
+            tween.cancel();
         scale.set(1, 1);
     }
 
@@ -258,6 +268,7 @@ class NPC extends Entity
                 }
 
                 messages = config.messages;
+                commands = config.commands;
             }
             else
             {
@@ -324,6 +335,8 @@ class NPC extends Entity
                     var value : Bool = tokens.length == 1 ||
                                         tokens[2].toLowerCase() == "true";
                     GameState.setFlag(tokens[1], value);
+                case "switch":
+                    GameState.setFlag(tokens[1], !GameState.getFlag(tokens[1]));
             }
         }
     }

@@ -69,13 +69,17 @@ class Idler extends Enemy
             switch(option)
             {
                 case 0: found = !overlapsMapAt(x - 10, y)
-                                    && !overlapsAt(x - 10, y, world.enemies);
+                                    && !overlapsAt(x - 10, y, world.enemies)
+                                    && !overlapsAt(x - 10, y, world.npcs);
                 case 1: found = !overlapsMapAt(x + 10, y)
-                                    && !overlapsAt(x - 10, y, world.enemies);
+                                    && !overlapsAt(x + 10, y, world.enemies)
+                                    && !overlapsAt(x + 10, y, world.npcs);
                 case 2: found = !overlapsMapAt(x, y - 10)
-                                    && !overlapsAt(x - 10, y, world.enemies);
+                                    && !overlapsAt(x, y - 10, world.enemies)
+                                    && !overlapsAt(x, y - 10, world.npcs);
                 case 3: found = !overlapsMapAt(x, y + 10)
-                                    && !overlapsAt(x - 10, y, world.enemies);
+                                    && !overlapsAt(x, y + 10, world.enemies)
+                                    && !overlapsAt(x, y + 10, world.npcs);
             }
         }
 

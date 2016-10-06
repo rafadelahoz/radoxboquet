@@ -1,0 +1,11 @@
+default
+solid true
+visible true
+
+if flag.w2grate
+solid false
+visible false
+
+if !flag.w2grate
+solid true
+visible true

@@ -93,12 +93,6 @@ class HUD extends FlxGroup
 
     function updateHP(?Silent : Bool = false)
     {
-        // DEBUG Increase, Decrease life
-        if (FlxG.keys.pressed.L)
-            GameState.addHP(1);
-        else if (FlxG.keys.pressed.O)
-            GameState.addHP(-1);
-
         if (GameState.hp != hpValue)
         {
             // Fill the display to the appropriate level

@@ -208,6 +208,7 @@ class World extends FlxTransitionableState
         FlxG.collide(player, breakables);
         FlxG.collide(items);
         FlxG.collide(player, npcs);
+        FlxG.collide(enemies, npcs);
 
         super.update(elapsed);
 
@@ -501,14 +502,6 @@ class World extends FlxTransitionableState
 
     function handleDebugRoutines()
     {
-        /*#if neko
-        if (FlxG.keys.justPressed.E)
-        {
-            if (Sys.command("tiled", ["./assets/scenes/" + scene.name + ".tmx"]) == 0)
-                FlxG.resetState();
-        }
-        #end*/
-
         var snapX : Int = snap(FlxG.mouse.x, 20);
         var snapY : Int = snap(FlxG.mouse.y, 20);
 
@@ -567,11 +560,16 @@ class World extends FlxTransitionableState
                 GameState.setFlag("k-flag", !GameState.getFlag("k-flag"));
                 trace("K-FLAG: " + GameState.getFlag("k-flag"));
             }
-        }
+            // DEBUG Increase, Decrease life
+            else if (FlxG.keys.pressed.L)
+                GameState.addHP(1);
+            else if (FlxG.keys.pressed.O)
+                GameState.addHP(-1);
 
-        if (FlxG.keys.justPressed.D)
-        {
-            GameState.printActors();
+            if (FlxG.keys.justPressed.D)
+                GameState.printActors();
+            else if (FlxG.keys.justPressed.F)
+                GameState.printFlags();
         }
     }
 }

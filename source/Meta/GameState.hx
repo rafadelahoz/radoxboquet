@@ -209,4 +209,13 @@ class GameState
             }
         }
     }
+
+    public static function printFlags()
+    {
+        trace("DUMPING FLAGS");
+        for (flag in flags.keys())
+        {
+            trace("  [" + (flags.get(flag) ? "X" : " ") + "]" + flag);
+        }
+    }
 }

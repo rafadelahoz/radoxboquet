@@ -1,0 +1,9 @@
+default
+solid true
+flip true
+"I will open the grate for you"
+switch w2grate
+
+if flag.w2grate
+"I will close the grate for you"
+switch w2grate
