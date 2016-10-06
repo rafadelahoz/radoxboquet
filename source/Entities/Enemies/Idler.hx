@@ -19,11 +19,15 @@ class Idler extends Enemy
 
     override public function onInit()
     {
+        super.onInit();
+
         hp = 3;
         power = 10;
 
-        loadGraphic("assets/images/skelewalker.png", true, 20, 20);
-        animation.add("walk", [0, 1], 10);
+        var base : Int = FlxG.random.int(0, 1)*2;
+
+        loadGraphic("assets/images/skeleidler.png", true, 20, 20);
+        animation.add("walk", [base, base+1], 4);
         animation.play("walk");
 
         setSize(16, 16);

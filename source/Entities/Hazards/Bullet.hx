@@ -12,7 +12,7 @@ class Bullet extends Hazard
     {
         super(X, Y, World);
 
-        makeGraphic(12, 12, 0xFFDD1010);
+        loadGraphic("assets/images/purple_bullet.png");
         setSize(10, 10);
         centerOffsets(true);
         x -= 5;
@@ -32,10 +32,6 @@ class Bullet extends Hazard
             kill();
             destroy();
             return;
-        }
-        else
-        {
-
         }
 
         super.update(elapsed);

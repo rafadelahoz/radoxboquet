@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="15" tilewidth="20" tileheight="20" nextobjectid="112">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="15" tilewidth="20" tileheight="20" nextobjectid="123">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -27,21 +27,21 @@
   <object id="88" type="solid" x="440" y="260" width="360" height="20"/>
   <object id="89" type="solid" x="300" y="0" width="100" height="20"/>
   <object id="90" type="solid" x="340" y="20" width="20" height="20"/>
-  <object id="94" type="solid" x="120" y="60" width="20" height="20"/>
-  <object id="95" type="solid" x="140" y="120" width="20" height="20"/>
-  <object id="97" type="solid" x="100" y="160" width="20" height="20"/>
-  <object id="98" type="solid" x="180" y="80" width="20" height="20"/>
-  <object id="99" type="solid" x="200" y="160" width="20" height="20"/>
-  <object id="100" type="solid" x="220" y="200" width="20" height="20"/>
-  <object id="101" type="solid" x="260" y="140" width="20" height="20"/>
-  <object id="102" type="solid" x="280" y="100" width="20" height="20"/>
-  <object id="103" type="solid" x="300" y="180" width="20" height="20"/>
-  <object id="104" type="solid" x="260" y="240" width="20" height="20"/>
-  <object id="105" type="solid" x="340" y="220" width="20" height="20"/>
-  <object id="106" type="solid" x="340" y="140" width="20" height="20"/>
+  <object id="101" type="solid" x="265" y="140" width="10" height="20"/>
+  <object id="112" type="solid" x="285.5" y="100.5" width="10" height="20"/>
+  <object id="113" type="solid" x="345.5" y="140" width="10" height="20"/>
+  <object id="114" type="solid" x="305.25" y="180" width="10" height="20"/>
+  <object id="115" type="solid" x="345.5" y="219.75" width="10" height="20"/>
+  <object id="116" type="solid" x="265.792" y="239.875" width="10" height="20"/>
+  <object id="117" type="solid" x="225.542" y="200.125" width="10" height="20"/>
+  <object id="118" type="solid" x="204.667" y="159.667" width="10" height="20"/>
+  <object id="119" type="solid" x="105.333" y="160" width="10" height="20"/>
+  <object id="120" type="solid" x="145.333" y="120.667" width="10" height="20"/>
+  <object id="121" type="solid" x="185.333" y="80" width="10" height="20"/>
+  <object id="122" type="solid" x="125.333" y="60.3333" width="10" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="32" type="Areax" x="80" y="60" width="300" height="200">
+  <object id="32" type="Area" x="80" y="60" width="300" height="200" visible="0">
    <properties>
     <property name="dilidoo" type="int" value="1"/>
     <property name="idler" value="0...3"/>

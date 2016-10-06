@@ -30,11 +30,31 @@ class TargetShooter extends Enemy
 
         immovable = true;
 
-        loadGraphic("assets/images/transition.png");
+        loadGraphic("assets/images/thrower.png", true, 20, 20);
+        animation.add("idle", [0]);
+        animation.add("open", [1]);
+        animation.play("idle");
 
         timer = new FlxTimer();
         fxTimer = new FlxTimer();
         wait();
+    }
+
+    override public function update(elapsed : Float)
+    {
+        if (!invincible)
+        {
+            flipX = (world.player.getMidpoint().x < getMidpoint().x);
+            scale.set(1, 1);
+            color = 0xFFFFFFFF;
+        }
+        else
+        {
+            scale.set(0.9, 0.9);
+            color = 0xFF888888;
+        }
+
+        super.update(elapsed);
     }
 
     function wait(?t:FlxTimer = null)
@@ -44,6 +64,8 @@ class TargetShooter extends Enemy
         var length : Float = WaitTime + FlxG.random.float(-2.5, 2.5);
         timer.start(length, shoot);
         fxTimer.start(length-0.25, doShake);
+
+        animation.play("idle");
     }
 
     function shoot(?t:FlxTimer = null)
@@ -51,6 +73,7 @@ class TargetShooter extends Enemy
         timer.cancel();
         // Shoot
         flash(0xFF000000, ShootTime);
+        animation.play("open");
 
         world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, world.player, BulletSpeed));
 
@@ -76,6 +99,14 @@ class TargetShooter extends Enemy
         {
             tool.cancel();
         }
+    }
+
+    override function onDeath(?t:FlxTimer = null)
+    {
+        timer.cancel();
+        fxTimer.cancel();
+
+        super.onDeath(t);
     }
 
     override function hurtSlide(cause : FlxObject)
