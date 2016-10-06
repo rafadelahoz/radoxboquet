@@ -307,6 +307,8 @@ class NPC extends Entity
                     value = GameState.getFlag(tokens[1]);
                 case "has":
                     value = GameState.hasItem(tokens[1]);
+                case "door":
+                    value = GameState.isDoorOpen(world.sceneName, tokens[1]);
                 default:
                     trace("Unknown condition: " + cond);
             }
@@ -347,6 +349,12 @@ class NPC extends Entity
                     if (ammount == null)
                         ammount = 0;
                     GameState.addMoney(ammount);
+                case "open":
+                    var name : String = tokens[1];
+                    GameState.openDoor(world.sceneName, name);
+                case "close":
+                    var name : String = tokens[1];
+                    GameState.closeDoor(world.sceneName, name);
             }
         }
     }

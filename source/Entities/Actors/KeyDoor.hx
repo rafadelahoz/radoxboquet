@@ -5,9 +5,8 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-class KeyDoor extends Entity
+class KeyDoor extends Door
 {
-    public var name : String;
     public var lockColor : String;
     public var unlockDistance : Float = 24;
 
@@ -17,22 +16,13 @@ class KeyDoor extends Entity
 
     public function new(X : Float, Y : Float, World : World, Name : String, Color : String)
     {
-        super(X, Y, World);
+        super(X, Y, World, Name);
 
         makeGraphic(20, 20, KeyActor.getColorCode(Color));
-
         overlay = new FlxSprite(X, Y, "assets/images/lock_door.png");
-
-        name = Name;
+        
         lockColor = Color;
-        immovable = true;
         opening = false;
-
-        if (name != null && GameState.isDoorOpen(world.sceneName, name))
-        {
-            kill();
-            destroy();
-        }
     }
 
     override public function destroy()
@@ -42,6 +32,18 @@ class KeyDoor extends Entity
     }
 
     override public function update(elapsed : Float)
+    {
+        super.update(elapsed);
+        overlay.update(elapsed);
+    }
+
+    override public function draw()
+    {
+        super.draw();
+        overlay.draw();
+    }
+
+    override public function onUpdate()
     {
         if (!opening)
         {
@@ -62,16 +64,6 @@ class KeyDoor extends Entity
                 }
             }
         }
-
-        super.update(elapsed);
-
-        overlay.update(elapsed);
-    }
-
-    override public function draw()
-    {
-        super.draw();
-        overlay.draw();
     }
 
     public function onUnlockWithKey(key : KeyActor)
@@ -94,8 +86,7 @@ class KeyDoor extends Entity
         key.destroy();
 
         FlxTween.tween(this, {alpha: 0}, 0.5, {onComplete: function(t:FlxTween){
-            kill();
-            destroy();
+            open();
         }});
     }
 }

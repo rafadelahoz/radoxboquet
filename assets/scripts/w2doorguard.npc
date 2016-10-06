@@ -3,14 +3,14 @@ solid true
 flip true
 "You should not see this, sorry"
 
-if flag.w2grate
+if door.w2grate
 solid true
 flip true
 "I will close the grate for you"
-switch w2grate
+close w2grate
 
-if !flag.w2grate
+if !door.w2grate
 solid true
 flip true
 "I will open the grate for you"
-switch w2grate
+open w2grate

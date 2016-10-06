@@ -149,6 +149,16 @@ class GameState
 
     public static function openDoor(scene : String, door : String)
     {
+        setDoor(scene, door, true);
+    }
+
+    public static function closeDoor(scene : String, door : String)
+    {
+        setDoor(scene, door, false);
+    }
+
+    public static function setDoor(scene : String, door : String, value : Bool)
+    {
         if (scene == null || door == null)
             return;
 
@@ -157,7 +167,7 @@ class GameState
             doors[scene] = new Map<String, Bool>();
         }
 
-        doors[scene][door.toUpperCase()] = true;
+        doors[scene][door.toUpperCase()] = value;
     }
 
     public static function saveLocation(scene : String, spawn : String)
