@@ -14,7 +14,10 @@ class HazardSpikes extends Hazard
     {
         super(X, Y, World);
 
-        makeGraphic(20, 20, 0xFF323232);
+        loadGraphic("assets/images/spikes.png", true, 20, 20);
+        animation.add("on", [0]);
+        animation.add("off", [1]);
+
         setSize(16, 16);
         centerOffsets(true);
 
@@ -37,9 +40,9 @@ class HazardSpikes extends Hazard
     override public function update(elapsed : Float)
     {
         if (enabled)
-            alpha = 1;
+            animation.play("on");
         else
-            alpha = 0.2;
+            animation.play("off");
 
         super.update(elapsed);
     }
@@ -56,6 +59,7 @@ class HazardSpikes extends Hazard
             timer.cancel();
 
         timer.start((enabled ? enabledTime : disabledTime),  function(t:FlxTimer) {
+            shake(0.1);
             enabled = !enabled;
             handleStateChange();
         });

@@ -33,7 +33,7 @@ class MenuState extends FlxState
 
 		FlxG.scaleMode = new PixelPerfectScaleMode();
 
-		var shaders : Array<String> = ["tiltshift", /*"hq2x",*/ "scanline"/*, "grain"*/];
+		var shaders : Array<String> = ["tiltshift", /*"hq2x",*/ "scanline", "grain"];
 		for (shader in shaders)
 			FlxG.addPostProcess(new PostProcess("assets/shaders/" + shader + ".frag"));
 	}
