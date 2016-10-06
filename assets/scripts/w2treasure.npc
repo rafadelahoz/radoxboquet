@@ -1,0 +1,10 @@
+default
+solid false
+visible true
+"Oh! There's some money hidden here!"
+"500 moneys!"
+money 500
+set w2treasure
+
+if flag.w2treasure
+enabled false

@@ -7,6 +7,8 @@ class GameState
 {
     public static var MAXMONEY = 99999;
 
+    public static var name : String = "WANDERER";
+
     public static var hp : Int = 100;
     public static var money : Int = 13;
 
@@ -22,6 +24,8 @@ class GameState
 
     public static function init()
     {
+        name = "WANDERER";
+
         hp = new FlxRandom().int(15, 100);
         money = 13;
 

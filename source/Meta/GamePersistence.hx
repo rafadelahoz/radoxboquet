@@ -5,12 +5,22 @@ import flixel.util.FlxSave;
 class GamePersistence
 {
     static var SAVE_NAME : String = "SLOT01";
+
+    public static function peek() : Bool
+    {
+        var save : FlxSave = new FlxSave();
+        save.bind(SAVE_NAME);
+
+        return (save.data.name != null);
+    }
+
     public static function save()
     {
         var save : FlxSave = new FlxSave();
         save.bind(SAVE_NAME);
 
         // Player status
+        save.data.name = GameState.name;
         save.data.hp = GameState.hp;
         save.data.money = GameState.money;
 
@@ -65,12 +75,13 @@ class GamePersistence
         var save : FlxSave = new FlxSave();
         save.bind(SAVE_NAME);
 
-        if (save.data.hp == null)
+        if (save.data.name == null)
         {
             return false;
         }
 
         // Player status
+        GameState.name = save.data.name;
         GameState.hp = save.data.hp;
         GameState.money = save.data.money;
 
@@ -118,5 +129,23 @@ class GamePersistence
         trace("LOADED");
 
         return true;
+    }
+
+    public static function erase()
+    {
+        var save : FlxSave = new FlxSave();
+        save.bind(SAVE_NAME);
+
+        save.data.hp = null;
+        save.data.money = null;
+        save.data.items = null;
+        save.data.doors = null;
+        save.data.actors = null;
+        save.data.savedScene = null;
+        save.data.savedSpawn = null;
+
+        save.close();
+
+        trace("ERASED");
     }
 }

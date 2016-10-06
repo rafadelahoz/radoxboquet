@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 
@@ -54,7 +55,7 @@ class NPC extends Entity
 
     public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : String = null, ?speed : Int = 10, ?SetupHotspots : Bool = true)
     {
-        if (asset != null)
+        if (asset != null && asset.length > 0)
         {
             var graphic : String = "assets/images/" + asset + ".png";
             var animated : Bool = (w > 0 && h > 0 && speed > 0);
@@ -93,7 +94,9 @@ class NPC extends Entity
         else
         {
             if (w > 0 && h > 0)
+            {
                 makeGraphic(Std.int(w), Std.int(h), 0x00000000);
+            }
         }
 
         if (SetupHotspots)
@@ -115,6 +118,7 @@ class NPC extends Entity
         }
         else
         {
+            canFlip = false;
             hotspot.set(getMidpoint().x, getMidpoint().y);
             backspot.set(-1, -1);
         }
@@ -150,7 +154,7 @@ class NPC extends Entity
         if (!enabled)
             return false;
 
-        var ignoreFacing : Bool = false;
+        var ignoreFacing : Bool = !solid;
         if (spot == null)
         {
             if (!flipX || !solid)
@@ -324,6 +328,7 @@ class NPC extends Entity
                     var prop : String = null;
                     if (tokens.length > 1)
                         prop = tokens[2];
+
                     GameState.addItem(name, prop);
                 case "remove":
                     var name : String = tokens[1];
@@ -332,11 +337,16 @@ class NPC extends Entity
                         prop = tokens[2];
                     GameState.removeItemWithData(name, prop);
                 case "set":
-                    var value : Bool = tokens.length == 1 ||
+                    var value : Bool = tokens.length == 2 ||
                                         tokens[2].toLowerCase() == "true";
                     GameState.setFlag(tokens[1], value);
                 case "switch":
                     GameState.setFlag(tokens[1], !GameState.getFlag(tokens[1]));
+                case "money":
+                    var ammount : Int = Std.parseInt(tokens[1]);
+                    if (ammount == null)
+                        ammount = 0;
+                    GameState.addMoney(ammount);
             }
         }
     }

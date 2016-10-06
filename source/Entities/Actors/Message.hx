@@ -30,7 +30,7 @@ class Message extends FlxGroup
         y = 20;
 
         world = World;
-        text = Text;
+        text = processText(Text);
         state = 0;
         callback = Callback;
         cancelCallback = CancelCallback;
@@ -95,5 +95,14 @@ class Message extends FlxGroup
         }
 
         super.update(elapsed);
+    }
+
+    function processText(message : String) : String
+    {
+        // Perform substitutions and tidying on the provided text
+        message = message.toUpperCase();
+        message = StringTools.replace(message, "@NAME", GameState.name);
+
+        return message;
     }
 }

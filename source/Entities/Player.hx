@@ -29,7 +29,7 @@ class Player extends Entity
 
         loadGraphic("assets/images/player_sheet.png", true, 20, 20);
         animation.add("idle", [0, 1], 4);
-        animation.add("walk", [0, 1], 10);
+        animation.add("walk", [1, 0], 10);
         animation.add("act!", [1]);
         animation.add("hurt", [1]);
         animation.add("dead", [2]);

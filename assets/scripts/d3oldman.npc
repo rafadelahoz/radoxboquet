@@ -10,15 +10,15 @@ if flag.GaveSkeleThrice
 
 if flag.GaveSkeleTwice
 "OK OK TAKE ALL THE SKELETONS YOU WANT"
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
-give SKELETN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
+give SKELTN
 "NOW LEAVE ME ALONE!"
 set GaveSkeleThrice true
 
@@ -37,7 +37,7 @@ if has.corpse
 flip true
 face right
 "YOU HAVE A CORPSE"
-"HOW ARE YOU SO COOL?"
+"HOW ARE YOU SO COOL @NAME?"
 "I WILL GIVE A SKELETON"
 give SKELTN GREEN
 remove CORPSE

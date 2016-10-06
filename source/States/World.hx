@@ -468,8 +468,6 @@ class World extends FlxTransitionableState
         }
 
         GameState.storeActors(sceneName, actors);
-
-        GameState.printActors();
     }
 
     function loadStoredActors(scene : String)

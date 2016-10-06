@@ -1,9 +1,16 @@
 default
 solid true
 flip true
-"I will open the grate for you"
-switch w2grate
+"You should not see this, sorry"
 
 if flag.w2grate
+solid true
+flip true
 "I will close the grate for you"
+switch w2grate
+
+if !flag.w2grate
+solid true
+flip true
+"I will open the grate for you"
 switch w2grate

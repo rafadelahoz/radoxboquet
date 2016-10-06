@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="7" tilewidth="20" tileheight="20" nextobjectid="110">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <layer name="Tiles" width="8" height="7">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAC4AAAAuAAAAVQAAAFUAAAAAAAAAAAAAAAAAAAAAAAAALgAAAC4AAABVAAAAVQAAAAAAAAAAAAAAAAAAAAAAAACaAAAALgAAAHwAAAB7AAAAAAAAADUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmgAAAC4AAAC4AAAAuAAAAAAAAAAAAAAAAAAAAAAAAAAuAAAALgAAAFUAAABVAAAAAAAAAAAAAAAAAAAAAAAAAC4AAAAuAAAAVQAAAFUAAAA=
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="85" type="solid" x="80" y="80" width="40" height="60"/>
+  <object id="86" type="solid" x="80" y="0" width="40" height="60"/>
+  <object id="106" type="solid" x="20" y="60" width="20" height="20"/>
+  <object id="109" name="Spawn" type="Teleport" x="40" y="60" width="20" height="20">
+   <properties>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="107" name="Guard" type="NPC" x="60" y="40" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="graphic_asset" value="transition"/>
+    <property name="message" value="WELCOME"/>
+    <property name="script" value="w2doorguard.npc"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="108" name="Grate" type="NPC" x="100" y="60" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="false"/>
+    <property name="graphic_asset" value="grate_door"/>
+    <property name="message" value=""/>
+    <property name="script" value="w2grate.npc"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

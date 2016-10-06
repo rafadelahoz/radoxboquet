@@ -25,9 +25,7 @@ class NPCParser
         if (o.properties.contains("script"))
         {
             npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("canflip") == "true");
-            npc.setupGraphic(o.properties.get("graphic_asset"),
-                        Std.parseInt(o.properties.get("graphic_width")),
-                        Std.parseInt(o.properties.get("graphic_height")),
+            npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
                         o.properties.get("graphic_frames"),
                         Std.parseInt(o.properties.get("graphic_speed")));
 
@@ -38,9 +36,7 @@ class NPCParser
         else
         {
             npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("canflip") == "true");
-            npc.setupGraphic(o.properties.get("graphic_asset"),
-                        Std.parseInt(o.properties.get("graphic_width")),
-                        Std.parseInt(o.properties.get("graphic_height")),
+            npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
                         o.properties.get("graphic_frames"),
                         Std.parseInt(o.properties.get("graphic_speed")));
 
@@ -132,7 +128,7 @@ class NPCParser
                 trace("behavour not implemented");
             case "message":
                 config.messages.push(line);
-            case "give", "remove", "set", "switch":
+            case "give", "remove", "set", "switch", "money":
                 config.commands.push(propName + " " + line);
             default:
                 throw "Unrecognized property " + propName;

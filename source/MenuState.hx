@@ -44,6 +44,21 @@ class MenuState extends FlxState
 		{
 			GameController.StartGame();
 		}
+		else if (FlxG.keys.justPressed.E)
+		{
+			GamePersistence.erase();
+			if (GamePersistence.peek())
+				trace("Data still exists");
+			else
+				trace("Data deleted");
+		}
+		else if (FlxG.keys.justPressed.P)
+		{
+			if (GamePersistence.peek())
+				trace("Data still exists");
+			else
+				trace("Data deleted");
+		}
 
 		super.update(elapsed);
 	}

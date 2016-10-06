@@ -23,7 +23,7 @@ class TargetShooter extends Enemy
     {
         super.onInit();
 
-        hp = 5;
+        hp = 3;
         power = 5;
 
         InvincibilityTime = 2;
@@ -81,5 +81,10 @@ class TargetShooter extends Enemy
     override function hurtSlide(cause : FlxObject)
     {
         // Nothing?
+    }
+
+    override public function spawnCorpse()
+    {
+        // No corpse for you
     }
 }
