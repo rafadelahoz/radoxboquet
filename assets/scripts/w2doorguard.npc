@@ -3,14 +3,14 @@ solid true
 flip true
 "You should not see this, sorry"
 
-if door.w2grate
+if door.Grate
 solid true
 flip true
 "I will close the grate for you"
-close w2grate
+close Grate
 
-if !door.w2grate
+if !door.Grate
 solid true
 flip true
 "I will open the grate for you"
-open w2grate
+open Grate

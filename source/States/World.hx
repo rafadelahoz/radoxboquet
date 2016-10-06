@@ -313,7 +313,7 @@ class World extends FlxTransitionableState
             solids.remove(entity);
         else if (Std.is(entity, Teleport))
             teleports.remove(entity);
-        else if (Std.is(entity, KeyDoor))
+        else if (Std.is(entity, Door))
             solids.remove(entity);
         else if (Std.is(entity, NPC))
             npcs.remove(entity);

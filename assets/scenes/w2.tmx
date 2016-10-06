@@ -92,7 +92,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="108" name="w2grate" type="Door" x="420" y="140" width="20" height="20">
+  <object id="108" name="Grate" type="Door" x="420" y="140" width="20" height="20">
    <properties>
     <property name="graphic_asset" value="grate_door"/>
    </properties>
