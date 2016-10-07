@@ -40,7 +40,7 @@ varying vec2 vTexCoord;
 const float bluramount  = 0.8;
 const float center      = 1.0;
 const float stepSize    = 0.004;
-const float steps       = 2.0;
+const float steps       = 3.0;
 
 const float minOffs     = (float(steps-1.0)) / -2.0;
 const float maxOffs     = (float(steps-1.0)) / +2.0;
