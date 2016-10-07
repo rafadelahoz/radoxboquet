@@ -17,7 +17,8 @@ class Player extends Entity
     var WalkSpeed : Float = 100;
     var InvincibleTime : Float = 0.7;
 
-    var state : Int;
+    var _state : Int;
+    var state (get, set) : Int;
     public var currentTool : Tool;
 
     public var invincible : Bool;
@@ -67,6 +68,21 @@ class Player extends Entity
 
         // Delegate
         super.update(elapsed);
+    }
+
+    function get_state() : Int
+    {
+        return _state;
+    }
+
+    function set_state(nextState : Int) : Int
+    {
+        if (state != DEAD)
+            _state = nextState;
+        else
+            trace("You can't cheat death");
+
+        return state;
     }
 
     function onIdleState(elapsed : Float)
