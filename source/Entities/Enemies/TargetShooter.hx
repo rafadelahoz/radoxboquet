@@ -35,6 +35,9 @@ class TargetShooter extends Enemy
         animation.add("open", [1]);
         animation.play("idle");
 
+        setSize(18, 18);
+        offset.set(1, 1);
+
         timer = new FlxTimer();
         fxTimer = new FlxTimer();
         wait();

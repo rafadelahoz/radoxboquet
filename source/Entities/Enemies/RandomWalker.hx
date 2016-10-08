@@ -37,7 +37,7 @@ class RandomWalker extends Enemy
         center = new FlxPoint(x, y);
         timer = new FlxTimer();
         tween = null;
-        
+
         var factor : Float = FlxG.random.float(1.0, 1.5);
         scale.set(factor, factor);
 
@@ -88,11 +88,6 @@ class RandomWalker extends Enemy
         player.onCollisionWithEnemy(this);
     }
 
-    override public function update(elapsed : Float)
-    {
-        super.update(elapsed);
-    }
-
     override function hurtSlide(cause : FlxObject)
     {
         super.hurtSlide(cause);
@@ -100,9 +95,9 @@ class RandomWalker extends Enemy
         // Don't twitch until slide finishes (please?)
         if (timer != null)
         {
-            timer.cancel();            
+            timer.cancel();
         }
-        
+
         if (tween != null)
         {
             tween.cancel();

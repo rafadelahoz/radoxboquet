@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
+ <objecttype name="Teleport" color="#0055ff">
+  <property name="dir" type="string"/>
+  <property name="door" type="string"/>
+  <property name="target" type="string"/>
+ </objecttype>
+ <objecttype name="LockDoor" color="#ffaa00">
+  <property name="color" type="string" default="RED"/>
+ </objecttype>
  <objecttype name="NPC" color="#ffaaff">
   <property name="canflip" type="bool" default="false"/>
   <property name="graphic_asset" type="string" default="graphic"/>
