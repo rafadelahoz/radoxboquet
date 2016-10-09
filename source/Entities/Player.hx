@@ -240,6 +240,14 @@ class Player extends Entity
             case "BOWARR":
                 currentTool = new Bow(x, y, world);
                 world.addEntity(currentTool);
+            case "APPFEL":
+                GameState.removeItem(tool);
+                GameState.addHP(25);
+                // Wait for a sec!
+                new FlxTimer().start(0.16, function(t:FlxTimer) {
+                    onToolFinish(null);
+                    t.destroy();
+                });
             default:
                 dropTool(tool);
         }

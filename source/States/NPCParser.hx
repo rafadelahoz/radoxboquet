@@ -20,26 +20,22 @@ class NPCParser
             throw "Null object or world provided";
 
         var npc : NPC = null;
+
+        npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("face"), o.properties.get("canflip") == "true");
+        npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
+                    o.properties.get("graphic_frames"),
+                    Std.parseInt(o.properties.get("graphic_speed")));
+
         // NPCs can be defined in two ways
         // Basic or scripted
         if (o.properties.contains("script"))
         {
-            npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("canflip") == "true");
-            npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
-                        o.properties.get("graphic_frames"),
-                        Std.parseInt(o.properties.get("graphic_speed")));
-
             var script : String = o.properties.get("script");
             var configs : Array<NPCConfig> = parseScript(script);
             npc.setupConfigurations(configs);
         }
         else
         {
-            npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("canflip") == "true");
-            npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
-                        o.properties.get("graphic_frames"),
-                        Std.parseInt(o.properties.get("graphic_speed")));
-
             if (o.properties.get("solid") == "false")
                 npc.solid = false;
         }

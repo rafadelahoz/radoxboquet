@@ -104,6 +104,8 @@ class TiledScene extends TiledMap
 				backgroundTiles.add(tilemap);
 			}
 		}
+
+		world.bgColor = backgroundColor;
 	}
 
 	private function loadObject(state:World, o:TiledObject, g:TiledObjectLayer)

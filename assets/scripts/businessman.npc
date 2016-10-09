@@ -1,0 +1,31 @@
+default
+graphic npcs/businessman 20 20 0
+solid true
+face left
+flip false
+"GOOD MORNING!"
+"I SELL FLEA MARKET STALLS, LIKE THIS ONE"
+"WOULD YOU LIKE A FLEA MARKET STALL?"
+"IF SO, PLEASE DO CALL ME"
+"BEST PRICES IN TOWN"
+"HERE HAVE MY CARD"
+give BSCARD
+set got_card
+
+if flag.got2ndcard
+"JUST LEAVE NOW I HAVE BUSINESSES TO ATTEND"
+
+if has.BSCARD
+"OH I SEE YOU STILL HAVE MY CARD"
+"GOOD, GOOD! PLEASE, DO CALL ME!"
+
+if flag.got_card
+"DID YOU THROW AWAY MY BUSINESS CARD!?"
+"Do you think those things are free?"
+"I gave that to you so we could make business"
+"But it seems the only business you can handle is hurting other people feelings"
+"Just leave me alone. OK?"
+"..."
+"BUT TAKE ANOTHER CARD JUST IN CASE"
+give BSCARD
+set got2ndcard

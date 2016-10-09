@@ -18,13 +18,13 @@ class NPC extends Entity
 
     public var messages : Array<String>;
     public var commands : Array<String>;
-    // public var facing : Int;
 
+    public var face : String;
     public var canFlip : Bool;
-    public var hotspot : FlxPoint;
-    public var backspot : FlxPoint;
 
-    public function new(X : Float, Y : Float, World : World, Message : String, ?CanFlip : Bool = true)
+    var tester : FlxObject;
+
+    public function new(X : Float, Y : Float, World : World, Message : String, ?Face : String = null, ?CanFlip : Bool = true)
     {
         super(X, Y, World);
         immovable = true;
@@ -42,18 +42,44 @@ class NPC extends Entity
         enabled = true;
         tween = null;
 
-        hotspot = new FlxPoint();
-        backspot = new FlxPoint();
+        tester = new FlxObject(x, y);
 
-        if (canFlip)
-            flipX = FlxG.random.bool(50);
+        setFace(Face);
 
-        setupHotspots();
+        // Random facing if can flip
+        if (canFlip && Face == null)
+        {
+            if (FlxG.random.bool(50))
+                setFace("right");
+            else
+                setFace("left");
+
+        }
+
+        placeTester();
 
         player = world.player;
     }
 
-    public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : String = null, ?speed : Int = 10, ?SetupHotspots : Bool = true)
+    public function setFace(towards : String)
+    {
+        if (towards == null)
+            face = "right";
+        else
+            face = towards.toLowerCase();
+
+        switch (face)
+        {
+            case "left":
+                flipX = true;
+            case "right":
+                flipX = false;
+        }
+
+        placeTester();
+    }
+
+    public function setupGraphic(asset : String, ?w : Float = -1, ?h : Float = -1, ?frames : String = null, ?speed : Int = 10, ?PlaceTester : Bool = true)
     {
         if (asset != null && asset.length > 0)
         {
@@ -99,28 +125,36 @@ class NPC extends Entity
             }
         }
 
-        if (SetupHotspots)
-            setupHotspots();
+        if (PlaceTester)
+            placeTester();
     }
 
-    function setupHotspots()
+    function placeTester()
     {
         if (!enabled)
         {
-            hotspot.set(-1, -1);
-            backspot.set(-1, -1);
+            tester.solid = false;
+            tester.x = -1;
+            tester.y = -1;
         }
         else if (solid)
         {
-            hotspot.set(x + width + 10, y + height - 10);
-            if (canFlip)
-                backspot.set(x - 10, y + height - 10);
+            if (face == "right")
+            {
+                tester.x = x + width + 10;
+                tester.y = y + height - 10;
+            }
+            else
+            {
+                tester.x = x - 10;
+                tester.y = y + height - 10;
+            }
         }
         else
         {
             canFlip = false;
-            hotspot.set(getMidpoint().x, getMidpoint().y);
-            backspot.set(-1, -1);
+            tester.x = getMidpoint().x;
+            tester.y = getMidpoint().y;
         }
     }
 
@@ -134,45 +168,36 @@ class NPC extends Entity
     {
         checkConditions();
 
+        // Turn if someone is behind and we can flip
         if (canFlip)
         {
-            if (!flipX && canInteract(world.player, backspot))
-            {
-                flipX = true;
-            }
-            else if (flipX && canInteract(world.player, hotspot))
-            {
-                flipX = false;
-            }
+            if (face == "left" && tester.overlapsAt(x + width + 10, tester.y, world.player))
+                setFace("right");
+            else if (face == "right" && tester.overlapsAt(x - 10, tester.y, world.player))
+                setFace("left");
         }
 
         super.update(elapsed);
     }
 
-    public function canInteract(other : Entity, ?spot : FlxPoint=null) : Bool
+    override public function draw()
+    {
+        super.draw();
+    }
+
+    public function canInteract(other : Entity) : Bool
     {
         if (!enabled)
             return false;
 
         var ignoreFacing : Bool = !solid;
-        if (spot == null)
-        {
-            if (!flipX || !solid)
-                spot = hotspot;
-            else
-                spot = backspot;
-        }
-        else
-        {
-            ignoreFacing = true;
-        }
 
         // We can interact if:
         // - we don't care about facing, or
         // - we are facing each other
         // and we are close to each other
         return ((ignoreFacing || other.flipX != flipX) &&
-                other.getHitbox().containsPoint(spot));
+                tester.overlaps(other));
     }
 
     public function onInteract()
@@ -255,15 +280,6 @@ class NPC extends Entity
                 visible = config.visible;
                 flat = config.flat;
 
-                switch (config.face)
-                {
-                    case null:
-                    case "left":
-                        flipX = true;
-                    case "right":
-                        flipX = false;
-                }
-
                 if (config.graphic_asset != null)
                 {
                     setupGraphic(config.graphic_asset, config.graphic_width,
@@ -273,6 +289,9 @@ class NPC extends Entity
 
                 messages = config.messages;
                 commands = config.commands;
+
+                if (config.face != null)
+                    setFace(config.face.toLowerCase());
             }
             else
             {
@@ -280,7 +299,7 @@ class NPC extends Entity
                 solid = false;
             }
 
-            setupHotspots();
+            placeTester();
         }
     }
 
@@ -303,6 +322,10 @@ class NPC extends Entity
             var tokens : Array<String> = cond.split(".");
             switch (tokens[0])
             {
+                case "true":
+                    value = true;
+                case "false":
+                    value = false;
                 case "flag":
                     value = GameState.getFlag(tokens[1]);
                 case "has":

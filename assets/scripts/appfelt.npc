@@ -1,0 +1,17 @@
+default
+
+graphic npcs/appfel 20 20 1 0
+solid true
+face left
+flip false
+
+"Good day!"
+"Would you like to buy an appfel?"
+"..."
+"No I'm not an appfel myself"
+set appfel_intro
+
+if flag.appfel_intro
+"So one appfel is 5 moneys. Thank you!"
+money -5
+give APPFEL
