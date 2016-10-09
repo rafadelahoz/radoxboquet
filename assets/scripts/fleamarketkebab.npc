@@ -1,0 +1,8 @@
+default
+graphic npcs/man3 20 20 2 2
+solid true
+flip false
+face left
+"Making Kebabs has always been my dream!"
+"Please, try one"
+give KEBABS

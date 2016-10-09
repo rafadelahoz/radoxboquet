@@ -1,5 +1,5 @@
 default
-graphic npcs/businessman 20 20 0
+graphic npcs/businessman 20 20 1 0
 solid true
 face left
 flip false

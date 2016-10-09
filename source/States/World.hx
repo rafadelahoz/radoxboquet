@@ -167,6 +167,11 @@ class World extends FlxTransitionableState
 
     override public function update(elapsed : Float)
     {
+        if (FlxG.keys.pressed.CONTROL)
+            player.solid = false;
+        else
+            player.solid = true;
+
         if (deadState)
         {
             if (deadMenu)
