@@ -12,6 +12,7 @@ import flixel.addons.effects.chainable.FlxWaveEffect;*/
 
 class HUD extends FlxGroup
 {
+    var world : World;
     var deadState : Bool;
 
     var background : FlxSprite;
@@ -27,9 +28,11 @@ class HUD extends FlxGroup
     var coinsIcon : FlxSprite;
     var coinsLabel : FlxText;
 
-    public function new()
+    public function new(World : World)
     {
         super();
+
+        world = World;
 
         background = new FlxSprite(0, 0).makeGraphic(60, 220, 0xFF000000/*F2F0*/);
         background.scrollFactor.set(0, 0);
@@ -55,11 +58,11 @@ class HUD extends FlxGroup
         cursor.scrollFactor.set(0, 0);
         add(cursor);
 
-        coinsIcon = new FlxSprite(0, 200, "assets/images/hud_money.png");
+        coinsIcon = new FlxSprite(0, 180, /*, 200,*/ "assets/images/hud_money.png");
         coinsIcon.scrollFactor.set(0, 0);
         add(coinsIcon);
 
-        coinsLabel = buildLabel(16, 198, "99999");
+        coinsLabel = buildLabel(16, 178, /*198, */"99999");
         coinsLabel.scrollFactor.set(0, 0);
         add(coinsLabel);
 
@@ -87,6 +90,17 @@ class HUD extends FlxGroup
         }
 
         coinsLabel.text = "" + GameState.money;
+        switch (world.state)
+        {
+            case World.INIT:
+                coinsLabel.text += "\nINIT!";
+            case World.GAMEPLAY:
+                coinsLabel.text += "\nGPLAY";
+            case World.INTERACT:
+                coinsLabel.text += "\nINACT";
+            case World.GAMEOVER:
+                coinsLabel.text += "\nGOVER";
+        }
 
         super.update(elapsed);
     }

@@ -205,7 +205,7 @@ class NPC extends Entity
         if (messages.length > 0 || commands.length > 0)
         {
             tween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
-            world.addMessage(messages, onMessageFinish, onMessageCancel);
+            world.showMessage(messages, onMessageFinish, onMessageCancel);
         }
         else
         {
@@ -219,7 +219,6 @@ class NPC extends Entity
             executeCommands();
 
         onMessageCancel();
-        world.player.onInteractionEnd();
     }
 
     public function onMessageCancel()

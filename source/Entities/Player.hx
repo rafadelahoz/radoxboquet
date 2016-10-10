@@ -18,7 +18,7 @@ class Player extends Entity
     var InvincibleTime : Float = 0.7;
 
     var _state : Int;
-    var state (get, set) : Int;
+    public var state (get, set) : Int;
     public var currentTool : Tool;
 
     public var invincible : Bool;

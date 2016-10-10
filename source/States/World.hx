@@ -19,10 +19,15 @@ import flixel.util.FlxSort;
 
 class World extends FlxTransitionableState
 {
-    public var initialized : Bool;
-    public var deadState : Bool;
+    public static var INIT      : Int = 0;
+    public static var GAMEPLAY  : Int = 1;
+    public static var INTERACT  : Int = 2;
+    public static var GAMEOVER  : Int = 3;
+
     var deadMenu : Bool;
     var deadText : FlxText;
+
+    public var state : Int;
 
     public var hud : HUD;
 
@@ -43,6 +48,9 @@ class World extends FlxTransitionableState
 
     public var entities : FlxTypedGroup<Entity>;
     public var messages : FlxGroup;
+
+    public var messageQueueCallback : Void -> Void;
+    public var messageQueueCancelCallback : Void -> Void;
     public var messageQueue : Array<Message>;
 
     public var scene : TiledScene;
@@ -59,8 +67,7 @@ class World extends FlxTransitionableState
 
     override public function create()
     {
-        initialized = false;
-        deadState = false;
+        state = INIT;
         deadMenu = false;
 
         bgColor = FlxG.random.color();
@@ -79,7 +86,7 @@ class World extends FlxTransitionableState
         npcs = new FlxGroup();
 
         messages = new FlxGroup();
-        hud = new HUD();
+        hud = new HUD(this);
 
         // Setup level elements
         setupLevel();
@@ -94,7 +101,6 @@ class World extends FlxTransitionableState
         FlxG.camera.follow(player);
 
         // Setup the world state
-        deadState = false;
         messageQueue = [];
 
         // Init all entities
@@ -106,10 +112,10 @@ class World extends FlxTransitionableState
         // Store the game state if required
         handleGameState();
 
-        initialized = true;
-
         // And delegate to the parent
         super.create();
+
+        state = GAMEPLAY;
     }
 
     function setupLevel()
@@ -167,35 +173,53 @@ class World extends FlxTransitionableState
 
     override public function update(elapsed : Float)
     {
+        switch (state)
+        {
+            case World.INIT:
+                // Nop!
+            case World.GAMEPLAY:
+                handleDebugRoutines();
+                handleCollisions();
+            case World.INTERACT:
+                // what
+            case World.GAMEOVER:
+                if (deadMenu)
+                {
+                    if (FlxG.keys.justReleased.A ||
+                        FlxG.keys.justReleased.S ||
+                        FlxG.keys.justReleased.ENTER)
+                    {
+                        storeSceneActors();
+                        GameController.DeadContinue();
+                    }
+
+                    if (FlxG.keys.justPressed.A ||
+                        FlxG.keys.justPressed.S ||
+                        FlxG.keys.justPressed.ENTER)
+                    {
+                        deadText.text += "\nOK";
+                    }
+                }
+
+                handleCollisions();
+            default:
+        }
+
+        super.update(elapsed);
+
+        entities.sort(depthSort);
+    }
+
+    function handleCollisions()
+    {
+        // debug: player ethereal when CONTROL
         if (FlxG.keys.pressed.CONTROL)
             player.solid = false;
         else
             player.solid = true;
 
-        if (deadState)
+        if (state == GAMEPLAY)
         {
-            if (deadMenu)
-            {
-                if (FlxG.keys.justReleased.A ||
-                    FlxG.keys.justReleased.S ||
-                    FlxG.keys.justReleased.ENTER)
-                {
-                    storeSceneActors();
-                    GameController.DeadContinue();
-                }
-
-                if (FlxG.keys.justPressed.A ||
-                    FlxG.keys.justPressed.S ||
-                    FlxG.keys.justPressed.ENTER)
-                {
-                    deadText.text += "\nOK";
-                }
-            }
-        }
-        else
-        {
-            handleDebugRoutines();
-
             FlxG.overlap(player, moneys, onCollidePlayerMoney);
             FlxG.overlap(player, hazards, onCollidePlayerHazard);
             FlxG.overlap(player, enemies, onCollidePlayerEnemy);
@@ -214,10 +238,6 @@ class World extends FlxTransitionableState
         FlxG.collide(items);
         FlxG.collide(player, npcs);
         FlxG.collide(enemies, npcs);
-
-        super.update(elapsed);
-
-        entities.sort(depthSort);
     }
 
     function onCollidePlayerMoney(_player : Player, money : Money)
@@ -238,9 +258,9 @@ class World extends FlxTransitionableState
     public function onPlayerDead()
     {
         trace("PLAYER DEAD");
-        if (!deadState)
+        if (state != GAMEOVER)
         {
-            deadState = true;
+            state = GAMEOVER;
 
             hud.onPlayerDead();
             // player.onDead();
@@ -294,7 +314,7 @@ class World extends FlxTransitionableState
         entities.add(entity);
 
         // Once the world has been initalized, init all entities automatically
-        if (initialized)
+        if (state != INIT)
         {
             entity.onInit();
         }
@@ -326,24 +346,50 @@ class World extends FlxTransitionableState
         entities.remove(entity, true);
     }
 
-    public function addMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
+    public function showMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
     {
+        var message : String;
+        var msg : Message;
+
         for (index in 0...messageList.length)
         {
-            var message : String = messageList[index];
-            var _callback : Void -> Void;
-            if (index < messageList.length - 1)
-                _callback = function() {
-                    messages.add(messageQueue.shift());
-                }
-            else
-                _callback = callback;
+            message = messageList[index];
+            msg = new Message(this, message);
 
-            var msg : Message = new Message(this, message, _callback, cancelCallback);
             messageQueue.push(msg);
         }
 
-        messages.add(messageQueue.shift());
+        messageQueueCallback = callback;
+        messageQueueCancelCallback = cancelCallback;
+
+        startInteraction();
+    }
+
+    public function startInteraction()
+    {
+        if (state != INTERACT)
+        {
+            player.state = Player.INTERACT;
+            messages.add(messageQueue.shift());
+            state = INTERACT;
+        }
+    }
+
+    public function onInteractionEnd()
+    {
+        if (messageQueue.length <= 0)
+        {
+            if (messageQueueCallback != null)
+                messageQueueCallback();
+
+            state = GAMEPLAY;
+            player.onInteractionEnd();
+        }
+        else
+        {
+            var message : Message = messageQueue.shift();
+            messages.add(message);
+        }
     }
 
     public function removeMessage(message : Message)
@@ -573,6 +619,21 @@ class World extends FlxTransitionableState
                 GameState.printActors();
             else if (FlxG.keys.justPressed.F)
                 GameState.printFlags();
+
+            if (FlxG.keys.justPressed.P)
+            {
+                var prices : Map<Item, Int> = new Map<Item, Int>();
+                var products : Array<Item> = [new Item("BANANA"), new Item("KEBABS"), new Item("ASWORD"), new Item("BOWARR"), new Item("HOMLES")];
+                prices.set(products[0], 5);
+                prices.set(products[1], 0);
+                prices.set(products[2], 100);
+                prices.set(products[3], 500);
+                prices.set(products[4], 30);
+                var msg : Message = new Shop(this, "Choose whatever you want, everything is of the finest quality", products, prices);
+
+                showMessage(["Hello and welcome to my humble store!", "I hope you buy cool things", "Check my wares"]);
+                messageQueue.push(msg);
+            }
         }
     }
 }

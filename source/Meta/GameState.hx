@@ -65,9 +65,14 @@ class GameState
         }
     }
 
+    public static function isItemSlotAvailable() : Bool
+    {
+        return items.length < 10;
+    }
+
     public static function addItem(name : String, ?property : String = null) : Bool
     {
-        if (items.length < 10)
+        if (isItemSlotAvailable())
         {
             items.push(new Item(name.toUpperCase(), property));
             currentItem = items.length-1;

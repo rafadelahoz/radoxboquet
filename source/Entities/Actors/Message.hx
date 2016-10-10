@@ -18,11 +18,9 @@ class Message extends FlxGroup
     var bg : FlxSprite;
 
     var state : Int;
+    var timer : FlxTimer;
 
-    var callback : Void -> Void;
-    var cancelCallback : Void -> Void;
-
-    public function new(World : World, Text : String, ?Callback : Void -> Void = null, ?CancelCallback : Void -> Void = null)
+    public function new(World : World, Text : String)
     {
         super();
 
@@ -32,8 +30,6 @@ class Message extends FlxGroup
         world = World;
         text = processText(Text);
         state = 0;
-        callback = Callback;
-        cancelCallback = CancelCallback;
 
         textField = new FlxText(x+6, y+8, 268);
         textField.setFormat("assets/data/adventurePixels.ttf", 16);
@@ -54,7 +50,8 @@ class Message extends FlxGroup
         add(bottomBorder);
         add(textField);
 
-        new FlxTimer().start(0.1, function(t:FlxTimer){
+        timer = new FlxTimer();
+        timer.start(0.1, function(t:FlxTimer){
             t.cancel();
             t.destroy();
 
@@ -70,9 +67,6 @@ class Message extends FlxGroup
 
     public function cancel()
     {
-        if (cancelCallback != null)
-            cancelCallback();
-
         kill();
     }
 
@@ -86,8 +80,7 @@ class Message extends FlxGroup
         }
         else if (state == 2 && FlxG.keys.justReleased.S)
         {
-            if (callback != null)
-                callback();
+            world.onInteractionEnd();
 
             kill();
             destroy();
