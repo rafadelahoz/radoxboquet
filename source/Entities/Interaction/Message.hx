@@ -70,7 +70,6 @@ class Message extends FlxGroup
         kill();
     }
 
-
     override public function update(elapsed : Float)
     {
         if (state == 1 && FlxG.keys.justPressed.S)
