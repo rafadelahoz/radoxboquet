@@ -63,7 +63,7 @@ class NPC extends Entity
 
     public function setFace(towards : String)
     {
-        if (towards == null)
+        if (towards == null || towards == "")
             face = "right";
         else
             face = towards.toLowerCase();
