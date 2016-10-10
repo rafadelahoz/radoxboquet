@@ -16,8 +16,10 @@ class NPC extends Entity
     public var configs : Array<NPCConfig>;
     public var currentConfig : NPCConfig;
 
-    public var messages : Array<String>;
-    public var commands : Array<String>;
+    public var interactions : Array<String>;
+
+    /*public var messages : Array<String>;
+    public var commands : Array<String>;*/
 
     public var face : String;
     public var canFlip : Bool;
@@ -33,8 +35,9 @@ class NPC extends Entity
         makeGraphic(20, 20, 0xFF4DFF10);
         alpha = 0.1;
 
-        messages = [Message];
-        commands = [];
+        interactions = ["\"" + Message + "\""];
+        /*messages = [Message];
+        commands = [];*/
         canFlip = CanFlip;
 
         configs = [];
@@ -53,7 +56,6 @@ class NPC extends Entity
                 setFace("right");
             else
                 setFace("left");
-
         }
 
         placeTester();
@@ -166,7 +168,11 @@ class NPC extends Entity
 
     override public function update(elapsed : Float)
     {
-        checkConditions();
+        // Switch configs only when not interacting (so sprite won't change mid-dialogue)
+        if (world.state != World.INTERACT)
+        {
+            checkConditions();
+        }
 
         // Turn if someone is behind and we can flip
         if (canFlip)
@@ -202,10 +208,16 @@ class NPC extends Entity
 
     public function onInteract()
     {
-        if (messages.length > 0 || commands.length > 0)
+        if (interactions.length > 0)
         {
             tween = FlxTween.tween(this.scale, {x: 1.1, y: 1.1}, 0.2, {type: FlxTween.PINGPONG});
-            world.showMessage(messages, onMessageFinish, onMessageCancel);
+
+            var actions : Array<Interaction> = InteractionBuilder.buildList(world, interactions);
+
+            // Actually build interactions
+            world.setupInteraction(actions, onMessageFinish, onMessageCancel);
+
+            /*world.showMessage(messages, onMessageFinish, onMessageCancel);*/
         }
         else
         {
@@ -215,8 +227,8 @@ class NPC extends Entity
 
     public function onMessageFinish()
     {
-        if (commands.length > 0)
-            executeCommands();
+        /*if (commands.length > 0)
+            executeCommands();*/
 
         onMessageCancel();
     }
@@ -286,11 +298,11 @@ class NPC extends Entity
                                 config.graphic_speed, false);
                 }
 
-                messages = config.messages;
-                commands = config.commands;
-
                 if (config.face != null)
                     setFace(config.face.toLowerCase());
+
+                interactions = config.interactions;
+                // commands = config.commands;
             }
             else
             {
@@ -336,48 +348,6 @@ class NPC extends Entity
             }
 
             return (negated ? !value : value);
-        }
-    }
-
-    function executeCommands()
-    {
-        var commands : Array<String> = currentConfig.commands;
-        for (command in commands)
-        {
-            var tokens : Array<String> = command.split(" ");
-            switch (tokens[0])
-            {
-                case "give":
-                    var name : String = tokens[1];
-                    var prop : String = null;
-                    if (tokens.length > 1)
-                        prop = tokens[2];
-
-                    GameState.addItem(name, prop);
-                case "remove":
-                    var name : String = tokens[1];
-                    var prop : String = null;
-                    if (tokens.length > 1)
-                        prop = tokens[2];
-                    GameState.removeItemWithData(name, prop);
-                case "set":
-                    var value : Bool = tokens.length == 2 ||
-                                        tokens[2].toLowerCase() == "true";
-                    GameState.setFlag(tokens[1], value);
-                case "switch":
-                    GameState.setFlag(tokens[1], !GameState.getFlag(tokens[1]));
-                case "money":
-                    var ammount : Int = Std.parseInt(tokens[1]);
-                    if (ammount == null)
-                        ammount = 0;
-                    GameState.addMoney(ammount);
-                case "open":
-                    var name : String = tokens[1];
-                    GameState.openDoor(world.sceneName, name);
-                case "close":
-                    var name : String = tokens[1];
-                    GameState.closeDoor(world.sceneName, name);
-            }
         }
     }
 }

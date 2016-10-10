@@ -8,7 +8,6 @@ import flixel.util.FlxTimer;
 
 class Shop extends Message
 {
-
     var productsBg : FlxSprite;
     var productLabels : Map<Item, FlxText>;
     var cursor : FlxSprite;

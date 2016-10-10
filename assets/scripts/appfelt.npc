@@ -7,11 +7,15 @@ flip false
 
 "Good day!"
 "Would you like to buy an appfel?"
+money 100
 "..."
-"No I'm not an appfel myself"
 set appfel_intro
+"No I'm not an appfel myself"
+
 
 if flag.appfel_intro
-"So one appfel is 5 moneys. Thank you!"
+"So one appfel is 5 moneys"
 money -5
+"Here is your APPFEL"
 give APPFEL
+"Thank you!"

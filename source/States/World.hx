@@ -1,8 +1,9 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
+import flixel.FlxBasic;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
@@ -47,11 +48,11 @@ class World extends FlxTransitionableState
     public var solids : FlxGroup;
 
     public var entities : FlxTypedGroup<Entity>;
-    public var messages : FlxGroup;
 
-    public var messageQueueCallback : Void -> Void;
-    public var messageQueueCancelCallback : Void -> Void;
-    public var messageQueue : Array<Message>;
+    public var interactionQueueCallback : Void -> Void;
+    public var interactionQueueCancelCallback : Void -> Void;
+    public var interactionQueue : Array<Interaction>;
+    public var interactions : FlxGroup;
 
     public var scene : TiledScene;
     public var sceneName : String;
@@ -85,13 +86,13 @@ class World extends FlxTransitionableState
         teleports = new FlxGroup();
         npcs = new FlxGroup();
 
-        messages = new FlxGroup();
+        interactions = new FlxGroup();
         hud = new HUD(this);
 
         // Setup level elements
         setupLevel();
         add(entities);
-        add(messages);
+        add(interactions);
         add(hud);
 
         // Setup the world bounds and camera
@@ -101,7 +102,7 @@ class World extends FlxTransitionableState
         FlxG.camera.follow(player);
 
         // Setup the world state
-        messageQueue = [];
+        interactionQueue = [];
 
         // Init all entities
         for (entity in entities)
@@ -346,7 +347,7 @@ class World extends FlxTransitionableState
         entities.remove(entity, true);
     }
 
-    public function showMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
+    /*public function showMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
     {
         var message : String;
         var msg : Message;
@@ -356,11 +357,24 @@ class World extends FlxTransitionableState
             message = messageList[index];
             msg = new Message(this, message);
 
-            messageQueue.push(msg);
+            interactionQueue.push(msg);
         }
 
-        messageQueueCallback = callback;
-        messageQueueCancelCallback = cancelCallback;
+        interactionQueueCallback = callback;
+        interactionQueueCancelCallback = cancelCallback;
+
+        startInteraction();
+    }*/
+
+    public function setupInteraction(interactions : Array<Interaction>, ?callback : Void -> Void, ?cancelCallback : Void -> Void)
+    {
+        if (interactionQueue.length > 0)
+            throw "Double interaction happening. That is bad.";
+
+        interactionQueueCallback = callback;
+        interactionQueueCancelCallback = cancelCallback;
+
+        interactionQueue = interactions;
 
         startInteraction();
     }
@@ -369,47 +383,55 @@ class World extends FlxTransitionableState
     {
         if (state != INTERACT)
         {
-            player.state = Player.INTERACT;
-            messages.add(messageQueue.shift());
-            state = INTERACT;
+            if (interactionQueue.length > 0)
+            {
+                player.state = Player.INTERACT;
+                interactions.add(cast(interactionQueue.shift(), FlxBasic));
+                state = INTERACT;
+            }
+            else
+            {
+                trace("No interaction defined");
+                onInteractionEnd();
+            }
         }
     }
 
     public function onInteractionEnd()
     {
-        if (messageQueue.length <= 0)
+        if (interactionQueue.length <= 0)
         {
-            if (messageQueueCallback != null)
-                messageQueueCallback();
+            if (interactionQueueCallback != null)
+                interactionQueueCallback();
 
             state = GAMEPLAY;
             player.onInteractionEnd();
         }
         else
         {
-            var message : Message = messageQueue.shift();
-            messages.add(message);
+            var interaction : Interaction = interactionQueue.shift();
+            interactions.add(cast(interaction, FlxBasic));
         }
     }
 
-    public function removeMessage(message : Message)
+    public function removeInteraction(interaction : Interaction)
     {
-        messages.remove(message);
+        interactions.remove(cast(interaction, FlxBasic));
     }
 
-    public function cancelMessages()
+    public function cancelInteraction()
     {
-        for (message in messages)
+        for (interaction in interactions)
         {
-            cast (message, Message).cancel();
-            message.destroy();
+            cast (interaction, Interaction).cancel();
+            interaction.destroy();
         }
 
-        for (message in messageQueue)
+        for (interaction in interactionQueue)
         {
-            messageQueue.remove(message);
-            cast (message, Message).cancel();
-            message.destroy();
+            interactionQueue.remove(interaction);
+            interaction.cancel();
+            cast(interaction, FlxBasic).destroy();
         }
     }
 
@@ -622,7 +644,7 @@ class World extends FlxTransitionableState
 
             if (FlxG.keys.justPressed.P)
             {
-                var prices : Map<Item, Int> = new Map<Item, Int>();
+                /*var prices : Map<Item, Int> = new Map<Item, Int>();
                 var products : Array<Item> = [new Item("BANANA"), new Item("KEBABS"), new Item("ASWORD"), new Item("BOWARR"), new Item("HOMLES")];
                 prices.set(products[0], 5);
                 prices.set(products[1], 0);
@@ -632,7 +654,7 @@ class World extends FlxTransitionableState
                 var msg : Message = new Shop(this, "Choose whatever you want, everything is of the finest quality", products, prices);
 
                 showMessage(["Hello and welcome to my humble store!", "I hope you buy cool things", "Check my wares"]);
-                messageQueue.push(msg);
+                interactionQueue.push(msg);*/
             }
         }
     }

@@ -6,7 +6,7 @@ import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 
-class Message extends FlxGroup
+class Message extends FlxGroup implements Interaction
 {
     var x : Float;
     var y : Float;
@@ -61,7 +61,7 @@ class Message extends FlxGroup
 
     override public function destroy()
     {
-        world.removeMessage(this);
+        world.removeInteraction(this);
         super.destroy();
     }
 

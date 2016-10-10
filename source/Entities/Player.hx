@@ -320,7 +320,7 @@ class Player extends Entity
         {
             if (state == INTERACT)
             {
-                world.cancelMessages();
+                world.cancelInteraction();
             }
 
             if (currentTool != null)

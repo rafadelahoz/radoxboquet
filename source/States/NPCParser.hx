@@ -86,7 +86,6 @@ class NPCParser
         if (line.charAt(0) == "\"" && line.charAt(line.length-1) == "\"")
         {
             propName = "message";
-            line = line.substring(1, line.length-1);
         }
         else if (spacePos > 0)
         {
@@ -123,9 +122,9 @@ class NPCParser
             case "behaviour":
                 trace("behavour not implemented");
             case "message":
-                config.messages.push(line);
+                config.interactions.push(line);
             case "give", "remove", "set", "switch", "money", "open", "close":
-                config.commands.push(propName + " " + line);
+                config.interactions.push(propName + " " + line);
             default:
                 throw "Unrecognized property " + propName;
         }

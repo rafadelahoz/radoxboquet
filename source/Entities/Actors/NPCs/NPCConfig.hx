@@ -17,14 +17,15 @@ class NPCConfig
     public var graphic_height : Int;
     public var graphic_frames : String;
     public var graphic_speed : Int;
-    public var messages : Array<String>;
+
+    public var interactions : Array<String>;
     public var commands : Array<String>;
 
     public function new(Condition : String)
     {
         condition = Condition;
 
-        messages = [];
+        interactions = [];
         commands = [];
 
         enabled = true;
