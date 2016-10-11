@@ -14,6 +14,7 @@ class Shop extends Message
 
     var productsBg : FlxSprite;
     var productLabels : Map<Item, FlxText>;
+    var priceLabels : Map<Item, FlxText>;
     var cursor : FlxSprite;
 
     var prices : Map<Item, Int>;
@@ -36,6 +37,7 @@ class Shop extends Message
         prices = Prices;
 
         productLabels = new Map<Item, FlxText>();
+        priceLabels = new Map<Item, FlxText>();
 
         // Add the exit "item"
         productList.push(new Item("- THANKS BYE"));
@@ -44,20 +46,18 @@ class Shop extends Message
         productsNumber = productList.length;
         baseY = Std.int(y+bg.height);
 
-        var productLabel = null;
+        var productLabel : FlxText = null;
         var labelX : Float = x + bg.width/2;
 
         var longest : Float = -1;
         var height : Int = 0;
 
+        // Generate product labels
         for (product in productList)
         {
             productLabel = new FlxText(labelX, baseY + height);
             productLabel.setFormat("assets/data/adventurePixels.ttf", 16);
             productLabel.text = product.name;
-
-            if (prices.get(product) != null)
-                productLabel.text += " - " + prices.get(product);
 
             productLabel.scrollFactor.set(0, 0);
 
@@ -70,6 +70,27 @@ class Shop extends Message
         }
 
         labelX = bg.x + bg.width - longest - 10;
+
+        // Generate price labels
+        var priceLabel : FlxText = null;
+        var price : Int = 0;
+        for (product in productList)
+        {
+            productLabel = productLabels.get(product);
+            price = prices.get(product);
+
+            if (price != null)
+            {
+                priceLabel = new FlxText(labelX + longest - 32, productLabel.y, 32);
+                priceLabel.setFormat("assets/data/adventurePixels.ttf", 16);
+                priceLabel.alignment = FlxTextAlign.RIGHT;
+                priceLabel.text = "" + prices.get(product);
+                priceLabel.scrollFactor.set(0, 0);
+
+                priceLabels.set(product, priceLabel);
+            }
+        }
+
         for (product in productList)
         {
             productLabels.get(product).x = labelX;
@@ -86,6 +107,10 @@ class Shop extends Message
         for (product in productList)
         {
             add(productLabels.get(product));
+            if (priceLabels.get(product) != null)
+            {
+                add(priceLabels.get(product));
+            }
         }
 
         cursor = new FlxSprite(productsBg.x + productsBg.width - 10, baseY+1, "assets/images/cursor.png");
@@ -160,6 +185,7 @@ class Shop extends Message
         var price : Int = prices.get(item);
 
         var itemLabel : FlxText = productLabels.get(item);
+        var priceLabel : FlxText = priceLabels.get(item);
         var oldText : String = itemLabel.text;
 
         // Temporarily alter item label
@@ -193,11 +219,13 @@ class Shop extends Message
             itemLabel.color = 0xFFFF004D;
         }
 
+        priceLabel.visible = false;
         // And return to the original after a while
         timer.start(0.5, function(t:FlxTimer) {
             t.cancel();
             itemLabel.text = oldText;
             itemLabel.color = 0xFFFFFFFF;
+            priceLabel.visible = true;
             state = WAITING;
         });
     }
