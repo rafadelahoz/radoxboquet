@@ -14,8 +14,6 @@ set appfel_intro
 
 
 if flag.appfel_intro
-"So one appfel is 5 moneys"
-money -5
-"Here is your APPFEL"
-give APPFEL
-"Thank you!"
+"Try an APPFEL, will ya?"
+shop "APPFELs are just 16m a piece. Don't buy keys" APPFEL 16, TICKET 13, KEY GREEN 50, KEY RED 10, KEY YELLOW 10
+"Thanks!"

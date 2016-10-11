@@ -127,9 +127,9 @@
   </object>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="1" name="spawn" type="Teleport" x="360" y="120" width="20" height="20">
+  <object id="1" name="spawn" type="Teleport" x="540" y="660" width="20" height="20">
    <properties>
-    <property name="dir" value="left"/>
+    <property name="dir" value="right"/>
     <property name="door" value="none"/>
     <property name="target" value="none"/>
    </properties>

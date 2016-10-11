@@ -159,8 +159,6 @@ class Shop extends Message
         var item : Item = getProduct(selection);
         var price : Int = prices.get(item);
 
-        trace(item + ":" + price);
-
         var itemLabel : FlxText = productLabels.get(item);
         var oldText : String = itemLabel.text;
 
@@ -170,7 +168,6 @@ class Shop extends Message
         if (price == null)
         {
             // Exiting
-            trace("Exiting");
             state = CLOSING;
             return;
         }

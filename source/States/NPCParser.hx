@@ -123,7 +123,7 @@ class NPCParser
                 trace("behavour not implemented");
             case "message":
                 config.interactions.push(line);
-            case "give", "remove", "set", "switch", "money", "open", "close":
+            case "give", "remove", "set", "switch", "money", "open", "close", "shop":
                 config.interactions.push(propName + " " + line);
             default:
                 throw "Unrecognized property " + propName;

@@ -473,6 +473,8 @@ class World extends FlxTransitionableState
         if (spawnPoint != null)
         {
             GameState.saveLocation(sceneName, spawnPoint.name);
+            // Remove the spawn point, as it won't be needed anymore
+            spawnPoint.destroy();
         }
     }
 
