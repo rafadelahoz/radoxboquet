@@ -596,6 +596,17 @@ class World extends FlxTransitionableState
         }
         else
         {
+            if (FlxG.keys.justPressed.F1)
+                ShaderManager.get().switchShader(1);
+            else if (FlxG.keys.justPressed.F2)
+                ShaderManager.get().switchShader(2);
+            else if (FlxG.keys.justPressed.F3)
+                ShaderManager.get().switchShader(3);
+            else if (FlxG.keys.justPressed.F4)
+                ShaderManager.get().switchShader(4);
+            else if (FlxG.keys.justPressed.F5)
+                ShaderManager.get().switchShader(5);
+
             if (FlxG.keys.justPressed.ONE)
                 addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
             else if (FlxG.keys.justPressed.TWO)
