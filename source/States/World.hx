@@ -644,7 +644,7 @@ class World extends FlxTransitionableState
 
             if (FlxG.keys.justPressed.P)
             {
-                /*var prices : Map<Item, Int> = new Map<Item, Int>();
+                var prices : Map<Item, Int> = new Map<Item, Int>();
                 var products : Array<Item> = [new Item("BANANA"), new Item("KEBABS"), new Item("ASWORD"), new Item("BOWARR"), new Item("HOMLES")];
                 prices.set(products[0], 5);
                 prices.set(products[1], 0);
@@ -653,8 +653,7 @@ class World extends FlxTransitionableState
                 prices.set(products[4], 30);
                 var msg : Message = new Shop(this, "Choose whatever you want, everything is of the finest quality", products, prices);
 
-                showMessage(["Hello and welcome to my humble store!", "I hope you buy cool things", "Check my wares"]);
-                interactionQueue.push(msg);*/
+                setupInteraction([new Message(this, "Welcome!"), msg, new Message(this, "Thank you for your patronage")]);
             }
         }
     }

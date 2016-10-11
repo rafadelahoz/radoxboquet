@@ -53,7 +53,6 @@ class Message extends FlxGroup implements Interaction
         timer = new FlxTimer();
         timer.start(0.1, function(t:FlxTimer){
             t.cancel();
-            t.destroy();
 
             state += 1;
         });
@@ -72,6 +71,12 @@ class Message extends FlxGroup implements Interaction
 
     override public function update(elapsed : Float)
     {
+        if (onUpdate())
+            super.update(elapsed);
+    }
+
+    public function onUpdate() : Bool
+    {
         if (state == 1 && FlxG.keys.justPressed.S)
         {
             state += 1;
@@ -83,10 +88,11 @@ class Message extends FlxGroup implements Interaction
 
             kill();
             destroy();
-            return;
+
+            return false;
         }
 
-        super.update(elapsed);
+        return true;
     }
 
     function processText(message : String) : String

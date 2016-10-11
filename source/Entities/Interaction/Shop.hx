@@ -8,6 +8,10 @@ import flixel.util.FlxTimer;
 
 class Shop extends Message
 {
+    static var WAITING  : Int = 1;
+    static var ACTION   : Int = 2;
+    static var CLOSING  : Int = 3;
+
     var productsBg : FlxSprite;
     var productLabels : Map<Item, FlxText>;
     var cursor : FlxSprite;
@@ -91,9 +95,20 @@ class Shop extends Message
         selection = 0;
     }
 
+    override public function kill()
+    {
+        super.kill();
+        if (timer != null)
+        {
+            timer.cancel();
+            timer.destroy();
+            timer = null;
+        }
+    }
+
     override public function destroy()
     {
-        world.removeMessage(this);
+        world.removeInteraction(this);
         super.destroy();
     }
 
@@ -102,48 +117,49 @@ class Shop extends Message
         kill();
     }
 
-    override public function update(elapsed : Float)
+    override public function onUpdate() : Bool
     {
-        if (state == 1)
+        switch (state)
         {
-            if (FlxG.keys.justPressed.SPACE)
-            {
-                selection = Std.int((selection + 1) % productsNumber);
-                cursor.y = baseY + 1 + cursor.height*selection;
-            }
-            else if (FlxG.keys.justPressed.A)
-            {
-                handleSelection();
-            }
+            case Shop.WAITING:
+                if (FlxG.keys.justPressed.SPACE)
+                {
+                    selection = Std.int((selection + 1) % productsNumber);
+                    cursor.y = baseY + 1 + cursor.height*selection;
+                }
+                else if (FlxG.keys.justPressed.S)
+                {
+                    handleSelection();
+                }
+            case Shop.ACTION:
+                // Nop!
+            case Shop.CLOSING:
+                if (FlxG.keys.justReleased.S)
+                {
+                    world.onInteractionEnd();
+
+                    kill();
+                    destroy();
+
+                    return false;
+                }
+                else if (FlxG.keys.pressed.S)
+                {
+                    textField.scale.set(1, 0.5);
+                }
         }
 
-        if (state == 1 && FlxG.keys.justPressed.S)
-        {
-            state = 3;
-            textField.scale.set(1, 0.5);
-        }
-        else if (state == 3 && FlxG.keys.pressed.A)
-        {
-            textField.scale.set(1, 0.5);
-        }
-        else if (state == 3 && (FlxG.keys.justReleased.S || FlxG.keys.justReleased.A))
-        {
-            world.onInteractionEnd();
-
-            kill();
-            destroy();
-            return;
-        }
-
-        super.update(elapsed);
+        return true;
     }
 
     function handleSelection()
     {
-        state = 2;
+        state = ACTION;
 
         var item : Item = getProduct(selection);
         var price : Int = prices.get(item);
+
+        trace(item + ":" + price);
 
         var itemLabel : FlxText = productLabels.get(item);
         var oldText : String = itemLabel.text;
@@ -154,7 +170,8 @@ class Shop extends Message
         if (price == null)
         {
             // Exiting
-            state = 3;
+            trace("Exiting");
+            state = CLOSING;
             return;
         }
         else if (GameState.money >= price)
@@ -180,12 +197,11 @@ class Shop extends Message
         }
 
         // And return to the original after a while
-        new FlxTimer().start(0.5, function(t:FlxTimer) {
+        timer.start(0.5, function(t:FlxTimer) {
             t.cancel();
-            t.destroy();
             itemLabel.text = oldText;
             itemLabel.color = 0xFFFFFFFF;
-            state = 1;
+            state = WAITING;
         });
     }
 
@@ -195,17 +211,5 @@ class Shop extends Message
             return null;
         else
             return productList[index];
-    }
-
-    static function pad(text : String, length : Int, ?with : String = " ") : String
-    {
-        trace("Padding [" + text + "] until " + length);
-        while (text.length < length)
-        {
-            text = with + text;
-            trace("- [" + text + "]");
-        }
-
-        return text;
     }
 }
