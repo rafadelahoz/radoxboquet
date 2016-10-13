@@ -5,6 +5,8 @@ import flixel.math.FlxMath;
 
 class ToolActor extends Entity
 {
+    static var SPECIAL_TOOLS : Array<String> = ["CORPSE", "KEY", "HOSPTL"];
+
     public var name : String;
     public var property : String;
 
@@ -15,19 +17,26 @@ class ToolActor extends Entity
         name = Name;
         property = Property;
 
-        switch (name)
-        {
-            case "CORPSE":
-            case "KEY":
-            case "HOSPTL":
-            default:
-                loadGraphic("assets/images/item_bag.png");
-                x += 10-width/2;
-                y -= height;
-        }
+        handleGraphic();
 
         if (Slide)
             slide(world.player);
+    }
+
+    function handleGraphic()
+    {
+        // Only handle the graphic for thos items that are not special
+        if (SPECIAL_TOOLS.indexOf(name) < 0)
+        {
+            switch (name)
+            {
+                default:
+                    loadGraphic("assets/images/item_bag.png");
+                    scale.set(1.3, 1.3);
+                    x += 10-width/2;
+                    y -= height;
+            }
+        }
     }
 
     public function onPickup() : Bool
@@ -57,7 +66,7 @@ class ToolActor extends Entity
             doSlide(getMidpoint(), from.getMidpoint(), 1.5);
         }
     }
-    
+
     public function getPositionItem() : PositionItem
     {
         var pitem : PositionItem = new PositionItem(x-offset.x, y-offset.y+height, new Item(name, property));
