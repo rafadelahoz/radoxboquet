@@ -613,7 +613,8 @@ class World extends FlxTransitionableState
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
                 // addEntity(new Hazard(snapX, snapY, this));
-                addEntity(new Idler(snapX, snapY, this));
+                // addEntity(new Idler(snapX, snapY, this));
+                addEntity(new BouncySpikes(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)
                 addEntity(new Hospital(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.FIVE)
