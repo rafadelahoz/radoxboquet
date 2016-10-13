@@ -6,3 +6,11 @@ face left
 "Making Kebabs has always been my dream!"
 "Please, try one"
 give KEBABS
+set gotKebabs
+
+if flag.gotKebabs
+graphic npcs/man3 20 20 2 2
+solid true
+flip false
+face left
+shop "Do you want a KEBABS?" KEBABS 5

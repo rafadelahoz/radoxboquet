@@ -232,24 +232,24 @@ class Player extends Entity
     function handleAction()
     {
         var tool : Item = GameState.items[GameState.currentItem];
-        switch (StringTools.trim(tool.name).toUpperCase())
+
+        if (CurativeItem.is(tool))
         {
-            case "SWORD":
-                currentTool = new Sword(x, y, world);
-                world.addEntity(currentTool);
-            case "BOWARR":
-                currentTool = new Bow(x, y, world);
-                world.addEntity(currentTool);
-            case "APPFEL":
-                GameState.removeItem(tool);
-                GameState.addHP(25);
-                // Wait for a sec!
-                new FlxTimer().start(0.16, function(t:FlxTimer) {
-                    onToolFinish(null);
-                    t.destroy();
-                });
-            default:
-                dropTool(tool);
+            CurativeItem.onUse(this, tool);
+        }
+        else
+        {
+            switch (StringTools.trim(tool.name).toUpperCase())
+            {
+                case "SWORD":
+                    currentTool = new Sword(x, y, world);
+                    world.addEntity(currentTool);
+                case "BOWARR":
+                    currentTool = new Bow(x, y, world);
+                    world.addEntity(currentTool);
+                default:
+                    dropTool(tool);
+            }
         }
 
         velocity.set(0, 0);
