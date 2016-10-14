@@ -39,8 +39,8 @@
 	<classpath name="source/Entities/Hazards"/>
 	<classpath name="source/Entities/Interaction"/>
 	<classpath name="source/Entities/Actors/NPCs"/>
-	<assets path="assets" />
-	<assets path="assets/images" />
+	<assets path="assets"/>
+	<!--<assets path="assets" embed="true"/>-->
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
