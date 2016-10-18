@@ -12,7 +12,7 @@ class BouncySpikes extends Enemy
 {
     static var WaitDuration : Float = 0.5;
 
-    var speed : Int = 50;
+    var speed : Int = 80;
     var hspeed : Int;
     var vspeed : Int;
 
@@ -29,6 +29,8 @@ class BouncySpikes extends Enemy
         /*x += offset.x;
         y += offset.y;*/
 
+        scale.set(1.3, 1.3);
+
         hspeed = 0;
         vspeed = 0;
 
@@ -38,25 +40,48 @@ class BouncySpikes extends Enemy
             hspeed = (FlxG.random.bool(50) ? 1 : -1) * speed;
             vspeed = (FlxG.random.bool(50) ? 1 : -1) * speed;
         });
-
-        FlxG.watch.add(this, "velocity");
     }
 
     override public function update(elapsed : Float)
     {
-        if (overlapsAt(x + hspeed / 2 * elapsed, y, world.solids))
-        {
-            hspeed *= -1;
-        }
+        var hitX : Bool =
+            (overlapsAt(x + (hspeed / 5) * elapsed, y, world.solids) ||
+                overlapsAt(x + (hspeed / 5) * elapsed, y, world.npcs));
+        var hitY : Bool =
+            (overlapsAt(x, y + (vspeed / 5) * elapsed, world.solids) ||
+                overlapsAt(x, y + (vspeed / 5) * elapsed, world.npcs));
 
-        if (overlapsAt(x, y + vspeed / 2 * elapsed, world.solids))
-        {
+        if (hitX)
+            hspeed *= -1;
+
+        if (hitY)
             vspeed *= -1;
-        }
 
         velocity.set(hspeed, vspeed);
 
+        world.enemies.forEachOfType(BouncySpikes, function(enemy : BouncySpikes) {
+            if (enemy != this && overlapsAt(x + hspeed * elapsed, y + vspeed * elapsed, enemy))
+            {
+                FlxObject.separate(this, enemy);
+                onCollideWithOther(enemy);
+                enemy.onCollideWithOther(this);
+            }
+        });
+
         super.update(elapsed);
+    }
+
+    function onCollideWithOther(enemy : BouncySpikes)
+    {
+        if (Math.abs(x - enemy.x) > Math.abs(y - enemy.y))
+            hspeed *= -1;
+        else if (Math.abs(x - enemy.x) < Math.abs(y - enemy.y))
+            vspeed *= -1;
+        else
+        {
+            hspeed *= -1;
+            vspeed *= -1;
+        }
     }
 
     override public function onCollisionWithPlayer(player : Player)
