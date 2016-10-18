@@ -136,6 +136,7 @@ class GamePersistence
         var save : FlxSave = new FlxSave();
         save.bind(SAVE_NAME);
 
+        save.data.name = null;
         save.data.hp = null;
         save.data.money = null;
         save.data.items = null;
