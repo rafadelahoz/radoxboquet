@@ -163,7 +163,15 @@ class World extends FlxTransitionableState
             }
             else
             {
-                throw "NO SUITABLE PLAYER POSITION FOUND";
+                var teleport : Teleport = cast(teleports.getFirstAlive(), Teleport);
+                if (teleport != null)
+                {
+                    trace("DEFAULTING PLAYER POS TO " + teleport.name);
+                    spawnPoint = teleport.spawnPoint;
+                    direction = teleport.direction;
+                }
+                else
+                    throw "NO SUITABLE PLAYER POSITION FOUND";
             }
         }
 
@@ -637,6 +645,11 @@ class World extends FlxTransitionableState
                 GameState.printActors();
             else if (FlxG.keys.justPressed.F)
                 GameState.printFlags();
+
+            if (FlxG.keys.justPressed.W)
+            {
+                add(new WarpDoor());
+            }
         }
     }
 }
