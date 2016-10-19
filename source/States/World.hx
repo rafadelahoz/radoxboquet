@@ -612,13 +612,11 @@ class World extends FlxTransitionableState
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
-                // addEntity(new Hazard(snapX, snapY, this));
-                // addEntity(new Idler(snapX, snapY, this));
                 addEntity(new BouncySpikes(snapX, snapY, this));
             else if (FlxG.keys.justPressed.FOUR)
                 addEntity(new Hospital(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.FIVE)
-                addEntity(new Idler(snapX, snapY, this));
+                addEntity(new Charger(snapX, snapY, this));
             else if (FlxG.keys.pressed.SIX)
             {
                 var money : Money = null;
@@ -628,23 +626,7 @@ class World extends FlxTransitionableState
                     addEntity(money);
                 }
             }
-            else if (FlxG.keys.justPressed.SEVEN)
-                addEntity(new HazardSpikes(snapX, snapY, this, true, 2, 2));
-            else if (FlxG.keys.justPressed.EIGHT)
-            {
-                var npc : NPC = new NPC(snapX, snapY, this, "I was made for loving you baby and I was made for loving you.\nI was made for loving you \tbaby\t ok?\n\nYES THANKYOU THANK YOU");
-                npc.setupGraphic("player_sheet", 20, 20, "2", 10);
-                addEntity(npc);
-            }
-            else if (FlxG.keys.justPressed.R)
-            {
-                bgColor = FlxG.random.color();
-            }
-            else if (FlxG.keys.justPressed.K)
-            {
-                GameState.setFlag("k-flag", !GameState.getFlag("k-flag"));
-                trace("K-FLAG: " + GameState.getFlag("k-flag"));
-            }
+
             // DEBUG Increase, Decrease life
             else if (FlxG.keys.pressed.L)
                 GameState.addHP(1);
@@ -655,20 +637,6 @@ class World extends FlxTransitionableState
                 GameState.printActors();
             else if (FlxG.keys.justPressed.F)
                 GameState.printFlags();
-
-            if (FlxG.keys.justPressed.P)
-            {
-                var prices : Map<Item, Int> = new Map<Item, Int>();
-                var products : Array<Item> = [new Item("BANANA"), new Item("KEBABS"), new Item("ASWORD"), new Item("BOWARR"), new Item("HOMLES")];
-                prices.set(products[0], 5);
-                prices.set(products[1], 0);
-                prices.set(products[2], 100);
-                prices.set(products[3], 500);
-                prices.set(products[4], 30);
-                var msg : Message = new Shop(this, "Choose whatever you want, everything is of the finest quality", products, prices);
-
-                setupInteraction([new Message(this, "Welcome!"), msg, new Message(this, "Thank you for your patronage")]);
-            }
         }
     }
 }
