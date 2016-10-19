@@ -643,13 +643,13 @@ class World extends FlxTransitionableState
 
             if (FlxG.keys.justPressed.D)
                 GameState.printActors();
-            else if (FlxG.keys.justPressed.F)
+            else if (FlxG.keys.justPressed.B)
                 GameState.printFlags();
 
             if (FlxG.keys.justPressed.W)
-            {
                 add(new WarpDoor());
-            }
+            if (FlxG.keys.justPressed.F)
+                add(new FlagList());
         }
     }
 }

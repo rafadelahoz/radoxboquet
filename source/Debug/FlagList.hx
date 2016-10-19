@@ -9,28 +9,26 @@ import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.group.FlxGroup;
 
-class WarpDoor extends FlxGroup
+class FlagList extends FlxGroup
 {
-    var path : String = "assets/scenes";
-
     var x : Float;
     var y : Float;
     var width : Int;
     var height : Int;
 
-    var scenes : Array<String>;
+    var flags : Array<String>;
     var current : Int;
     var listSize : Int;
 
-    var scenesGroup : FlxGroup;
+    var itemsGroup : FlxGroup;
 
     public function new()
     {
         super();
 
-        x = 70;
+        x = 200;
         y = 10;
-        width = 120;
+        width = FlxG.width - 190;
         height = FlxG.height - 20;
 
         var bg : FlxSprite = new FlxSprite(x, y);
@@ -38,70 +36,60 @@ class WarpDoor extends FlxGroup
         bg.scrollFactor.set(0, 0);
         add(bg);
 
-        scenesGroup = new FlxGroup();
-        add(scenesGroup);
+        itemsGroup = new FlxGroup();
+        add(itemsGroup);
 
-        scenes = [];
+        flags = [];
 
-        if (FileSystem.exists(path) && FileSystem.isDirectory(path))
+        for (flag in GameState.flags.keys())
         {
-            for (element in FileSystem.readDirectory(path))
-            {
-                if (!FileSystem.isDirectory(path + "/" + element))
-                {
-                    var extPos : Int = element.lastIndexOf(".");
-                    var ext : String = element.substring(extPos+1, element.length);
-                    if (ext.toUpperCase() == "TMX")
-                        scenes.push(element.substring(0, extPos));
-                }
-            }
+            flags.push(flag);
         }
 
         current = 0;
         listSize = 9;
 
-        drawScenes();
+        drawItems();
     }
 
-    function drawScenes()
+    function drawItems()
     {
-        for (element in scenesGroup.members)
+        for (element in itemsGroup.members)
         {
             element.destroy();
         }
 
-        scenesGroup.clear();
+        itemsGroup.clear();
 
         var xx : Float = x + 5;
         var yy : Float = y + 5;
         var height : Int = 18;
 
-        var scene : String = null;
-        var last : Int = Std.int(Math.min(current+listSize, scenes.length));
-
+        var item : String = null;
+        var last : Int = Std.int(Math.min(current+listSize, flags.length));
         for (index in current...last)
         {
-            scene = scenes[index];
-            scenesGroup.add(new WarpItem(xx, yy, scene));
+            item = flags[index];
+            itemsGroup.add(new FlagItem(xx, yy, item));
             yy += height;
         }
 
-        if (scenes.length > listSize)
-            scenesGroup.add(new WarpItem(xx, yy, "...", nextPage));
+        if (flags.length > listSize)
+            itemsGroup.add(new FlagItem(xx, yy, "...", nextPage));
     }
 
     function nextPage()
     {
         current += listSize;
-        if (current >= scenes.length)
+        if (current >= flags.length)
             current = 0;
 
-        drawScenes();
+        drawItems();
     }
 
     override public function update(elapsed : Float)
     {
-        if (FlxG.keys.justReleased.W)
+        if (FlxG.keys.justReleased.F)
         {
             destroy();
             return;
@@ -111,16 +99,20 @@ class WarpDoor extends FlxGroup
     }
 }
 
-class WarpItem extends FlxText
+class FlagItem extends FlxText
 {
     var handler : Void -> Void;
+    var flagName : String;
 
     public function new(X : Float, Y : Float, Text : String, ?Handler : Void -> Void = null)
     {
         super(X, Y);
-        text = Text;
+        flagName = Text;
+
         setFormat("assets/data/adventurePixels.ttf", 16);
         scrollFactor.set(0, 0);
+
+        setupLabel();
 
         handler = Handler;
     }
@@ -149,7 +141,14 @@ class WarpItem extends FlxText
             handler();
         else
         {
-            FlxG.switchState(new World(text));
+            GameState.setFlag(flagName, !GameState.getFlag(flagName));
+            setupLabel();
         }
+    }
+
+    function setupLabel()
+    {
+        text = flagName + " - " +
+                (GameState.getFlag(flagName) ? "TRUE" : "FALSE");
     }
 }
