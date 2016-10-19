@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.util.FlxTimer;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 
 class Charger extends Enemy
@@ -20,6 +21,7 @@ class Charger extends Enemy
     var WalkStopThreshold : Float = 8;
     var WalkSpeed : Int = 40;
     var TurnTime : Float = 0.5;
+    var SightDistance : Int = 60;
     var AlertTime : Float = 0.5;
     var ChargeSpeed : Int = 200;
     var ChargeSpeedThreshold : Int = 40;
@@ -28,6 +30,7 @@ class Charger extends Enemy
     var state : Int;
     var timer : FlxTimer;
     var walkTarget : FlxPoint;
+    var tester : FlxObject;
 
     override public function onInit()
     {
@@ -35,9 +38,9 @@ class Charger extends Enemy
 
         hp = 3;
 
-        loadGraphic("assets/images/transition.png");
-        setSize(14, 14);
-        offset.set(3, 3);
+        loadGraphic("assets/images/npc_dummy.png");
+        setSize(16, 16);
+        offset.set(2, 2);
         // Correct x, y?
 
         timer = new FlxTimer();
@@ -48,8 +51,19 @@ class Charger extends Enemy
         else
             facing = FlxObject.RIGHT;
 
+        tester = new FlxObject(x, y);
+        tester.setSize(2, 2);
+
         // And idle
         switchState(IDLE);
+    }
+
+    override public function onDeath(?t:FlxTimer = null)
+    {
+        timer.cancel();
+        tester.destroy();
+
+        super.onDeath();
     }
 
     override public function update(elapsed : Float)
@@ -57,8 +71,7 @@ class Charger extends Enemy
         switch (state)
         {
             case Charger.IDLE:
-                if (FlxG.keys.justPressed.C)
-                    switchState(ALERT);
+                locatePlayer();
             case Charger.WALK:
                 // If we are close to the target or have stopped, idle
                 if ((getMidpoint().distanceTo(walkTarget) < WalkStopThreshold) || willMeetSolid(elapsed))
@@ -70,7 +83,11 @@ class Charger extends Enemy
                 else
                 {
                     flixel.math.FlxVelocity.moveTowardsPoint(this, walkTarget, WalkSpeed);
+                    locatePlayer();
                 }
+
+                handleMovementFacing();
+
             case Charger.HURT:
                 onHurtState();
             case Charger.ALERT:
@@ -85,7 +102,6 @@ class Charger extends Enemy
                 else if (willMeetSolid(elapsed))
                 {
                     // Bounce!
-
                     var hitX : Bool =
                         (overlapsAt(x + (velocity.x * elapsed), y, world.solids));
                         //  || overlapsAt(x + (hspeed / 5) * elapsed, y, world.npcs));
@@ -98,7 +114,11 @@ class Charger extends Enemy
                     if (hitY)
                         velocity.y *= -1;
                 }
+
+                handleMovementFacing();
         }
+
+        flipX = (facing == FlxObject.LEFT);
 
         super.update(elapsed);
     }
@@ -123,6 +143,11 @@ class Charger extends Enemy
                     switchState(IDLE);
                 });
             case Charger.ALERT:
+                if (world.player.x < x)
+                    facing = FlxObject.LEFT;
+                else
+                    facing = FlxObject.RIGHT;
+
                 timer.start(AlertTime, function (t:FlxTimer) {
                     switchState(CHARGE);
                 });
@@ -131,8 +156,6 @@ class Charger extends Enemy
                 flixel.math.FlxVelocity.moveTowardsPoint(this, walkTarget, ChargeSpeed);
                 drag.set(ChargeDrag, ChargeDrag);
         }
-
-        flipX = (facing == FlxObject.LEFT);
 
         state = newState;
     }
@@ -167,7 +190,43 @@ class Charger extends Enemy
     {
         if (Math.abs(velocity.x) < 50 && Math.abs(velocity.y) < 50)
         {
-            switchState(IDLE);
+            switchState(ALERT);
+        }
+    }
+
+    function locatePlayer()
+    {
+        var LerpSteps : Int = 5;
+        var midpoint : FlxPoint = getMidpoint();
+        // Check player distance and overal position
+        if (facing == FlxObject.LEFT && world.player.x < x ||
+            facing == FlxObject.RIGHT && world.player.x > x + width)
+        {
+            // If close enough and facing him
+            if (midpoint.distanceTo(world.player.getMidpoint()) < SightDistance)
+            {
+                // Wrycast towards its position
+                tester.x = midpoint.x;
+                tester.y = midpoint.y;
+
+                var collided : Bool = false;
+                for (step in 0...LerpSteps)
+                {
+                    tester.x = FlxMath.lerp(midpoint.x, world.player.x, step / (LerpSteps-1));
+                    tester.y = FlxMath.lerp(midpoint.y, world.player.y, step / (LerpSteps-1));
+                    if (tester.overlaps(world.solids))
+                    {
+                        // trace("Collided with player on step " + step + " at " + tester.x + ", " + tester.y);
+                        collided = true;
+                        break;
+                    }
+                }
+
+                if (!collided)
+                {
+                    switchState(ALERT);
+                }
+            }
         }
     }
 
@@ -185,6 +244,14 @@ class Charger extends Enemy
     function willMeetSolid(elapsed : Float) : Bool
     {
         return overlapsAt(x + velocity.x * elapsed, y + velocity.y * elapsed, world.solids);
+    }
+
+    function handleMovementFacing()
+    {
+        if (velocity.x < 0)
+            facing = FlxObject.LEFT;
+        else if (velocity.x > 0)
+            facing = FlxObject.RIGHT;
     }
 
     // returns value randomized by +/- 30%
