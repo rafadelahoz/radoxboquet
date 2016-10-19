@@ -21,16 +21,18 @@ class Charger extends Enemy
     var WalkStopThreshold : Float = 8;
     var WalkSpeed : Int = 40;
     var TurnTime : Float = 0.5;
-    var SightDistance : Int = 60;
+    var SightDistance : Int = 90;
     var AlertTime : Float = 0.5;
     var ChargeSpeed : Int = 200;
     var ChargeSpeedThreshold : Int = 40;
     var ChargeDrag : Int = 200;
+    var HurtTime : Float = 0.6;
 
     var state : Int;
     var timer : FlxTimer;
     var walkTarget : FlxPoint;
     var tester : FlxObject;
+    var suspictious : Bool;
 
     override public function onInit()
     {
@@ -38,10 +40,20 @@ class Charger extends Enemy
 
         hp = 3;
 
-        loadGraphic("assets/images/npc_dummy.png");
+        loadGraphic("assets/images/skelecharger.png", true, 20, 20);
         setSize(16, 16);
         offset.set(2, 2);
         // Correct x, y?
+
+        animation.add("idle", [0, 1, 2, 3], 5);
+        animation.add("wait", [0, 1, 2, 3], 15);
+        animation.add("walk", [0, 1, 2, 3], 8);
+        animation.add("alert", [4]);
+        animation.add("charge", [5, 6], 20);
+        animation.add("hurt", [7]);
+
+        var factor : Float = FlxG.random.float(0.9, 1.2);
+        scale.set(factor, factor);
 
         timer = new FlxTimer();
 
@@ -72,6 +84,7 @@ class Charger extends Enemy
         {
             case Charger.IDLE:
                 locatePlayer();
+                animation.play("idle");
             case Charger.WALK:
                 // If we are close to the target or have stopped, idle
                 if ((getMidpoint().distanceTo(walkTarget) < WalkStopThreshold) || willMeetSolid(elapsed))
@@ -86,13 +99,16 @@ class Charger extends Enemy
                     locatePlayer();
                 }
 
+                animation.play("walk");
                 handleMovementFacing();
 
             case Charger.HURT:
                 onHurtState();
             case Charger.ALERT:
-                // Graphic
-                scale.set(0.8, 0.8);
+                if (suspictious)
+                    animation.play("alert");
+                else
+                    animation.play("wait");
             case Charger.CHARGE:
                 if (Math.abs(velocity.x) + Math.abs(velocity.y) < ChargeSpeedThreshold)
                 {
@@ -115,6 +131,8 @@ class Charger extends Enemy
                         velocity.y *= -1;
                 }
 
+                // Can anim speed be set in function of velocity?
+                animation.play("charge");
                 handleMovementFacing();
         }
 
@@ -148,13 +166,26 @@ class Charger extends Enemy
                 else
                     facing = FlxObject.RIGHT;
 
-                timer.start(AlertTime, function (t:FlxTimer) {
-                    switchState(CHARGE);
+                velocity.set(0, 0);
+                suspictious = false;
+
+                // Do a pre-wait
+                timer.start(AlertTime * 0.5, function(t:FlxTimer) {
+                    suspictious = true;
+                    world.add(new Emotion(this, AlertTime));
+                    timer.start(AlertTime, function (t:FlxTimer) {
+                        switchState(CHARGE);
+                    });
                 });
+
             case Charger.CHARGE:
                 walkTarget = world.player.getMidpoint();
                 flixel.math.FlxVelocity.moveTowardsPoint(this, walkTarget, ChargeSpeed);
                 drag.set(ChargeDrag, ChargeDrag);
+            case Charger.HURT:
+                timer.start(HurtTime, function (t:FlxTimer) {
+                    switchState(CHARGE);
+                });
         }
 
         state = newState;
@@ -162,7 +193,7 @@ class Charger extends Enemy
 
     function onIdleEnd(?t:FlxTimer = null)
     {
-        var choice = FlxG.random.getObject([/*IDLE, */TURN, WALK]);
+        var choice = FlxG.random.getObject([IDLE, TURN, WALK], [0.175, 0.175, 0.65]);
         switchState(choice);
     }
 
@@ -188,10 +219,7 @@ class Charger extends Enemy
 
     function onHurtState()
     {
-        if (Math.abs(velocity.x) < 50 && Math.abs(velocity.y) < 50)
-        {
-            switchState(ALERT);
-        }
+        animation.play("hurt");
     }
 
     function locatePlayer()
@@ -203,7 +231,8 @@ class Charger extends Enemy
             facing == FlxObject.RIGHT && world.player.x > x + width)
         {
             // If close enough and facing him
-            if (midpoint.distanceTo(world.player.getMidpoint()) < SightDistance)
+            if (midpoint.distanceTo(world.player.getMidpoint()) < SightDistance &&
+                Math.abs(midpoint.x - world.player.x) > Math.abs(midpoint.y - world.player.y))
             {
                 // Wrycast towards its position
                 tester.x = midpoint.x;
