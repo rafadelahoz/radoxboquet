@@ -10,16 +10,20 @@
  </objecttype>
  <objecttype name="NPC" color="#ffaaff">
   <property name="canflip" type="bool" default="false"/>
+  <property name="face" type="string" default="left"/>
   <property name="graphic_asset" type="string" default="graphic"/>
   <property name="graphic_frames" type="string" default="array or length"/>
   <property name="graphic_speed" type="int" default="0"/>
   <property name="message" type="string" default="HELLO"/>
-  <property name="script" type="string"/>
+  <property name="script" type="string" default="script.npc"/>
   <property name="solid" type="bool" default="true"/>
  </objecttype>
  <objecttype name="Spikes" color="#a0a0a4">
   <property name="disabledTime" type="float" default="0"/>
   <property name="enabled" type="bool" default="false"/>
   <property name="enabledTime" type="float" default="0"/>
+ </objecttype>
+ <objecttype name="Area" color="#bf0000">
+  <property name="entity" type="string" default="number or min...max"/>
  </objecttype>
 </objecttypes>

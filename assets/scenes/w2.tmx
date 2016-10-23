@@ -48,7 +48,7 @@
   <object id="130" type="solid" x="560" y="200" width="240" height="60"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="32" type="Area" x="80" y="60" width="300" height="200" visible="0">
+  <object id="32" type="Area" x="80" y="60" width="300" height="200">
    <properties>
     <property name="dilidoo" type="int" value="1"/>
     <property name="idler" value="0...3"/>

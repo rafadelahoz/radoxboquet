@@ -1,0 +1,13 @@
+default
+solid false
+visible false
+"There is something buried here"
+"It's a... bone?"
+give BONE
+"There is something else!"
+"Found 100 metas"
+money 100
+set l1chambertreasure true
+
+if flag.l1chambertreasure
+enabled false

@@ -1,0 +1,8 @@
+default
+solid false
+visible false
+"The gate seems to be closed"
+set seenl1door true
+
+if flag.l1dooropen
+enabled false

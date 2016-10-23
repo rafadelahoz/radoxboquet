@@ -100,6 +100,7 @@ class Message extends FlxGroup implements Interaction
         // Perform substitutions and tidying on the provided text
         message = message.toUpperCase();
         message = StringTools.replace(message, "@NAME", GameState.name);
+        message = StringTools.replace(message, "@LN", "\n");
 
         return message;
     }

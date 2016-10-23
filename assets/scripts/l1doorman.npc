@@ -1,0 +1,26 @@
+default
+face left
+"Hi @name!"
+"How are you enjoying the Level?"
+
+if flag.l1dooropen
+"How are you enjoying the Level?"
+
+if flag.talkofl1door
+"You should go check again"
+"I'm pretty sure our security woman was there last time I checked"
+
+
+if flag.seenl1door
+"WHAT?"
+"The door to the level is closed?"
+"really?"
+"Have you tried talking to the security woman?"
+"..."
+"There was no security woman?"
+"Are you sure?"
+"I'm sure we have a security woman..."
+"She is even wearing a vest, she is very fashionable!"
+"You should go check again"
+"I'm pretty sure she was there last time I checked"
+set talkofl1door true

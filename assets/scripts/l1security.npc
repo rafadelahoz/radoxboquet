@@ -1,0 +1,25 @@
+default
+visible false
+solid false
+enabled false
+
+if flag.l1dooropen
+enabled true
+graphic npcs/woman 20 20 2 4
+visible true
+solid true
+face left
+"Enjoy your visit!"
+
+if flag.talkofl1door
+enabled true
+graphic npcs/woman 20 20 2 4
+visible true
+solid true
+face left
+"Hello"
+"Welcome to the Field Parish Level"
+"Let me open the door for you"
+"Enjoy your visit!"
+open Grate
+set l1dooropen true

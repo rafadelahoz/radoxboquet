@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="11" tilewidth="20" tileheight="20" backgroundcolor="#7f3579" nextobjectid="154">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <layer name="Tiles" width="30" height="11">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   VQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAwwAAAAAAAAAAAAAAAAAAAJkAAAAAAAAAAAAAAAAAAAAAAAAAmQAAAAAAAAAAAAAAAAAAAAAAAACZAAAAAAAAAAAAAAAAAAAAAAAAAJkAAAAAAAAAAAAAAAAAAADDAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAbgAAAG4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG4AAABuAAAAbgAAAG4AAAAAAAAAbgAAAG4AAABuAAAAbgAAAAAAAAAAAAAAAAAAAAAAAACZAAAAGQAAAFUAAABVAAAAVQAAAFUAAABzAAAAbgAAAG4AAAAAAAAAAAAAAG4AAABuAAAAbgAAAG4AAABuAAAAbgAAAG4AAAAAAAAAAAAAAG4AAABuAAAAbgAAAAAAAAAAAAAAbgAAAG4AAABuAAAAbgAAAAAAAAAAAAAAdAAAAFUAAABVAAAAVQAAAFUAAAAZAAAAbgAAAG4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG4AAABuAAAAbgAAAG4AAAAAAAAAbgAAAG4AAABuAAAAbgAAAAAAAAAAAAAAAAAAAAAAAACZAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAwwAAAAAAAAAAAAAAAAAAAJkAAAAAAAAAAAAAAAAAAAAAAAAAmQAAAAAAAAAAAAAAAAAAAAAAAACZAAAAAAAAAAAAAAAAAAAAAAAAAJkAAAAAAAAAAAAAAAAAAADDAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAFUAAABVAAAAVQAAAFUAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAA
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="117" type="solid" x="20" y="40" width="10" height="20"/>
+  <object id="129" type="SOLID" x="40" y="20" width="520"/>
+  <object id="132" type="SOLID" x="40" y="180" width="520" height="20"/>
+  <object id="133" type="SOLID" x="40" y="20" width="520" height="20"/>
+  <object id="134" type="SOLID" x="540" y="40" width="20" height="60"/>
+  <object id="135" type="SOLID" x="540" y="120" width="20" height="60"/>
+  <object id="136" type="SOLID" x="40" y="120" width="20" height="60"/>
+  <object id="137" type="SOLID" x="40" y="40" width="20" height="60"/>
+  <object id="142" type="SOLID" x="140" y="60" width="20" height="20"/>
+  <object id="143" type="SOLID" x="140" y="140" width="20" height="20"/>
+  <object id="144" type="SOLID" x="240" y="140" width="20" height="20"/>
+  <object id="145" type="SOLID" x="340" y="140" width="20" height="20"/>
+  <object id="146" type="SOLID" x="440" y="140" width="20" height="20"/>
+  <object id="147" type="SOLID" x="440" y="60" width="20" height="20"/>
+  <object id="148" type="SOLID" x="340" y="60" width="20" height="20"/>
+  <object id="149" type="SOLID" x="240" y="60" width="20" height="20"/>
+  <object id="150" type="SOLID" x="520" y="120" width="20" height="20"/>
+  <object id="151" type="SOLID" x="520" y="80" width="20" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="58" name="Guard" type="NPC" x="20" y="60" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="graphic_asset" value="transition"/>
+    <property name="message" value="WELCOME"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="91" name="entrance" type="Teleport" x="40" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="exit"/>
+    <property name="target" value="outskirts"/>
+   </properties>
+  </object>
+  <object id="93" name="spawn" type="Teleport" x="60" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="none"/>
+    <property name="target" value="none"/>
+   </properties>
+  </object>
+  <object id="107" name="Security Woman" type="NPC" x="500" y="80" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="graphic_asset" value=""/>
+    <property name="message" value=""/>
+    <property name="script" value="l1security.npc"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="108" name="Grate" type="Door" x="0" y="100" width="20" height="20">
+   <properties>
+    <property name="graphic_asset" value="grate_door"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="110" name="Treasure" type="NPC" x="0" y="60" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="false"/>
+    <property name="graphic_asset" value=""/>
+    <property name="message" value=""/>
+    <property name="script" value="w2treasure.npc"/>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="111" name="lock1" type="LockDoor" x="0" y="80" width="20" height="20">
+   <properties>
+    <property name="color" value="GREEN"/>
+   </properties>
+  </object>
+  <object id="141" name="east" type="Teleport" x="540" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door" value="west"/>
+    <property name="target" value="l1plaza"/>
+   </properties>
+  </object>
+  <object id="152" name="Grate" type="Door" x="540" y="100" width="20" height="20">
+   <properties>
+    <property name="graphic_asset" value="grate_door"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="153" name="Check Grate" type="NPC" x="520" y="100" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="false"/>
+    <property name="graphic_asset" value=""/>
+    <property name="message" value=""/>
+    <property name="script" value="l1checkgrate.npc"/>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
