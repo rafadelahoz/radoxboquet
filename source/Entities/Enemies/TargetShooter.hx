@@ -78,7 +78,7 @@ class TargetShooter extends Enemy
         flash(0xFF000000, ShootTime);
         animation.play("open");
 
-        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, world.player, BulletSpeed));
+        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, world.player.getMidpoint(), BulletSpeed));
 
         timer.start(ShootTime, wait);
     }
