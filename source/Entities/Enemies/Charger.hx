@@ -89,7 +89,6 @@ class Charger extends Enemy
                 // If we are close to the target or have stopped, idle
                 if ((getMidpoint().distanceTo(walkTarget) < WalkStopThreshold) || willMeetSolid(elapsed))
                 {
-                    trace("Arrived");
                     velocity.set();
                     switchState(IDLE);
                 }

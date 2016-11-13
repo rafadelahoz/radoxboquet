@@ -237,6 +237,7 @@ class World extends FlxTransitionableState
 
         FlxG.collide(player, solids);
         FlxG.collide(enemies, solids);
+        FlxG.collide(enemies, teleports);
         FlxG.collide(items, solids);
         FlxG.collide(items, teleports);
         FlxG.collide(tools, solids);
@@ -354,25 +355,6 @@ class World extends FlxTransitionableState
 
         entities.remove(entity, true);
     }
-
-    /*public function showMessage(messageList : Array<String>, ?callback : Void -> Void = null, ?cancelCallback : Void -> Void)
-    {
-        var message : String;
-        var msg : Message;
-
-        for (index in 0...messageList.length)
-        {
-            message = messageList[index];
-            msg = new Message(this, message);
-
-            interactionQueue.push(msg);
-        }
-
-        interactionQueueCallback = callback;
-        interactionQueueCancelCallback = cancelCallback;
-
-        startInteraction();
-    }*/
 
     public function setupInteraction(interactions : Array<Interaction>, ?callback : Void -> Void, ?cancelCallback : Void -> Void)
     {

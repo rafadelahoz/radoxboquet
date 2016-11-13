@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -17,9 +18,10 @@ class Thrower extends Enemy
     var LocationThreshold : Float = 100;
 
     var PositioningTime : Float = 4;
-    var Accel : Int = 5000;
-    var MaxSpeed : Int = 250;
+    var Accel : Int = 3000;
+    var MaxSpeed : Int = 200;
     var Distance : Int = 60;
+    var StopThreshold : Int = 4;
     var PositionMargin : Int = 20;
     var InPositionTime : Float = 1;
 
@@ -33,6 +35,7 @@ class Thrower extends Enemy
 
     var state : Int;
     var positionedTime : Float;
+    var targetPoint : FlxPoint;
 
     override public function onInit()
     {
@@ -54,11 +57,14 @@ class Thrower extends Enemy
 
         timer = new FlxTimer();
         positionedTime = 0;
+        targetPoint = new FlxPoint();
 
         switchState(IDLE);
 
-        FlxG.watch.add(this, "positionedTime");
-        FlxG.watch.add(this, "Math.abs(world.player.getMidpoint().y - getMidpoint().y)");
+        FlxG.watch.add(this.acceleration, "x");
+        FlxG.watch.add(this.acceleration, "y");
+        FlxG.watch.add(this.velocity, "x");
+        FlxG.watch.add(this.velocity, "y");
     }
 
     function switchState(newState : Int)
@@ -68,6 +74,7 @@ class Thrower extends Enemy
             case Thrower.IDLE:
                 // DODO
             case Thrower.POSITION:
+                drag.set(200, 200);
                 timer.start(PositioningTime, function(t:FlxTimer) {
                     switchState(SHOOT);
                 });
@@ -112,16 +119,25 @@ class Thrower extends Enemy
             return;
 
         // Shoot
-        flash(0xFF000000, ShootTime);
+        // flash(0xFF000000, ShootTime);
+        shake(ShootTime * 0.3);
         // animation.play("open");
 
+        var origin : FlxPoint = getMidpoint();
         var target : FlxPoint = new FlxPoint();
-        if (world.player.getMidpoint().x < x)
-            target.x -= 10;
-        else
-            target.x += 10;
 
-        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, Bullet.Lance, null, target, ThrowSpeed));
+        if (flipX)
+        {
+            origin.x -= 14;
+            target.x -= 10;
+        }
+        else
+        {
+            origin.x += 4;
+            target.x += 10;
+        }
+
+        world.addEntity(new Bullet(origin.x, origin.y, world, Bullet.Lance, null, target, ThrowSpeed));
 
         animation.play("shoot");
 
@@ -135,7 +151,7 @@ class Thrower extends Enemy
         var midpoint : FlxPoint = getMidpoint();
         var playerPos : FlxPoint = world.player.getMidpoint();
 
-        var targetPoint : FlxPoint = new FlxPoint(x, playerPos.y);
+        targetPoint.set(x, playerPos.y);
 
         if (midpoint.x < playerPos.x)
         {
@@ -147,6 +163,11 @@ class Thrower extends Enemy
         }
 
         FlxVelocity.accelerateTowardsPoint(this, targetPoint, Accel, MaxSpeed);
+
+        if (midpoint.distanceTo(targetPoint) <= StopThreshold)
+        {
+            acceleration.set();
+        }
 
         FlxG.collide(this, world.enemies);
 
@@ -195,5 +216,12 @@ class Thrower extends Enemy
     {
         timer.cancel();
         super.onDeath();
+    }
+
+    override public function draw()
+    {
+        super.draw();
+
+        // new FlxSprite(targetPoint.x, targetPoint.y).makeGraphic(2, 2, 0xFFFFFFFF).draw();
     }
 }

@@ -18,6 +18,7 @@ class Bullet extends Hazard
         {
             case "lance":
                 loadGraphic("assets/images/lance.png");
+                setSize(8, 4);
                 centerOffsets(true);
             default:
                 loadGraphic("assets/images/purple_bullet.png");
