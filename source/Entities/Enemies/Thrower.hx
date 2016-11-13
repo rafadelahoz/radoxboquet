@@ -12,6 +12,7 @@ class Thrower extends Enemy
     static var IDLE : Int = 0;
     static var POSITION : Int = 1;
     static var SHOOT : Int = 2;
+    static var HURT : Int = 3;
 
     var LocationThreshold : Float = 100;
 
@@ -22,9 +23,11 @@ class Thrower extends Enemy
     var PositionMargin : Int = 20;
     var InPositionTime : Float = 1;
 
-    var ShootDelay : Float = 0.5;
+    var ShootDelay : Float = 1;
     var ShootTime : Float = 0.5;
-    var ThrowSpeed : Int = 222;
+    var ThrowSpeed : Int = 130;
+
+    var HurtTime : Float = 0.5;
 
     var timer : FlxTimer;
 
@@ -37,7 +40,16 @@ class Thrower extends Enemy
 
         hp = 3;
 
-        makeGraphic(18, 18, 0xFFFFFFFF);
+        loadGraphic("assets/images/skelethrower.png", true, 20, 20);
+        animation.add("idle", [0, 1], 4);
+        animation.add("walk", [1, 0], 6);
+        animation.add("wait", [1, 0], 12);
+        animation.add("shoot", [2]);
+        animation.add("hurt", [3]);
+
+        animation.play("idle");
+
+        setSize(18, 18);
         offset.set(1, 1);
 
         timer = new FlxTimer();
@@ -62,6 +74,12 @@ class Thrower extends Enemy
             case Thrower.SHOOT:
                 positionedTime = 0;
                 timer.start(ShootDelay, doShoot);
+                animation.play("wait");
+            case Thrower.HURT:
+                timer.cancel();
+                timer.start(HurtTime, function (t:FlxTimer) {
+                    switchState(POSITION);
+                });
         }
 
         state = newState;
@@ -73,11 +91,14 @@ class Thrower extends Enemy
         {
             case Thrower.IDLE:
                 locatePlayer();
+                animation.play("idle");
             case Thrower.POSITION:
                 handlePositioning(elapsed);
             case Thrower.SHOOT:
                 velocity.set();
                 acceleration.set();
+            case Thrower.HURT:
+                animation.play("hurt");
         }
 
         super.update(elapsed);
@@ -86,6 +107,10 @@ class Thrower extends Enemy
     function doShoot(?t:FlxTimer = null)
     {
         timer.cancel();
+
+        if (state != SHOOT)
+            return;
+
         // Shoot
         flash(0xFF000000, ShootTime);
         // animation.play("open");
@@ -96,7 +121,9 @@ class Thrower extends Enemy
         else
             target.x += 10;
 
-        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, null, target, ThrowSpeed));
+        world.addEntity(new Bullet(getMidpoint().x, getMidpoint().y, world, Bullet.Lance, null, target, ThrowSpeed));
+
+        animation.play("shoot");
 
         timer.start(ShootTime, function(t:FlxTimer) {
             switchState(POSITION);
@@ -121,6 +148,8 @@ class Thrower extends Enemy
 
         FlxVelocity.accelerateTowardsPoint(this, targetPoint, Accel, MaxSpeed);
 
+        FlxG.collide(this, world.enemies);
+
         if (Math.abs(playerPos.y - midpoint.y) < PositionMargin)
             positionedTime += elapsed;
         else
@@ -132,6 +161,9 @@ class Thrower extends Enemy
             positionedTime = 0;
             switchState(SHOOT);
         }
+
+        flipX = (playerPos.x < midpoint.x);
+        animation.play("walk");
     }
 
     function locatePlayer()
@@ -143,5 +175,25 @@ class Thrower extends Enemy
         {
             switchState(POSITION);
         }
+    }
+
+    override function hurtSlide(cause : FlxObject)
+    {
+        velocity.set();
+        acceleration.set();
+
+        super.hurtSlide(cause);
+
+        // If you are still alive, then please continue
+        if (hp > 0)
+        {
+            switchState(HURT);
+        }
+    }
+
+    override public function onDeath(?t:FlxTimer = null)
+    {
+        timer.cancel();
+        super.onDeath();
     }
 }

@@ -6,18 +6,27 @@ import flixel.math.FlxPoint;
 
 class Bullet extends Hazard
 {
+    public static var Purple : String = "purple";
+    public static var Lance : String = "lance";
     var target : FlxPoint;
 
-    public function new(X : Float, Y : Float, World : World, Target : FlxPoint, ?Direction : FlxPoint = null, ?Speed : Int = 300)
+    public function new(X : Float, Y : Float, World : World, ?Type : String = null, Target : FlxPoint, ?Direction : FlxPoint = null, ?Speed : Int = 300)
     {
         super(X, Y, World);
 
-        loadGraphic("assets/images/purple_bullet.png");
-        setSize(10, 10);
-        centerOffsets(true);
-        // Center offsets
-        x -= 5;
-        y -= 5;
+        switch (Type)
+        {
+            case "lance":
+                loadGraphic("assets/images/lance.png");
+                centerOffsets(true);
+            default:
+                loadGraphic("assets/images/purple_bullet.png");
+                setSize(10, 10);
+                centerOffsets(true);
+                // Center offsets
+                x -= 5;
+                y -= 5;
+        }
 
         flat = false;
 
@@ -34,6 +43,7 @@ class Bullet extends Hazard
         target.y += offset.y;
 
         flixel.math.FlxVelocity.moveTowardsPoint(this, target, Speed);
+        flipX = velocity.x < 0;
     }
 
     override public function update(elapsed : Float)
