@@ -75,7 +75,7 @@ class GameState
         if (isItemSlotAvailable())
         {
             items.push(new Item(name.toUpperCase(), property));
-            currentItem = items.length-1;
+            // currentItem = items.length-1;
             return true;
         }
 

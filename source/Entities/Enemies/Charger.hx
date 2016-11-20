@@ -148,11 +148,11 @@ class Charger extends Enemy
         switch (newState)
         {
             case Charger.IDLE:
-                timer.start(widen(IdleWaitTime), onIdleEnd);
+                timer.start(Entity.widenFloat(IdleWaitTime), onIdleEnd);
             case Charger.WALK:
                 onWalkStart();
             case Charger.TURN:
-                timer.start(widen(TurnTime), function (t:FlxTimer) {
+                timer.start(Entity.widenFloat(TurnTime), function (t:FlxTimer) {
                     if (facing == FlxObject.LEFT)
                         facing = FlxObject.RIGHT;
                     else
@@ -200,14 +200,17 @@ class Charger extends Enemy
     {
         // Choose new position
         var target : FlxPoint = getMidpoint();
-        target.x = range(target.x, WalkDistance);
-        target.y = range(target.y, WalkDistance);
+        target.x = Entity.range(target.x, WalkDistance);
+        target.y = Entity.range(target.y, WalkDistance);
+
+        var count = 0;
 
         // There should not be solids there
-        while (overlapsAt(target.x, target.y, world.solids))
+        while (overlapsAt(target.x, target.y, world.solids) && count < 100)
         {
-            target.x = range(target.x, WalkDistance);
-            target.y = range(target.y, WalkDistance);
+            target.x = Entity.range(target.x, WalkDistance);
+            target.y = Entity.range(target.y, WalkDistance);
+            count += 1;
         }
 
         // Set target and leave the rest to update
@@ -269,33 +272,11 @@ class Charger extends Enemy
         }
     }
 
-    function willMeetSolid(elapsed : Float) : Bool
-    {
-        return overlapsAt(x + velocity.x * elapsed, y + velocity.y * elapsed, world.solids);
-    }
-
     function handleMovementFacing()
     {
         if (velocity.x < 0)
             facing = FlxObject.LEFT;
         else if (velocity.x > 0)
             facing = FlxObject.RIGHT;
-    }
-
-    // returns value randomized by +/- 30%
-    static function widen(value : Float) : Float
-    {
-        return value + FlxG.random.float(- value * 0.3, value * 0.3);
-    }
-
-    // returns value +/- range, avoiding closest values
-    static function range(value : Float, width : Int) : Float
-    {
-        // Avoid the closest half of the range values
-        var delta : Int = 0;
-        while (Math.abs(delta) < width/2)
-            delta = FlxG.random.int(-width, width);
-
-        return value + delta;
     }
 }

@@ -64,7 +64,7 @@ class Command extends FlxObject implements Interaction
             case "switch":
                 GameState.setFlag(tokens[1], !GameState.getFlag(tokens[1]));
             case "money":
-                var ammount : Int = Std.parseInt(tokens[1]);
+                var ammount : Null<Int> = Std.parseInt(tokens[1]);
                 if (ammount == null)
                     ammount = 0;
                 GameState.addMoney(ammount);

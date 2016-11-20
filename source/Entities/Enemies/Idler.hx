@@ -56,6 +56,7 @@ class Idler extends Enemy
             default:
         }
 
+        flipX = false;
         super.update(elapsed);
     }
 

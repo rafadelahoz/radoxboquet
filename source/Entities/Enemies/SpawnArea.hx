@@ -9,7 +9,7 @@ class SpawnArea
     {
         var x, y : Float;
         var value : String;
-        var number : Int;
+        var number : Null<Int>;
         var enemy : Enemy;
 
         var tester : FlxObject = new FlxObject(0, 0);

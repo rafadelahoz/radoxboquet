@@ -47,7 +47,7 @@ class CurativeItem
         if (!itemPower.exists(id))
             id = item.name;
 
-        var power : Int = itemPower.get(id);
+        var power : Null<Int> = itemPower.get(id);
         if (power == null)
             return -1;
         return power;
@@ -63,7 +63,7 @@ class CurativeItem
         if (!itemDelay.exists(id))
             id = item.name;
 
-        var delay : Float = itemDelay.get(id);
+        var delay : Null<Float> = itemDelay.get(id);
         if (delay == null)
             return 0.2;
         return delay;

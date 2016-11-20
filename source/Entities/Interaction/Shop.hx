@@ -73,7 +73,7 @@ class Shop extends Message
 
         // Generate price labels
         var priceLabel : FlxText = null;
-        var price : Int = 0;
+        var price : Null<Int> = 0;
         for (product in productList)
         {
             productLabel = productLabels.get(product);
@@ -182,7 +182,7 @@ class Shop extends Message
         state = ACTION;
 
         var item : Item = getProduct(selection);
-        var price : Int = prices.get(item);
+        var price : Null<Int> = prices.get(item);
 
         var itemLabel : FlxText = productLabels.get(item);
         var priceLabel : FlxText = priceLabels.get(item);

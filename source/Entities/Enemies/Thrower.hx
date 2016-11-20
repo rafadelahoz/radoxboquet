@@ -60,11 +60,6 @@ class Thrower extends Enemy
         targetPoint = new FlxPoint();
 
         switchState(IDLE);
-
-        FlxG.watch.add(this.acceleration, "x");
-        FlxG.watch.add(this.acceleration, "y");
-        FlxG.watch.add(this.velocity, "x");
-        FlxG.watch.add(this.velocity, "y");
     }
 
     function switchState(newState : Int)

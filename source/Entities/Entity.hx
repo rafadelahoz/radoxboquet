@@ -106,4 +106,27 @@ class Entity extends FlxSprite
         else
             super.draw();
     }
+
+    // returns value randomized by +/- 30%
+    static function widenFloat(value : Float, ?range : Float = 0.3) : Float
+    {
+        return value + FlxG.random.float(- value * range, value * range);
+    }
+
+    // returns value +/- range, avoiding closest values
+    static function range(value : Float, width : Int) : Float
+    {
+        // Avoid the closest half of the range values
+        var delta : Int = 0;
+        while (Math.abs(delta) < width/2)
+            delta = FlxG.random.int(-width, width);
+
+        return value + delta;
+    }
+
+    // Returns true if entity will overlap a solid using current velocity in this step
+    function willMeetSolid(elapsed : Float) : Bool
+    {
+        return overlapsAt(x + velocity.x * elapsed, y + velocity.y * elapsed, world.solids);
+    }
 }
