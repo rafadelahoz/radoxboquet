@@ -616,6 +616,9 @@ class World extends FlxTransitionableState
         }
         else
         {
+            if (FlxG.keys.justPressed.R)
+                bgColor = FlxG.random.color();
+
             if (FlxG.keys.justPressed.F1)
                 ShaderManager.get().switchShader(1);
             else if (FlxG.keys.justPressed.F2)
