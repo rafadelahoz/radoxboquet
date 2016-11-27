@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="11" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="172">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <layer name="Tiles" width="20" height="11">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   VQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAVQAAAFUAAAAYAAAAmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmQAAABgAAABVAAAAVQAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAFUAAABVAAAAGAAAAAAAAAAAAAAAAAAAAAAAAACBAAAAggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgQAAAAAAAAAYAAAAVQAAAFUAAABzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHQAAABVAAAAVQAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAFUAAABVAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACBAAAAggAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAVQAAAFUAAAAYAAAAmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmQAAABgAAABVAAAAVQAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAA==
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="136" type="SOLID" x="360" y="40" width="20" height="60"/>
+  <object id="143" type="SOLID" x="40" y="20" width="320" height="20"/>
+  <object id="154" type="SOLID" x="40" y="180" width="320" height="20"/>
+  <object id="161" type="SOLID" x="20" y="120" width="20" height="60"/>
+  <object id="162" type="SOLID" x="360" y="120" width="20" height="60"/>
+  <object id="163" type="SOLID" x="20" y="40" width="20" height="60"/>
+  <object id="164" type="SOLID" x="340" y="40" width="20" height="20"/>
+  <object id="165" type="SOLID" x="340" y="160" width="20" height="20"/>
+  <object id="166" type="SOLID" x="40" y="160" width="20" height="20"/>
+  <object id="167" type="SOLID" x="40" y="40" width="20" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="155" name="west" type="Teleport" x="20" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="east"/>
+    <property name="target" value="l1entrance"/>
+   </properties>
+  </object>
+  <object id="169" name="east" type="Teleport" x="360" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door" value="west"/>
+    <property name="target" value="l1plaza"/>
+   </properties>
+  </object>
+  <object id="170" name="Trapped" type="NPC" x="40" y="80" width="20" height="20">
+   <properties>
+    <property name="face" value="right"/>
+    <property name="graphic_asset" value="npc_dummy"/>
+    <property name="message" value="Finally! I have been trapped here for days!"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="171" type="Area" x="120" y="80" width="160" height="60">
+   <properties>
+    <property name="follower" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

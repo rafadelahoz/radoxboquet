@@ -161,7 +161,7 @@ class Player extends Entity
         }
 
         // DEBUG: Player faster when CONTROL
-        if (FlxG.keys.pressed.CONTROL)
+        if (FlxG.keys.pressed.SHIFT)
         {
             velocity.x *= 2;
             velocity.y *= 2;

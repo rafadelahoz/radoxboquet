@@ -120,67 +120,63 @@ class TiledScene extends TiledMap
 		if (o.gid != -1)
 			y -= g.map.getGidOwner(o.gid).tileHeight;
 
-		switch (o.type.toLowerCase())
-		{
 		/** Enemies **/
-			case "twitcher":
-				var twitcher : Twitcher = new Twitcher(x, y, state);
-				state.addEntity(twitcher);
-			case "targetshooter":
-				var shooter : TargetShooter = new TargetShooter(x, y, state);
-				state.addEntity(shooter);
-			case "randomwalker":
-				var walker : RandomWalker = new RandomWalker(x, y, state);
-				state.addEntity(walker);
-			case "idler":
-				var idler : Idler = new Idler(x, y, state);
-				state.addEntity(idler);
-			case "area":
-				var elements : Map<String, String> = new Map<String, String>();
-				for (prop in o.properties.keysIterator())
-					elements.set(prop, o.properties.get(prop));
-				new SpawnArea(x, y, state, o.width, o.height, elements);
-		/** Hazards **/
-			case "spikes":
-				var enabled : Bool = (o.properties.get("enabled") != "false");
-				var enabledTime : Float = -1;
-				var disabledTime : Float = -1;
-				if (o.properties.contains("enabledTime"))
-					enabledTime = Std.parseFloat(o.properties.get("enabledTime"));
-				if (o.properties.contains("disabledTime"))
-					disabledTime = Std.parseFloat(o.properties.get("disabledTime"));
+		if (EnemySpawner.isEnemy(o.type.toLowerCase()))
+		{
+			state.addEntity(EnemySpawner.spawn(x, y, o.type, state));
+		}
+		else
+		{
+			switch (o.type.toLowerCase())
+			{
+			/** Enemies **/
+				case "area":
+					var elements : Map<String, String> = new Map<String, String>();
+					for (prop in o.properties.keysIterator())
+						elements.set(prop, o.properties.get(prop));
+					new SpawnArea(x, y, state, o.width, o.height, elements);
+			/** Hazards **/
+				case "spikes":
+					var enabled : Bool = (o.properties.get("enabled") != "false");
+					var enabledTime : Float = -1;
+					var disabledTime : Float = -1;
+					if (o.properties.contains("enabledTime"))
+						enabledTime = Std.parseFloat(o.properties.get("enabledTime"));
+					if (o.properties.contains("disabledTime"))
+						disabledTime = Std.parseFloat(o.properties.get("disabledTime"));
 
-				var spikes : HazardSpikes = new HazardSpikes(x, y, state, enabled, enabledTime, disabledTime);
-				state.addEntity(spikes);
+					var spikes : HazardSpikes = new HazardSpikes(x, y, state, enabled, enabledTime, disabledTime);
+					state.addEntity(spikes);
 
-		/** NPCs **/
-			case "npc":
-				var parser : NPCParser = new NPCParser(state);
-				parser.parse(x, y, o);
+			/** NPCs **/
+				case "npc":
+					var parser : NPCParser = new NPCParser(state);
+					parser.parse(x, y, o);
 
-		/** Collectibles **/
+			/** Collectibles **/
 
-		/** Elements **/
-			case "solid":
-				var solid : Entity = new Solid(x, y, state, o.width, o.height);
-				state.addEntity(solid);
-			case "teleport":
-				var target : String = o.properties.get("target");
-				var door : String = o.properties.get("door");
-				var dir : String = o.properties.get("dir");
-				var tport : Teleport = new Teleport(x, y, state, o.width, o.height, o.name, target, door, dir);
-				state.addEntity(tport);
-			case "door":
-				var door : Door = new Door(x, y, state, o.name);
-				if (o.properties.contains("graphic_asset"))
-					door.setupGrahic(o.properties.get("graphic_asset"));
-				state.addEntity(door);
-			case "lockdoor":
-				var color : String = o.properties.get("color");
-				var door : KeyDoor = new KeyDoor(x, y, state, o.name, color);
-				state.addEntity(door);
-			default:
-				// !
+			/** Elements **/
+				case "solid":
+					var solid : Entity = new Solid(x, y, state, o.width, o.height);
+					state.addEntity(solid);
+				case "teleport":
+					var target : String = o.properties.get("target");
+					var door : String = o.properties.get("door");
+					var dir : String = o.properties.get("dir");
+					var tport : Teleport = new Teleport(x, y, state, o.width, o.height, o.name, target, door, dir);
+					state.addEntity(tport);
+				case "door":
+					var door : Door = new Door(x, y, state, o.name);
+					if (o.properties.contains("graphic_asset"))
+						door.setupGrahic(o.properties.get("graphic_asset"));
+					state.addEntity(door);
+				case "lockdoor":
+					var color : String = o.properties.get("color");
+					var door : KeyDoor = new KeyDoor(x, y, state, o.name, color);
+					state.addEntity(door);
+				default:
+					// !
+			}
 		}
 	}
 

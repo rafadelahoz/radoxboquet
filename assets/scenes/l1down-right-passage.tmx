@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="15" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="175">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <layer name="Tiles" width="17" height="15">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   VQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAYAAAAGAAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAABgAAABzAAAAbgAAAG4AAAADAAAAAwAAAG4AAABuAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGAAAABgAAABVAAAAVQAAAFUAAABVAAAAVQAAAAMAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAbgAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABuAAAAVQAAAFUAAABVAAAAbgAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAG4AAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAAwAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAADAAAAVQAAAFUAAABVAAAAbgAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAG4AAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAAAYAAAAGAAAAFUAAABVAAAAVQAAAFUAAABVAAAAbgAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAABgAAABzAAAAbgAAAAMAAAADAAAAbgAAAG4AAABuAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAGAAAABgAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAAVQAAAFUAAABVAAAA
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="136" type="SOLID" x="20" y="60" width="20" height="200"/>
+  <object id="143" type="SOLID" x="40" y="40" width="140" height="20"/>
+  <object id="157" type="SOLID" x="180" y="60" width="20" height="200"/>
+  <object id="166" type="Area" x="100" y="60" width="20" height="20">
+   <properties>
+    <property name="twitcher" value="0...1"/>
+   </properties>
+  </object>
+  <object id="170" type="SOLID" x="40" y="80" width="120" height="160"/>
+  <object id="172" type="SOLID" x="40" y="260" width="140" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="155" name="down" type="Teleport" x="40" y="240" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="east"/>
+    <property name="target" value="l1down-right"/>
+   </properties>
+  </object>
+  <object id="173" name="up" type="Teleport" x="40" y="60" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="down"/>
+    <property name="target" value="l1corridor"/>
+   </properties>
+  </object>
+  <object id="174" type="Area" x="120" y="240" width="20" height="20">
+   <properties>
+    <property name="twitcher" value="0...1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

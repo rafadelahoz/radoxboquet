@@ -52,21 +52,7 @@ class SpawnArea
                     y = FlxG.random.float(Y, Y+Height-20);
                 }
 
-                enemy = null;
-
-                switch (element)
-                {
-                    case "twitcher":
-                        enemy = new Twitcher(x, y, World);
-                    case "targetshooter":
-                        enemy = new TargetShooter(x, y, World);
-                    case "randomwalker":
-                        enemy = new RandomWalker(x, y, World);
-                    case "idler":
-                        enemy = new Idler(x, y, World);
-                    default:
-                        trace("Not spawning anything for " + element);
-                }
+                enemy = EnemySpawner.spawn(x, y, element, World);
 
                 if (enemy != null)
                     World.addEntity(enemy);

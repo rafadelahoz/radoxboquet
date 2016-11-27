@@ -71,9 +71,6 @@ class World extends FlxTransitionableState
         state = INIT;
         deadMenu = false;
 
-        bgColor = FlxG.random.color();
-        // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
-
         entities = new FlxTypedGroup<Entity>();
 
         moneys = new FlxGroup();
@@ -91,6 +88,7 @@ class World extends FlxTransitionableState
 
         // Setup level elements
         setupLevel();
+
         add(entities);
         add(interactions);
         add(hud);
@@ -134,7 +132,7 @@ class World extends FlxTransitionableState
         // Top and lower tiles are cut in half: use black tiles!
         if (bounds.height <= 240)
         {
-            bounds.y = 12;
+            bounds.y = (bounds.height - FlxG.camera.height) / 2;
             bounds.height = 216; // screen height
         }
         // Correct width
@@ -252,7 +250,7 @@ class World extends FlxTransitionableState
     function handleCollisions()
     {
         // debug: player ethereal when CONTROL
-        if (FlxG.keys.pressed.CONTROL)
+        if (FlxG.keys.pressed.SHIFT)
             player.solid = false;
         else
             player.solid = true;
@@ -473,6 +471,10 @@ class World extends FlxTransitionableState
 	{
 		var scene = new TiledScene(this, sceneName);
 
+        // bgColor = FlxG.random.color();
+        // add(flixel.util.FlxGradient.createGradientFlxSprite(scene.width*20, scene.height*20, [0xFFFF004D, bgColor, 0xFF00FF4D], 2, FlxG.random.int(0, 359)));
+        // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
+
 		if (scene != null)
 			add(scene.backgroundTiles);
 
@@ -617,7 +619,14 @@ class World extends FlxTransitionableState
         else
         {
             if (FlxG.keys.justPressed.R)
-                bgColor = FlxG.random.color();
+            {
+                if (FlxG.keys.pressed.SHIFT)
+                {
+
+                }
+                else
+                    bgColor = FlxG.random.color();
+            }
 
             if (FlxG.keys.justPressed.F1)
                 ShaderManager.get().switchShader(1);

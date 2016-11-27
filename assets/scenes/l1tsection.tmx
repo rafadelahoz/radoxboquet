@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="20" tileheight="20" backgroundcolor="#7f3579" nextobjectid="201">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="201">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>

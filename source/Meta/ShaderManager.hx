@@ -22,6 +22,7 @@ class ShaderManager
     function new()
     {
         shaderNames = ["tiltshift", "hq2x", "scanline", "grain", "scanline2x"];
+
         shaders = new Map<String, PostProcess>();
         active = new Map<String, Bool>();
 
@@ -30,6 +31,8 @@ class ShaderManager
 			shaders.set(shader, new PostProcess("assets/shaders/" + shader + ".frag"));
             active.set(shader, false);
         }
+
+        enableShader("tiltshift");
     }
 
     public function switchShader(number : Int)
