@@ -96,10 +96,7 @@ class World extends FlxTransitionableState
         add(hud);
 
         // Setup the world bounds and camera
-        var bounds : FlxRect = scene.getBounds();
-        FlxG.camera.setScrollBoundsRect(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
-		FlxG.worldBounds.set(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
-        FlxG.camera.follow(player);
+        setupCamera();
 
         // Setup the world state
         interactionQueue = [];
@@ -117,6 +114,38 @@ class World extends FlxTransitionableState
         super.create();
 
         state = GAMEPLAY;
+    }
+
+    function setupCamera()
+    {
+        // Setup the world bounds and camera
+        var hudWidth : Int = 60;
+
+        // Fetch scene size and position
+        var bounds : FlxRect = scene.getBounds();
+        // Consider the hud width
+        bounds.x -= hudWidth;
+        // Handle the screen sized (or less) scenes
+        if (bounds.width <= 340)
+        {
+            bounds.x = -57;
+            bounds.width = 324; // screen width - hudsize: 384 - 60
+        }
+        // Top and lower tiles are cut in half: use black tiles!
+        if (bounds.height <= 240)
+        {
+            bounds.y = 12;
+            bounds.height = 216; // screen height
+        }
+        // Correct width
+        bounds.width += hudWidth;
+
+        // Setup with calculated values
+        FlxG.camera.setScrollBoundsRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		FlxG.worldBounds.set(bounds.x, bounds.y, bounds.width, bounds.height);
+
+        // Set camera to follow player
+        FlxG.camera.follow(player);
     }
 
     function setupLevel()
@@ -163,9 +192,10 @@ class World extends FlxTransitionableState
             }
             else
             {
-                var teleport : Teleport = cast(teleports.getFirstAlive(), Teleport);
-                if (teleport != null)
+                var nullteleport : FlxBasic = teleports.getFirstAlive();
+                if (nullteleport != null)
                 {
+                    var teleport : Teleport = cast(teleports.getFirstAlive(), Teleport);
                     trace("DEFAULTING PLAYER POS TO " + teleport.name);
                     spawnPoint = teleport.spawnPoint;
                     direction = teleport.direction;
