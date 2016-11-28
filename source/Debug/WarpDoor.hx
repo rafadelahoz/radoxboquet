@@ -1,5 +1,6 @@
 package;
 
+#if (desktop || neko)
 import sys.FileSystem;
 
 import flixel.FlxG;
@@ -153,3 +154,5 @@ class WarpItem extends FlxText
         }
     }
 }
+
+#end

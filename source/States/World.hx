@@ -628,8 +628,10 @@ class World extends FlxTransitionableState
             else if (FlxG.keys.justPressed.B)
                 GameState.printFlags();
 
+            #if (neko || static)
             if (FlxG.keys.justPressed.W)
                 add(new WarpDoor());
+            #end
             if (FlxG.keys.justPressed.F)
                 add(new FlagList());
         }
