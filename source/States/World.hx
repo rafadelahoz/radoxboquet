@@ -71,9 +71,6 @@ class World extends FlxTransitionableState
         state = INIT;
         deadMenu = false;
 
-        bgColor = FlxG.random.color();
-        // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
-
         entities = new FlxTypedGroup<Entity>();
 
         moneys = new FlxGroup();
@@ -91,15 +88,13 @@ class World extends FlxTransitionableState
 
         // Setup level elements
         setupLevel();
+
         add(entities);
         add(interactions);
         add(hud);
 
         // Setup the world bounds and camera
-        var bounds : FlxRect = scene.getBounds();
-        FlxG.camera.setScrollBoundsRect(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
-		FlxG.worldBounds.set(bounds.x-60, bounds.y, bounds.width+60, bounds.height);
-        FlxG.camera.follow(player);
+        setupCamera();
 
         // Setup the world state
         interactionQueue = [];
@@ -117,6 +112,38 @@ class World extends FlxTransitionableState
         super.create();
 
         state = GAMEPLAY;
+    }
+
+    function setupCamera()
+    {
+        // Setup the world bounds and camera
+        var hudWidth : Int = 60;
+
+        // Fetch scene size and position
+        var bounds : FlxRect = scene.getBounds();
+        // Consider the hud width
+        bounds.x -= hudWidth;
+        // Handle the screen sized (or less) scenes
+        if (bounds.width <= 340)
+        {
+            bounds.x = -57;
+            bounds.width = 324; // screen width - hudsize: 384 - 60
+        }
+        // Top and lower tiles are cut in half: use black tiles!
+        if (bounds.height <= 240)
+        {
+            bounds.y = (bounds.height - FlxG.camera.height) / 2;
+            bounds.height = 216; // screen height
+        }
+        // Correct width
+        bounds.width += hudWidth;
+
+        // Setup with calculated values
+        FlxG.camera.setScrollBoundsRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		FlxG.worldBounds.set(bounds.x, bounds.y, bounds.width, bounds.height);
+
+        // Set camera to follow player
+        FlxG.camera.follow(player);
     }
 
     function setupLevel()
@@ -163,9 +190,10 @@ class World extends FlxTransitionableState
             }
             else
             {
-                var teleport : Teleport = cast(teleports.getFirstAlive(), Teleport);
-                if (teleport != null)
+                var nullteleport : FlxBasic = teleports.getFirstAlive();
+                if (nullteleport != null)
                 {
+                    var teleport : Teleport = cast(teleports.getFirstAlive(), Teleport);
                     trace("DEFAULTING PLAYER POS TO " + teleport.name);
                     spawnPoint = teleport.spawnPoint;
                     direction = teleport.direction;
@@ -222,7 +250,7 @@ class World extends FlxTransitionableState
     function handleCollisions()
     {
         // debug: player ethereal when CONTROL
-        if (FlxG.keys.pressed.CONTROL)
+        if (FlxG.keys.pressed.SHIFT)
             player.solid = false;
         else
             player.solid = true;
@@ -443,6 +471,10 @@ class World extends FlxTransitionableState
 	{
 		var scene = new TiledScene(this, sceneName);
 
+        // bgColor = FlxG.random.color();
+        // add(flixel.util.FlxGradient.createGradientFlxSprite(scene.width*20, scene.height*20, [0xFFFF004D, bgColor, 0xFF00FF4D], 2, FlxG.random.int(0, 359)));
+        // add(new FlxBackdrop("assets/scenery/dummy_bg.png"));
+
 		if (scene != null)
 			add(scene.backgroundTiles);
 
@@ -586,6 +618,16 @@ class World extends FlxTransitionableState
         }
         else
         {
+            if (FlxG.keys.justPressed.R)
+            {
+                if (FlxG.keys.pressed.SHIFT)
+                {
+
+                }
+                else
+                    bgColor = FlxG.random.color();
+            }
+
             if (FlxG.keys.justPressed.F1)
                 ShaderManager.get().switchShader(1);
             else if (FlxG.keys.justPressed.F2)

@@ -1,0 +1,11 @@
+default
+face left
+flip false
+graphic lever 20 20 [0]
+open l1corridor-right
+
+if door.l1corridor-right
+face left
+flip false
+graphic lever 20 20 [1]
+close l1corridor-right

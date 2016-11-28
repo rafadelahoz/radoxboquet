@@ -98,7 +98,7 @@ class NPC extends Entity
 
                 if (frames != null && frames.charAt(0) == "[")
                 {
-                    for (frame in frames.substring(0, frames.length-1).split(","))
+                    for (frame in frames.substring(1, frames.length-1).split(","))
                     {
                         frarr.push(Std.parseInt(frame));
                     }
@@ -113,6 +113,7 @@ class NPC extends Entity
                     for (i in 0...numFrames)
                         frarr.push(i);
                 }
+
                 animation.add("idle", frarr, speed);
                 animation.play("idle");
             }
