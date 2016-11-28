@@ -43,6 +43,17 @@ class Idler extends Enemy
         state = DECIDE;
     }
 
+    override public function destroy()
+    {
+        if (tween != null)
+        {
+            tween.cancel();
+            tween.destroy();
+        }
+        
+        super.destroy();
+    }
+
     override public function update(elapsed : Float)
     {
         switch (state)

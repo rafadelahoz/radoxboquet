@@ -55,11 +55,13 @@ class Follower extends Enemy
         FlxG.watch.add(this, "state");
     }
 
-    override function destroy()
+    override public function destroy()
     {
         timer.destroy();
         target.destroy();
         midpoint.destroy();
+        tester.destroy();
+
         super.destroy();
     }
 
@@ -140,7 +142,7 @@ class Follower extends Enemy
     {
         var LerpSteps : Int = 5;
         midpoint = getMidpoint(midpoint);
-        var target = world.player.getMidpoint();
+        var target : FlxPoint = world.player.getMidpoint();
 
         if (midpoint.distanceTo(target) < PlayerNearDistance)
         {
@@ -165,6 +167,8 @@ class Follower extends Enemy
                 switchState(CHASE);
             }
         }
+
+        target.destroy();
     }
 
     function onChaseState(elapsed : Float)

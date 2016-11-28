@@ -35,6 +35,15 @@ class Twitcher extends Enemy
         twitch();
     }
 
+    override public function destroy()
+    {
+        center.destroy();
+        timer.cancel();
+        timer.destroy();
+        
+        super.destroy();
+    }
+
     function twitch()
     {
         if (timer != null)

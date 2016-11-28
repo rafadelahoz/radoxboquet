@@ -70,10 +70,18 @@ class Charger extends Enemy
         switchState(IDLE);
     }
 
+    override public function destroy()
+    {
+        timer.cancel();
+        timer.destroy();
+        tester.destroy();
+
+        super.destroy();
+    }
+
     override public function onDeath(?t:FlxTimer = null)
     {
         timer.cancel();
-        tester.destroy();
 
         super.onDeath();
     }
@@ -217,6 +225,8 @@ class Charger extends Enemy
         walkTarget = target;
 
         flixel.math.FlxVelocity.moveTowardsPoint(this, walkTarget, WalkSpeed);
+
+        target.destroy();
     }
 
     function onHurtState()
@@ -259,6 +269,8 @@ class Charger extends Enemy
                 }
             }
         }
+
+        midpoint.destroy();
     }
 
     override function hurtSlide(cause : FlxObject)

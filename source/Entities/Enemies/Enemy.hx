@@ -26,6 +26,12 @@ class Enemy extends Entity
         hurtTimer = new FlxTimer();
     }
 
+    override public function destroy()
+    {
+        hurtTimer.cancel();
+        hurtTimer.destroy();
+    }
+
     override public function onInit()
     {
         // override

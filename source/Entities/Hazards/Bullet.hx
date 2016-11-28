@@ -25,8 +25,8 @@ class Bullet extends Hazard
                 setSize(10, 10);
                 centerOffsets(true);
                 // Center offsets
-                x -= 5;
-                y -= 5;
+                x -= width/2;
+                y -= height/2;
         }
 
         flat = false;
@@ -42,6 +42,8 @@ class Bullet extends Hazard
         // Correct target
         target.x += offset.x;
         target.y += offset.y;
+
+        trace("bullet: " + x + ", " + y);
 
         flixel.math.FlxVelocity.moveTowardsPoint(this, target, Speed);
         flipX = velocity.x < 0;

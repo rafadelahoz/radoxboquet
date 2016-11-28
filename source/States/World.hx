@@ -676,6 +676,22 @@ class World extends FlxTransitionableState
             #end
             if (FlxG.keys.justPressed.F)
                 add(new FlagList());
+
+            if (FlxG.keys.justPressed.U)
+                addEntity(new Spitter(snapX, snapY, this, "down"));
+            else if (FlxG.keys.justPressed.K)
+                addEntity(new Spitter(snapX, snapY, this, "left"));
+            else if (FlxG.keys.justPressed.J)
+                addEntity(new Spitter(snapX, snapY, this, "up"));
+            else if (FlxG.keys.justPressed.H)
+                addEntity(new Spitter(snapX, snapY, this, "right"));
+            else if (FlxG.keys.justPressed.B)
+            {
+                var target : FlxPoint = new FlxPoint(4, 0);
+                // trace("mouse: " + FlxG.mouse.x + ", " + FlxG.mouse.y);
+                // addEntity(new Bullet(FlxG.mouse.x, FlxG.mouse.y, this, null, null, target, 100));
+                addEntity(new Bullet(0, 0, this, null, null, target, 100));
+            }
         }
     }
 }
