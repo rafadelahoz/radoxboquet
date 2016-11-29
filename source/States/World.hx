@@ -46,6 +46,7 @@ class World extends FlxTransitionableState
 
     public var teleports : FlxGroup;
     public var solids : FlxGroup;
+    public var holes : FlxGroup;
 
     public var entities : FlxTypedGroup<Entity>;
 
@@ -80,6 +81,7 @@ class World extends FlxTransitionableState
         enemies = new FlxGroup();
         tools = new FlxGroup();
         solids = new FlxGroup();
+        holes = new FlxGroup();
         teleports = new FlxGroup();
         npcs = new FlxGroup();
 
@@ -264,7 +266,9 @@ class World extends FlxTransitionableState
         }
 
         FlxG.collide(player, solids);
+        FlxG.collide(player, holes);
         FlxG.collide(enemies, solids);
+        FlxG.collide(enemies, holes);
         FlxG.collide(enemies, teleports);
         FlxG.collide(items, solids);
         FlxG.collide(items, teleports);
@@ -342,6 +346,8 @@ class World extends FlxTransitionableState
             tools.add(entity);
         else if (Std.is(entity, Solid))
             solids.add(entity);
+        else if (Std.is(entity, Hole))
+            holes.add(entity);
         else if (Std.is(entity, Teleport))
             teleports.add(entity);
         else if (Std.is(entity, Door))

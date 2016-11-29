@@ -159,6 +159,9 @@ class TiledScene extends TiledMap
 				case "solid":
 					var solid : Entity = new Solid(x, y, state, o.width, o.height);
 					state.addEntity(solid);
+				case "hole":
+					var hole : Entity = new Hole(x, y, state, o.width, o.height);
+					state.addEntity(hole);
 				case "teleport":
 					var target : String = o.properties.get("target");
 					var door : String = o.properties.get("door");

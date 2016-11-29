@@ -12,6 +12,7 @@ class Entity extends FlxSprite
     var world : World;
 
     public var flat : Bool;
+    public var floating : Bool;
 
     var shaking : Bool;
     var shakeIntensity : Int;
@@ -22,6 +23,7 @@ class Entity extends FlxSprite
         super(X, Y);
         this.world = World;
         flat = false;
+        floating = false;
         shaking = false;
         shakeTimer = new FlxTimer();
     }
@@ -48,12 +50,12 @@ class Entity extends FlxSprite
 
     public function overlapsMap()
     {
-        return overlaps(world.solids);
+        return overlaps(world.solids) || (!floating && overlaps(world.holes));
     }
 
     public function overlapsMapAt(X : Float, Y : Float)
     {
-        return overlapsAt(X, Y, world.solids);
+        return overlapsAt(X, Y, world.solids) || (!floating && overlapsAt(X, Y, world.holes));
     }
 
     public function doSlide(me : FlxPoint, from : FlxPoint, coefficient : Float, ?bounds : Float = 24, ?friction : Int = 100)

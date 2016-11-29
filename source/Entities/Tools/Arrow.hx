@@ -18,6 +18,7 @@ class Arrow extends Tool
         power = 1;
 
         enabled = false;
+        floating = true;
 
         loadGraphic("assets/images/arrow.png");
         setSize(4, 12);
