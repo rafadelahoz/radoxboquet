@@ -133,7 +133,7 @@ class Entity extends FlxSprite
             falling = true;
             velocity.set();
             acceleration.set();
-            drag.set(1000, 1000);
+            drag.set(100, 100);
             fallingTween = FlxTween.tween(this.scale, {x: 0, y: 0}, 1, {startDelay: 0.25, onComplete: function(t:FlxTween) {
                 fallingTween.destroy();
                 kill();

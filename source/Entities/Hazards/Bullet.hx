@@ -14,12 +14,24 @@ class Bullet extends Hazard
     {
         super(X, Y, World);
 
+        flat = false;
+        floating = true;
+
         switch (Type)
         {
             case "lance":
                 loadGraphic("assets/images/lance.png");
                 setSize(8, 4);
                 centerOffsets(true);
+            case "purpleball":
+                loadGraphic("assets/images/purple_ball.png", true, 20, 20);
+                animation.add("roll", [0, 1, 2, 3], 5);
+                animation.play("roll");
+                setSize(10, 10);
+                centerOffsets(true);
+                x -= width;
+                y -= height;
+                floating = false;
             default:
                 loadGraphic("assets/images/purple_bullet.png");
                 setSize(10, 10);
@@ -28,9 +40,6 @@ class Bullet extends Hazard
                 x -= width/2;
                 y -= height/2;
         }
-
-        flat = false;
-        floating = true;
 
         target = Target;
         if (target == null && Direction != null)
@@ -50,12 +59,15 @@ class Bullet extends Hazard
 
     override public function update(elapsed : Float)
     {
+        floating = true;
         if (overlapsMap())
         {
             kill();
             destroy();
             return;
         }
+
+        floating = false;
 
         super.update(elapsed);
     }

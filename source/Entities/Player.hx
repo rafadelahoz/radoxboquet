@@ -125,6 +125,7 @@ class Player extends Entity
 
         if (FlxG.keys.justPressed.SPACE)
         {
+            FlxG.sound.play("assets/sounds/drop.ogg");
             GameState.switchItem();
         }
 
@@ -297,6 +298,9 @@ class Player extends Entity
             default:
                 world.addEntity(new ToolActor(flipX ? left : right, down, world, tool.name));
         }
+
+        // Play sound
+        FlxG.sound.play("assets/sounds/select.ogg");
 
         // Wait for a sec!
         new FlxTimer().start(0.16, function(t:FlxTimer) {

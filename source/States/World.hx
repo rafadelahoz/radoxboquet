@@ -287,11 +287,12 @@ class World extends FlxTransitionableState
         FlxG.overlap(enemies, holes, onCollideEntityHole);
         FlxG.overlap(items, holes, onCollideEntityHole);
         FlxG.overlap(moneys, holes, onCollideEntityHole);
+        FlxG.overlap(hazards, holes, onCollideEntityHole);
     }
 
     function onCollideEntityHole(entity : Entity, hole : Hole)
     {
-        if (!entity.falling && hole.surrounds(entity))
+        if (!entity.floating && !entity.falling && hole.surrounds(entity))
         {
             entity.onFall(hole);
         }

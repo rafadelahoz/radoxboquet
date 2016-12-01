@@ -80,7 +80,7 @@ class Spitter extends Hazard
             case "left":    shootOrigin.x -= 17.5; target.x -= 20;
         }
 
-        world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, null, null, target, shootSpeed));
+        world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, "purpleball", null, target, shootSpeed));
 
         animTimer.start(shootDelay*0.95, onPreShoot);
         timer.start(shootDelay, onShoot);
