@@ -271,15 +271,30 @@ class World extends FlxTransitionableState
         FlxG.collide(enemies, holes);
         FlxG.collide(enemies, teleports);
         FlxG.collide(items, solids);
+        // FlxG.collide(items, holes);
         FlxG.collide(items, teleports);
         FlxG.collide(tools, solids);
         FlxG.collide(moneys, solids);
+        // FlxG.collide(moneys, holes);
 
         FlxG.collide(moneys);
         FlxG.collide(player, breakables);
         FlxG.collide(items);
         FlxG.collide(player, npcs);
         FlxG.collide(enemies, npcs);
+
+        FlxG.overlap(player, holes, onCollideEntityHole);
+        FlxG.overlap(enemies, holes, onCollideEntityHole);
+        FlxG.overlap(items, holes, onCollideEntityHole);
+        FlxG.overlap(moneys, holes, onCollideEntityHole);
+    }
+
+    function onCollideEntityHole(entity : Entity, hole : Hole)
+    {
+        if (!entity.falling && hole.surrounds(entity))
+        {
+            entity.onFall(hole);
+        }
     }
 
     function onCollidePlayerMoney(_player : Player, money : Money)
@@ -655,10 +670,10 @@ class World extends FlxTransitionableState
                 addEntity(new Hospital(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.FIVE)
                 addEntity(new Charger(snapX, snapY, this));
-            else if (FlxG.keys.pressed.SIX)
+            else if (FlxG.keys.justPressed.SIX)
             {
                 var money : Money = null;
-                for (i in 0...FlxG.random.int(1, 10))
+                for (i in 0...1)//FlxG.random.int(1, 10))
                 {
                     money = new Money(FlxG.mouse.x + FlxG.random.int(-5, 5), FlxG.mouse.y + FlxG.random.int(-5, 5), this, FlxG.random.getObject([1, 5, 10]));
                     addEntity(money);
