@@ -354,6 +354,19 @@ class Player extends Entity
         state = IDLE;
     }
 
+    override public function onFall(where : Hole)
+    {
+        var wasFalling : Bool = falling;
+
+        super.onFall(where);
+
+        // If we have just started falling
+        if (!wasFalling && falling)
+        {
+            onDead();
+        }
+    }
+
     public function onDead()
     {
         state = DEAD;

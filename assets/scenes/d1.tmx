@@ -27,7 +27,7 @@
   <object id="20" type="solid" x="480" y="360" width="60" height="40"/>
   <object id="22" type="solid" x="460" y="380" width="20" height="20"/>
   <object id="24" type="solid" x="20" y="160" width="20" height="20"/>
-  <object id="25" type="solid" x="460" y="180" width="20" height="80"/>
+  <object id="25" type="hole" x="460" y="180" width="20" height="80"/>
  </objectgroup>
  <objectgroup name="Actors">
   <object id="2" name="Twitcher" type="Twitcher" x="160" y="120" width="20" height="20"/>

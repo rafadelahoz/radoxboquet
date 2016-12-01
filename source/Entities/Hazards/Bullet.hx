@@ -30,6 +30,7 @@ class Bullet extends Hazard
         }
 
         flat = false;
+        floating = true;
 
         target = Target;
         if (target == null && Direction != null)

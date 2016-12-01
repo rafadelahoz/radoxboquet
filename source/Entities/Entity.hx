@@ -12,18 +12,26 @@ class Entity extends FlxSprite
     var world : World;
 
     public var flat : Bool;
+    public var floating : Bool;
 
     var shaking : Bool;
     var shakeIntensity : Int;
     var shakeTimer : FlxTimer;
+
+    var fallingTween : FlxTween;
+    public var falling : Bool;
 
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y);
         this.world = World;
         flat = false;
+        floating = false;
         shaking = false;
         shakeTimer = new FlxTimer();
+
+        falling = false;
+        fallingTween = null;
     }
 
     public function onInit()
@@ -37,6 +45,17 @@ class Entity extends FlxSprite
         super.destroy();
     }
 
+    override public function update(elapsed : Float)
+    {
+        if (falling)
+        {
+            velocity.set();
+            acceleration.set();
+        }
+
+        super.update(elapsed);
+    }
+
     public function flash(?Color : Int = 0xFFFF004D, ?Duration : Float = 0.2, ?TargetColor = 0xFFFFFFFF, ?Weird : Bool = false)
     {
         color = Color;
@@ -48,12 +67,12 @@ class Entity extends FlxSprite
 
     public function overlapsMap()
     {
-        return overlaps(world.solids);
+        return overlaps(world.solids) || (!floating && overlaps(world.holes));
     }
 
     public function overlapsMapAt(X : Float, Y : Float)
     {
-        return overlapsAt(X, Y, world.solids);
+        return overlapsAt(X, Y, world.solids) || (!floating && overlapsAt(X, Y, world.holes));
     }
 
     public function doSlide(me : FlxPoint, from : FlxPoint, coefficient : Float, ?bounds : Float = 24, ?friction : Int = 100)
@@ -105,6 +124,22 @@ class Entity extends FlxSprite
         }
         else
             super.draw();
+    }
+
+    public function onFall(where : Hole)
+    {
+        if (!falling)
+        {
+            falling = true;
+            velocity.set();
+            acceleration.set();
+            drag.set(1000, 1000);
+            fallingTween = FlxTween.tween(this.scale, {x: 0, y: 0}, 1, {startDelay: 0.25, onComplete: function(t:FlxTween) {
+                fallingTween.destroy();
+                kill();
+                destroy();
+            }});
+        }
     }
 
     // returns value randomized by +/- 30%
