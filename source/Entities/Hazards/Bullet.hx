@@ -43,8 +43,6 @@ class Bullet extends Hazard
         target.x += offset.x;
         target.y += offset.y;
 
-        trace("bullet: " + x + ", " + y);
-
         flixel.math.FlxVelocity.moveTowardsPoint(this, target, Speed);
         flipX = velocity.x < 0;
     }

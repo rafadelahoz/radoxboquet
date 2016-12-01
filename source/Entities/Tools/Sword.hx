@@ -45,6 +45,8 @@ class Sword extends Tool
 
         originx = x;
 
+        FlxG.sound.play("assets/sounds/sword.ogg");
+
         tween = FlxTween.tween(this, {x : targetx}, 0.06,
             {ease: FlxEase.quadIn, startDelay: 0.1, onComplete: function(_t:FlxTween) {
                 _t.cancel();

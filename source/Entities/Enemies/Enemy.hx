@@ -50,6 +50,8 @@ class Enemy extends Entity
         {
             if (tool.power > 0)
             {
+                FlxG.sound.play("assets/sounds/hit.ogg");
+
                 hp -= tool.power;
                 invincible = true;
 

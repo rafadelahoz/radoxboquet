@@ -23,7 +23,10 @@ class BouncySpikes extends Enemy
         hp = -1;
         invincible = true;
 
-        loadGraphic("assets/images/purplebullet.png");
+        loadGraphic("assets/images/bouncy.png", true, 20, 20);
+        animation.add("idle", [0, 1], 10);
+        animation.play("idle");
+        
         setSize(14, 14);
         offset.set(-1, -1);
         /*x += offset.x;

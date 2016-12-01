@@ -11,6 +11,7 @@ class Spitter extends Hazard
     var shootSpeed : Int;
 
     var timer : FlxTimer;
+    var animTimer : FlxTimer;
     var shootOrigin : FlxPoint;
     var target : FlxPoint;
 
@@ -27,11 +28,14 @@ class Spitter extends Hazard
         if (["left", "right", "up", "down"].indexOf(face) < 0)
             throw "Invalid facing for Spitter at " + x + ", " + y + ": " + face;
 
-        // TODO: Load appropriate graphic
-        loadGraphic("assets/images/transition.png");
-        // makeGraphic(20, 20, 0xFFFFFFFF);
-        setSize(20, 20);
+        loadGraphic("assets/images/spitter.png", true, 20, 20);
+        animation.add("closed", [0]);
+        animation.add("open", [1, 1, 1], 10, false);
+
+        setSize(5, 5);
         centerOffsets(true);
+
+        animation.play("closed");
 
         // Rotate according to facing
         switch (face)
@@ -43,9 +47,11 @@ class Spitter extends Hazard
         }
 
         timer = new FlxTimer();
+        animTimer = new FlxTimer();
         shootOrigin = new FlxPoint();
         target = new FlxPoint();
 
+        animTimer.start(startDelay*0.95, onPreShoot);
         timer.start(startDelay, onShoot);
     }
 
@@ -53,6 +59,8 @@ class Spitter extends Hazard
     {
         timer.cancel();
         timer.destroy();
+        animTimer.cancel();
+        animTimer.destroy();
 
         shootOrigin.destroy();
         target.destroy();
@@ -72,10 +80,23 @@ class Spitter extends Hazard
             case "left":    shootOrigin.x -= 17.5; target.x -= 20;
         }
 
-        shake(0.5);
-
         world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, null, null, target, shootSpeed));
 
+        animTimer.start(shootDelay*0.95, onPreShoot);
         timer.start(shootDelay, onShoot);
+    }
+
+    function onPreShoot(t : FlxTimer) : Void
+    {
+        animation.play("open");
+        shake(0.15);
+    }
+
+    override public function update(elapsed : Float)
+    {
+        if (animation.name == "open" && animation.finished)
+            animation.play("closed");
+
+        super.update(elapsed);
     }
 }

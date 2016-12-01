@@ -33,6 +33,7 @@ class ShaderManager
         }
 
         enableShader("tiltshift");
+        enableShader("scanline");
     }
 
     public function switchShader(number : Int)
