@@ -37,7 +37,7 @@ class TimedFuelComponent implements IFuelComponent
 
     function setTimer()
     {
-        timer.start((active ? ActiveTime : InactiveTime), onTimer());
+        timer.start((active ? activeTime : inactiveTime), onTimer);
     }
 
     function onTimer(t : FlxTimer)

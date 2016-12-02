@@ -7,10 +7,14 @@ class Fire extends Hazard
     {
         super(X, Y, World);
 
+        solid = false;
+
         flammable = true;
         fuelComponent = new ActiveFuelComponent();
+        // fuelComponent = new TimedFuelComponent(true, 1, 1);
+        // fuelComponent = new FuelCanisterComponent(20);
 
-        makeGraphic(20, 20, 0xFF403030);
+        makeGraphic(20, 20, 0x00403030);
     }
 
     override public function onInit()

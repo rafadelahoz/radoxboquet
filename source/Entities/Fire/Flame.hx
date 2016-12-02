@@ -23,7 +23,8 @@ class Flame extends Hazard
             source = Source;
 
             loadGraphic("assets/images/fire.png", true, 20, 20);
-            animation.add("idle", [0, 1], Std.int(Entity.widenFloat(5)));
+            var speed : Int = Std.int(Entity.widenFloat(5));
+            animation.add("idle", [0, 1], speed);
             animation.play("idle");
 
             // Reposition
@@ -36,16 +37,12 @@ class Flame extends Hazard
             immovable = true;
             living = false;
         }
-
-        FlxG.watch.add(this, "living");
-        FlxG.watch.add(this, "fuel");
     }
 
     public function start()
     {
         if (!living)
         {
-            trace("start");
             living = true;
             solid = true;
             visible = true;
@@ -56,7 +53,6 @@ class Flame extends Hazard
     {
         if (living)
         {
-            trace("stop");
             living = false;
             solid = false;
             visible = false;

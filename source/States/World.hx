@@ -637,6 +637,18 @@ class World extends FlxTransitionableState
             {
                 GamePersistence.load();
             }
+
+            if (FlxG.keys.justPressed.D)
+                GameState.printActors();
+            else if (FlxG.keys.justPressed.B)
+                GameState.printFlags();
+
+            #if (neko || static)
+            if (FlxG.keys.justPressed.W)
+                add(new WarpDoor());
+            #end
+            if (FlxG.keys.justPressed.F)
+                add(new FlagList());
         }
         else
         {
@@ -687,18 +699,6 @@ class World extends FlxTransitionableState
             else if (FlxG.keys.pressed.O)
                 GameState.addHP(-1);
 
-            if (FlxG.keys.justPressed.D)
-                GameState.printActors();
-            else if (FlxG.keys.justPressed.B)
-                GameState.printFlags();
-
-            #if (neko || static)
-            if (FlxG.keys.justPressed.W)
-                add(new WarpDoor());
-            #end
-            if (FlxG.keys.justPressed.F)
-                add(new FlagList());
-
             if (FlxG.keys.justPressed.U)
                 addEntity(new Spitter(snapX, snapY, this, "down"));
             else if (FlxG.keys.justPressed.K)
@@ -716,7 +716,14 @@ class World extends FlxTransitionableState
             }
 
             if (FlxG.keys.justPressed.F)
+            {
                 addEntity(new Fire(snapX, snapY, this));
+                /*for (i in 0...5)
+                    new flixel.util.FlxTimer().start(i*0.1+0.1, function(t:flixel.util.FlxTimer) {
+                        t.destroy();
+                        addEntity(new Fire(snapX + 20*i, snapY, this));
+                    });*/
+            }
         }
     }
 }

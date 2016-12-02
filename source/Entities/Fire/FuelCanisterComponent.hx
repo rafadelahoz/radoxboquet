@@ -11,7 +11,7 @@ class FuelCanisterComponent implements IFuelComponent
         fps = FuelPerStep;
     }
 
-    public inline function init();
+    public inline function init() {}
 
     public function hasFuel() : Bool
     {
