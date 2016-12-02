@@ -34,6 +34,7 @@
 	<classpath name="source/Meta"/>
 	<classpath name="source/States"/>
 	<classpath name="source/Entities"/>
+	<classpath name="source/Entities/Fire"/>
 	<classpath name="source/Entities/Tools"/>
 	<classpath name="source/Entities/Actors"/>
 	<classpath name="source/Entities/Enemies"/>

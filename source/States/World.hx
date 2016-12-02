@@ -714,6 +714,9 @@ class World extends FlxTransitionableState
                 // addEntity(new Bullet(FlxG.mouse.x, FlxG.mouse.y, this, null, null, target, 100));
                 addEntity(new Bullet(0, 0, this, null, null, target, 100));
             }
+
+            if (FlxG.keys.justPressed.F)
+                addEntity(new Fire(snapX, snapY, this));
         }
     }
 }

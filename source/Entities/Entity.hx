@@ -21,6 +21,10 @@ class Entity extends FlxSprite
     var fallingTween : FlxTween;
     public var falling : Bool;
 
+    public var flammable : Bool;
+    public var fuelComponent : IFuelComponent;
+    public var currentFlame : Flame;
+
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y);
@@ -32,6 +36,8 @@ class Entity extends FlxSprite
 
         falling = false;
         fallingTween = null;
+
+        flammable = false;
     }
 
     public function onInit()
@@ -141,6 +147,17 @@ class Entity extends FlxSprite
             }});
         }
     }
+
+    /** Fire related operations **/
+
+    public function getFlamePosition() : FlxPoint
+    {
+        var position : FlxPoint = getMidpoint();
+        position.y += height/2;
+        return position;
+    }
+
+    /** Static methods and utilities **/
 
     // returns value randomized by +/- 30%
     static function widenFloat(value : Float, ?range : Float = 0.3) : Float
