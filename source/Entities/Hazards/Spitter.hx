@@ -104,8 +104,10 @@ class Spitter extends Hazard
         {
             case Spitter.ThemeBullets:
                 bulletType = "purple";
+                playSfx("bump");
             case Spitter.ThemeRocks:
                 bulletType = "purpleball";
+                playSfx("bump");
         }
         world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, bulletType, null, target, shootSpeed));
 

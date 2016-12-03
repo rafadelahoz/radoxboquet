@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="170">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="173">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -21,7 +21,7 @@
   <object id="163" type="SOLID" x="40" y="120" width="20" height="20"/>
   <object id="164" type="SOLID" x="280" y="80" width="20" height="20"/>
   <object id="165" type="SOLID" x="280" y="40" width="20" height="20"/>
-  <object id="166" type="Area" x="100" y="60" width="20" height="20">
+  <object id="166" type="Area" x="100" y="100" width="20" height="20">
    <properties>
     <property name="bouncy" value="1"/>
    </properties>

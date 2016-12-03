@@ -26,7 +26,7 @@ class BouncySpikes extends Enemy
         loadGraphic("assets/images/bouncy.png", true, 20, 20);
         animation.add("idle", [0, 1], 10);
         animation.play("idle");
-        
+
         setSize(14, 14);
         offset.set(-1, -1);
         /*x += offset.x;
@@ -49,10 +49,12 @@ class BouncySpikes extends Enemy
     {
         var hitX : Bool =
             (overlapsAt(x + (hspeed / 5) * elapsed, y, world.solids) ||
-                overlapsAt(x + (hspeed / 5) * elapsed, y, world.npcs));
+                overlapsAt(x + (hspeed / 5) * elapsed, y, world.npcs) ||
+                overlapsAt(x + (hspeed / 5) * elapsed, y, world.teleports));
         var hitY : Bool =
             (overlapsAt(x, y + (vspeed / 5) * elapsed, world.solids) ||
-                overlapsAt(x, y + (vspeed / 5) * elapsed, world.npcs));
+                overlapsAt(x, y + (vspeed / 5) * elapsed, world.npcs) ||
+                overlapsAt(x, y + (vspeed / 5) * elapsed, world.teleports));
 
         if (hitX)
             hspeed *= -1;

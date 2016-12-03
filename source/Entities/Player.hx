@@ -302,7 +302,7 @@ class Player extends Entity
         }
 
         // Play sound
-        FlxG.sound.play("assets/sounds/select.ogg");
+        FlxG.sound.play("assets/sounds/putdown.ogg");
 
         // Wait for a sec!
         new FlxTimer().start(0.16, function(t:FlxTimer) {

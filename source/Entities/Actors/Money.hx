@@ -36,7 +36,7 @@ class Money extends Entity
     public function onCollisionWithPlayer(player : Player)
     {
         GameState.addMoney(value);
-        // TODO: Play sound
+        playSfx("money", false);
         destroy();
     }
 

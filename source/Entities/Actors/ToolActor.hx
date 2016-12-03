@@ -43,6 +43,7 @@ class ToolActor extends Entity
     {
         if (GameState.addItem(name, property))
         {
+            playSfx("pickup");
             kill();
             destroy();
             world.items.remove(this);
