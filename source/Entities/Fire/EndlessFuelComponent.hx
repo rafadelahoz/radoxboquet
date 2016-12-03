@@ -1,6 +1,6 @@
 package;
 
-class ActiveFuelComponent implements IFuelComponent
+class EndlessFuelComponent implements IFuelComponent
 {
     public function new()
     {

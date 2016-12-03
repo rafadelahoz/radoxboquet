@@ -36,6 +36,8 @@ class Flame extends Hazard
 
             immovable = true;
             living = false;
+
+            flat = false;
         }
     }
 

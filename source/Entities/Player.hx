@@ -275,14 +275,14 @@ class Player extends Entity
         // Don't place things on walls!
         if (!flipX)
         {
-            while ((overlapsMapAt(right, y) || overlapsAt(right, y, world.teleports) || overlapsAt(right, y, world.npcs)) && right > x)
+            while ((overlapsMapAt(right, y, true) || overlapsAt(right, y, world.teleports) || overlapsAt(right, y, world.npcs)) && right > x)
             {
                 right -= 2;
             }
         }
         else
         {
-            while ((overlapsMapAt(left, y) || overlapsAt(left, y, world.teleports) || overlapsAt(left, y, world.npcs)) && left < x)
+            while ((overlapsMapAt(left, y, true) || overlapsAt(left, y, world.teleports) || overlapsAt(left, y, world.npcs)) && left < x)
             {
                 left += 2;
             }
@@ -348,7 +348,8 @@ class Player extends Entity
             flash(0xFF000000, true);
             shake();
 
-            var sound : String = FlxG.random.getObject(["hit_p1", "hit_p2"]);
+            var sound : String = "hit_p0";
+            // var sound : String = FlxG.random.getObject(["hit_p1", "hit_p2"]);
             FlxG.sound.play("assets/sounds/" + sound + ".ogg");
 
             invincible = true;

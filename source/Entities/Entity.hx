@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
@@ -71,14 +72,26 @@ class Entity extends FlxSprite
             FlxTween.color(this, Duration, Color, TargetColor);
     }
 
-    public function overlapsMap()
+    public function overlapsMap(?ignoreHoles : Null<Bool> = null)
     {
-        return overlaps(world.solids) || (!floating && overlaps(world.holes));
+        var checkHoles : Bool = true;
+        if (ignoreHoles != null)
+            checkHoles = !ignoreHoles;
+        else
+            checkHoles = !floating;
+
+        return overlaps(world.solids) || (checkHoles && overlaps(world.holes));
     }
 
-    public function overlapsMapAt(X : Float, Y : Float)
+    public function overlapsMapAt(X : Float, Y : Float, ?ignoreHoles : Null<Bool> = null)
     {
-        return overlapsAt(X, Y, world.solids) || (!floating && overlapsAt(X, Y, world.holes));
+        var checkHoles : Bool = true;
+        if (ignoreHoles != null)
+            checkHoles = !ignoreHoles;
+        else
+            checkHoles = !floating;
+
+        return overlapsAt(X, Y, world.solids) || (checkHoles && overlapsAt(X, Y, world.holes));
     }
 
     public function doSlide(me : FlxPoint, from : FlxPoint, coefficient : Float, ?bounds : Float = 24, ?friction : Int = 100)
@@ -134,6 +147,12 @@ class Entity extends FlxSprite
 
     public function onFall(where : Hole)
     {
+        if (floating)
+        {
+            trace("Floating entity " + this + " was ordered to fall?");
+            return;
+        }
+
         if (!falling)
         {
             falling = true;
@@ -143,7 +162,7 @@ class Entity extends FlxSprite
             drag.set(100, 100);
             fallingTween = FlxTween.tween(this.scale, {x: 0, y: 0}, 1, {startDelay: 0.25,
                 onStart: function(t:FlxTween) {
-                    FlxG.sound.play("assets/sounds/fall.ogg");
+                    playSfx("fall");
                 },
                 onComplete: function(t:FlxTween) {
                     fallingTween.destroy();
@@ -161,6 +180,16 @@ class Entity extends FlxSprite
         var position : FlxPoint = getMidpoint();
         position.y += height/2;
         return position;
+    }
+
+    /* Instance based Utilities */
+
+    public function playSfx(sound : String, ?usePosition : Bool = true)
+    {
+        var snd : FlxSound = FlxG.sound.play("assets/sounds/" + sound + ".ogg", 0);
+        var midpoint : FlxPoint = getMidpoint();
+    	snd.proximity(midpoint.x, midpoint.y, world.player, 100);
+        snd.fadeIn(0.2, 0, 1);
     }
 
     /** Static methods and utilities **/

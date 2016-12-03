@@ -5,6 +5,11 @@ import flixel.math.FlxPoint;
 
 class Spitter extends Hazard
 {
+    public static var ThemeBullets : String = "bullets";
+    public static var ThemeRocks : String = "rocks";
+
+    var theme : String;
+
     var face : String;
     var shootDelay : Float;
     var startDelay : Float;
@@ -15,20 +20,34 @@ class Spitter extends Hazard
     var shootOrigin : FlxPoint;
     var target : FlxPoint;
 
-    public function new(X : Float, Y : Float, World : World, Facing : String, ShootDelay : Float = 4, ?StartDelay : Float = 2, ?ShootSpeed : Int = 100)
+    public function new(X : Float, Y : Float, World : World, Facing : String, ?Theme : String = null, ShootDelay : Float = 4, ?StartDelay : Float = 2, ?ShootSpeed : Int = 100)
     {
         super(X, Y, World);
+
+        theme = Theme;
+        if (theme == null)
+            theme = ThemeBullets;
 
         // Fetch configuration values
         shootDelay = ShootDelay;
         startDelay = StartDelay;
         shootSpeed = ShootSpeed;
+
         face = Facing.toLowerCase();
         // Parse facing
         if (["left", "right", "up", "down"].indexOf(face) < 0)
             throw "Invalid facing for Spitter at " + x + ", " + y + ": " + face;
 
-        loadGraphic("assets/images/spitter_rock.png", true, 20, 20);
+        switch (theme)
+        {
+            case Spitter.ThemeBullets:
+                loadGraphic("assets/images/spitter.png", true, 20, 20);
+            case Spitter.ThemeRocks:
+                loadGraphic("assets/images/spitter_rock.png", true, 20, 20);
+            default:
+                throw "Unknown Spitter theme: " + theme;
+        }
+
         animation.add("closed", [0]);
         animation.add("open", [1, 1, 1], 10, false);
 
@@ -80,7 +99,15 @@ class Spitter extends Hazard
             case "left":    shootOrigin.x -= 17.5; target.x -= 20;
         }
 
-        world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, "purpleball", null, target, shootSpeed));
+        var bulletType : String = null;
+        switch (theme)
+        {
+            case Spitter.ThemeBullets:
+                bulletType = "purple";
+            case Spitter.ThemeRocks:
+                bulletType = "purpleball";
+        }
+        world.addEntity(new Bullet(shootOrigin.x, shootOrigin.y, world, bulletType, null, target, shootSpeed));
 
         animTimer.start(shootDelay*0.95, onPreShoot);
         timer.start(shootDelay, onShoot);

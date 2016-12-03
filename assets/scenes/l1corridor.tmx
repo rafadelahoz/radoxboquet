@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="17" tilewidth="20" tileheight="20" backgroundcolor="#ccff66" nextobjectid="185">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="17" tilewidth="20" tileheight="20" backgroundcolor="#21edb5" nextobjectid="186">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -102,6 +102,16 @@
     <property name="door" value="up"/>
     <property name="target" value="l1down-right-passage"/>
    </properties>
+  </object>
+  <object id="185" type="Spitter" x="20" y="100" width="20" height="20">
+   <properties>
+    <property name="facing" value="right"/>
+    <property name="shootDelay" type="int" value="2"/>
+    <property name="shootSpeed" type="int" value="100"/>
+    <property name="startDelay" type="int" value="2"/>
+    <property name="theme" value="rocks"/>
+   </properties>
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

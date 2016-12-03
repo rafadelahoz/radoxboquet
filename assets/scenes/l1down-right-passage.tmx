@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="15" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="175">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="15" tilewidth="20" tileheight="20" backgroundcolor="#2dcf9e" nextobjectid="180">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -41,6 +41,16 @@
   <object id="174" type="Area" x="120" y="240" width="20" height="20">
    <properties>
     <property name="twitcher" value="0...1"/>
+   </properties>
+  </object>
+  <object id="175" type="Fire" x="240" y="180" width="20" height="20">
+   <properties>
+    <property name="Type" value="Endless"/>
+   </properties>
+  </object>
+  <object id="179" type="Fire" x="240" y="120" width="20" height="20">
+   <properties>
+    <property name="Type" value="Endless"/>
    </properties>
   </object>
  </objectgroup>

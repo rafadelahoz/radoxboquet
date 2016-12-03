@@ -66,8 +66,7 @@ class Bullet extends Hazard
 
     override public function update(elapsed : Float)
     {
-        floating = true;
-        if (solid && overlapsMap())
+        if (solid && overlapsMap(true))
         {
             onBreak();
             return;
@@ -77,8 +76,6 @@ class Bullet extends Hazard
         {
             FlxG.overlap(this, world.hazards, onCollisionWithHazard);
         }
-
-        floating = false;
 
         super.update(elapsed);
     }

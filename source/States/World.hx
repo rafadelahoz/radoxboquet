@@ -717,7 +717,7 @@ class World extends FlxTransitionableState
 
             if (FlxG.keys.justPressed.F)
             {
-                addEntity(new Fire(snapX, snapY, this));
+                addEntity(new Fire(snapX, snapY, this).setupEndlessFire());
                 /*for (i in 0...5)
                     new flixel.util.FlxTimer().start(i*0.1+0.1, function(t:flixel.util.FlxTimer) {
                         t.destroy();

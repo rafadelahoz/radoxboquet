@@ -136,6 +136,26 @@ class TiledScene extends TiledMap
 						elements.set(prop, o.properties.get(prop));
 					new SpawnArea(x, y, state, o.width, o.height, elements);
 			/** Hazards **/
+				case "fire":
+					var fire : Fire = new Fire(x, y, state);
+					var type : String = o.properties.get("type");
+					if (type == null || type == "Endless")
+						fire.setupEndlessFire();
+					else if (type == "Timed")
+					{
+						var active : Bool = (o.properties.contains("timedActive") && o.properties.get("timedActive") == "true");
+						var activeTime : Float = Std.parseFloat(o.properties.get("timedActiveTime"));
+						var inactiveTime : Null<Float> = null;
+						if (o.properties.contains("inactiveTime"))
+							inactiveTime = Std.parseFloat(o.properties.get("inactiveTime"));
+						fire.setupTimedFire(active, activeTime, inactiveTime);
+					}
+					else if (type == "Fuel")
+					{
+						fire.setupFuelCanisterFire(Std.parseInt(o.properties.get("fueledFuel")));
+					}
+
+					state.addEntity(fire);
 				case "spikes":
 					var enabled : Bool = (o.properties.get("enabled") != "false");
 					var enabledTime : Float = -1;
@@ -147,6 +167,22 @@ class TiledScene extends TiledMap
 
 					var spikes : HazardSpikes = new HazardSpikes(x, y, state, enabled, enabledTime, disabledTime);
 					state.addEntity(spikes);
+				case "spitter":
+					var theme : String = o.properties.get("theme");
+					var facing : String = o.properties.get("facing");
+					if (facing == null)
+						throw "No facing specified for Spitter at " + x + ", " + y;
+					var startDelay : Null<Float> = Std.parseFloat(o.properties.get("startDelay"));
+					if (Math.isNaN(startDelay))
+						startDelay = null;
+					var shootDelay : Float = Std.parseFloat(o.properties.get("shootDelay"));
+					if (Math.isNaN(shootDelay))
+						throw "No shoot delay specified for Spitter at " + x + ", " + y;
+					var shootSpeed : Null<Int> = Std.parseInt(o.properties.get("shootSpeed"));
+					if (Math.isNaN(shootSpeed))
+						throw "No shoot speed specified for Spitter at " + x + ", " + y;
+					var spitter : Spitter = new Spitter(x, y, state, facing, theme, shootDelay, startDelay, shootSpeed);
+					state.addEntity(spitter);
 
 			/** NPCs **/
 				case "npc":
