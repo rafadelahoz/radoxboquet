@@ -25,6 +25,8 @@ class Entity extends FlxSprite
     public var flammable : Bool;
     public var fuelComponent : IFuelComponent;
     public var currentFlame : Flame;
+    public var heat : Int;
+    var FlameThreshold : Int;
 
     public function new(X : Float, Y : Float, World : World)
     {
@@ -39,6 +41,9 @@ class Entity extends FlxSprite
         fallingTween = null;
 
         flammable = false;
+        currentFlame = null;
+        heat = 0;
+        FlameThreshold = 100;
     }
 
     public function onInit()
@@ -48,6 +53,8 @@ class Entity extends FlxSprite
 
     override public function destroy()
     {
+        if (currentFlame != null)
+            currentFlame.destroy();
         world.removeEntity(this);
         super.destroy();
     }
@@ -60,7 +67,8 @@ class Entity extends FlxSprite
             acceleration.set();
         }
 
-        super.update(elapsed);
+        if (alive)
+            super.update(elapsed);
     }
 
     public function flash(?Color : Int = 0xFFFF004D, ?Duration : Float = 0.2, ?TargetColor = 0xFFFFFFFF, ?Weird : Bool = false)
@@ -175,11 +183,48 @@ class Entity extends FlxSprite
 
     /** Fire related operations **/
 
+    public function onHeat(by : Flame)
+    {
+        if (flammable)
+        {
+            heat += by.heatPower;
+            if (heat > FlameThreshold)
+            {
+                onFireStart(by);
+            }
+        }
+    }
+
+    public function onFireStart(by : Flame)
+    {
+        currentFlame = new Flame(this);
+        world.addEntity(currentFlame);
+    }
+
+    public function onFuelDepleted()
+    {
+        flammable = false;
+        currentFlame.extinguish();
+        currentFlame = null;
+        fuelComponent = null;
+    }
+
     public function getFlamePosition() : FlxPoint
     {
         var position : FlxPoint = getMidpoint();
         position.y += height/2;
         return position;
+    }
+
+    public function setFlammable(?Fuel : Int = 600)
+    {
+        if (!flammable)
+        {
+            flammable = true;
+            FlameThreshold = 100;
+            heat = 0;
+            fuelComponent = new FuelCanisterComponent(this, Fuel);
+        }
     }
 
     /* Instance based Utilities */

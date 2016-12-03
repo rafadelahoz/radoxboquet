@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
 
 class CorpseActor extends ToolActor
@@ -20,6 +21,8 @@ class CorpseActor extends ToolActor
 
         hits = 1;
         invulnerable = false;
+
+        setFlammable();
 
         if (Slide)
             slide(world.player);
@@ -52,5 +55,22 @@ class CorpseActor extends ToolActor
                 });
             }
         }
+    }
+
+    override public function getFlamePosition() : FlxPoint
+    {
+        var point : FlxPoint = super.getFlamePosition();
+        point.y -= 8;
+        return point;
+    }
+
+    override public function onFireStart(by : Flame)
+    {
+        name = "ASHES";
+        property = null;
+        loadGraphic("assets/images/ashes.png");
+        solid = false;
+        flat = true;
+        super.onFireStart(by);
     }
 }

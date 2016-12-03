@@ -30,6 +30,9 @@ class ToolActor extends Entity
         {
             switch (name)
             {
+                case "ASHES":
+                    loadGraphic("assets/images/ashes.png");
+                    y -= height;
                 default:
                     loadGraphic("assets/images/item_bag.png");
                     scale.set(1.3, 1.3);

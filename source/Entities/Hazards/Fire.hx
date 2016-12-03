@@ -2,7 +2,6 @@ package;
 
 class Fire extends Hazard
 {
-    var flame : Flame;
     public function new(X : Float, Y : Float, World : World)
     {
         super(X, Y, World);
@@ -31,7 +30,7 @@ class Fire extends Hazard
 
     public function setupFuelCanisterFire(Fuel : Int) : Fire
     {
-        fuelComponent = new FuelCanisterComponent(Fuel);
+        fuelComponent = new FuelCanisterComponent(this, Fuel);
         return this;
     }
 
@@ -40,13 +39,7 @@ class Fire extends Hazard
         super.onInit();
         fuelComponent.init();
 
-        flame = new Flame(this);
-        world.addEntity(flame);
-    }
-
-    override public function destroy()
-    {
-        flame.destroy();
-        super.destroy();
+        currentFlame = new Flame(this);
+        world.addEntity(currentFlame);
     }
 }

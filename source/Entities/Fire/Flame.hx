@@ -1,10 +1,16 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxBasic;
 import flixel.math.FlxPoint;
+import flixel.group.FlxGroup;
+import flixel.tweens.FlxTween;
 
 class Flame extends Hazard
 {
+    var HeatDistance : Float = 30;
+
+    public var heatPower : Int;
     var source : Entity;
     var living : Bool;
 
@@ -38,6 +44,8 @@ class Flame extends Hazard
             living = false;
 
             flat = false;
+
+            heatPower = 1;
         }
     }
 
@@ -61,11 +69,23 @@ class Flame extends Hazard
         }
     }
 
+    public function extinguish()
+    {
+        living = false;
+        solid = false;
+
+        origin.set(10, 20);
+        FlxTween.tween(this.scale, {x: 0.2, y: 0}, {onComplete: function(t:FlxTween){
+            t.destroy();
+            destroy();
+        }});
+    }
+
     override public function update(elapsed : Float)
     {
-        if (source.fuelComponent == null)
+        if (source.fuelComponent == null && living)
             stop();
-        else
+        else if (source.fuelComponent != null)
         {
             if (source.fuelComponent.hasFuel())
             {
@@ -78,6 +98,28 @@ class Flame extends Hazard
             }
         }
 
+        if (living)
+        {
+            var entity : Entity = null;
+            var iterator : FlxTypedGroupIterator<Entity> = world.entities.iterator(Flame.flammableObjects);
+            while (iterator.hasNext())
+            {
+                entity = iterator.next();
+                if (entity != source)
+                {
+                    if (entity.getMidpoint().distanceTo(getMidpoint()) < HeatDistance)
+                    {
+                        entity.onHeat(this);
+                    }
+                }
+            }
+        }
+
         super.update(elapsed);
+    }
+
+    public static function flammableObjects(basic : Entity) : Bool
+    {
+        return (cast(basic, Entity).flammable && cast(basic, Entity).currentFlame == null);
     }
 }
