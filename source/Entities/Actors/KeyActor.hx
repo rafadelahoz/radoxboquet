@@ -23,8 +23,7 @@ class KeyActor extends ToolActor
         loadGraphic("assets/images/key.png");
         setSize(8, 17);
         offset.set(3, 1);
-        x += offset.x;
-        y += offset.y;
+        centerOffsets(true);
 
         overlay = new FlxSprite(x, y).loadGraphic("assets/images/key_over.png");
 
@@ -88,15 +87,15 @@ class KeyActor extends ToolActor
         currentColor = Color;
         property = currentColor;
     }
-    
+
     public static function getColorCode(Color : String) : Int
     {
         var color : Int = 0xFFFFFFFF;
-        
+
         switch (Color)
         {
             case "YELLOW":
-                color = 0xFF4DFFFF;
+                color = 0xFFffc700;
             case "GREEN":
                 color = 0xFF00FF4D;
             case "RED":
@@ -104,7 +103,7 @@ class KeyActor extends ToolActor
             default:
                 color = FlxG.random.color();
         }
-        
+
         return color;
     }
 }

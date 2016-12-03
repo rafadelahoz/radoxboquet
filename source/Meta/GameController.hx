@@ -16,7 +16,17 @@ class GameController
             GamePersistence.load();
         }
 
-        FlxG.switchState(new World(GameState.savedScene, GameState.savedSpawn));
+        var initialScene : String = GameState.savedScene;
+        var initialSpawn : String = GameState.savedSpawn;
+
+        var hospitalScene : String = GameState.findHospital();
+        if (hospitalScene != null)
+        {
+            initialScene = hospitalScene;
+            initialSpawn = null;
+        }
+
+        FlxG.switchState(new World(initialScene, initialSpawn));
     }
 
     public static function DeadContinue()

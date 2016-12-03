@@ -2,12 +2,16 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.util.FlxTimer;
 import flixel.math.FlxPoint;
 
 class Bullet extends Hazard
 {
     public static var Purple : String = "purple";
     public static var Lance : String = "lance";
+    public static var Ball : String = "purpleball";
+
+    var type : String;
     var target : FlxPoint;
 
     public function new(X : Float, Y : Float, World : World, ?Type : String = null, Target : FlxPoint, ?Direction : FlxPoint = null, ?Speed : Int = 300)
@@ -17,15 +21,18 @@ class Bullet extends Hazard
         flat = false;
         floating = true;
 
-        switch (Type)
+        type = Type;
+
+        switch (type)
         {
-            case "lance":
+            case Bullet.Lance:
                 loadGraphic("assets/images/lance.png");
                 setSize(8, 4);
                 centerOffsets(true);
-            case "purpleball":
+            case Bullet.Ball:
                 loadGraphic("assets/images/purple_ball.png", true, 20, 20);
                 animation.add("roll", [0, 1, 2, 3], 5);
+                animation.add("break", [4]);
                 animation.play("roll");
                 setSize(10, 10);
                 centerOffsets(true);
@@ -60,11 +67,15 @@ class Bullet extends Hazard
     override public function update(elapsed : Float)
     {
         floating = true;
-        if (overlapsMap())
+        if (solid && overlapsMap())
         {
-            kill();
-            destroy();
+            onBreak();
             return;
+        }
+
+        if (type == Bullet.Ball)
+        {
+            FlxG.overlap(this, world.hazards, onCollisionWithHazard);
         }
 
         floating = false;
@@ -76,7 +87,39 @@ class Bullet extends Hazard
     {
         super.onCollisionWithPlayer(player);
 
-        kill();
-        destroy();
+        onBreak();
+    }
+
+    public function onBreak()
+    {
+        switch (type)
+        {
+            case Bullet.Ball:
+                velocity.set();
+                acceleration.set();
+                solid = false;
+                animation.play("break");
+                angle = FlxG.random.getObject([0, 90, 180, 270]);
+                new FlxTimer().start(0.5, function(t:FlxTimer) {
+                    t.destroy();
+                    kill();
+                    destroy();
+                });
+            default:
+                kill();
+                destroy();
+        }
+    }
+
+    public function onCollisionWithHazard(self : Bullet, hazard : Hazard)
+    {
+        if (Std.is(hazard, Bullet))
+        {
+            if (cast(hazard, Bullet).type == Bullet.Ball)
+            {
+                onBreak();
+                (cast(hazard, Bullet)).onBreak();
+            }
+        }
     }
 }

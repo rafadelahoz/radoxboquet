@@ -67,9 +67,21 @@ class ToolActor extends Entity
         }
     }
 
+    public function getStoragePositionX() : Int
+    {
+        return Std.int(x-offset.x);
+    }
+
+    public function getStoragePositionY() : Int
+    {
+        return Std.int(y-offset.y+height);
+    }
+
     public function getPositionItem() : PositionItem
     {
-        var pitem : PositionItem = new PositionItem(x-offset.x, y-offset.y+height, new Item(name, property));
+        var pitem : PositionItem =
+            new PositionItem(getStoragePositionX(), getStoragePositionY(),
+                            new Item(name, property));
         return pitem;
     }
 }

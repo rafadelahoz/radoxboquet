@@ -137,14 +137,20 @@ class Entity extends FlxSprite
         if (!falling)
         {
             falling = true;
+            solid = false;
             velocity.set();
             acceleration.set();
             drag.set(100, 100);
-            fallingTween = FlxTween.tween(this.scale, {x: 0, y: 0}, 1, {startDelay: 0.25, onComplete: function(t:FlxTween) {
-                fallingTween.destroy();
-                kill();
-                destroy();
-            }});
+            fallingTween = FlxTween.tween(this.scale, {x: 0, y: 0}, 1, {startDelay: 0.25,
+                onStart: function(t:FlxTween) {
+                    FlxG.sound.play("assets/sounds/fall.ogg");
+                },
+                onComplete: function(t:FlxTween) {
+                    fallingTween.destroy();
+                    kill();
+                    destroy();
+                }
+            });
         }
     }
 

@@ -28,11 +28,14 @@ class Bow extends Tool
             GameState.addMoney(-arrowCost);
             // Instantiate arrow
             world.addEntity(new Arrow(x, y+8, world));
+            // Play sound
+            FlxG.sound.play("assets/sounds/bow.ogg");
         }
         else
         {
             // Instantiate smoke?
             // Instantiate a money sign?
+            FlxG.sound.play("assets/sounds/bow_empty.ogg");
         }
 
         // Hide after a sec

@@ -8,6 +8,8 @@ import flixel.group.FlxGroup;
 
 class Player extends Entity
 {
+    public static var DeathFall : String = "fall";
+
     public static var DEAD      : Int = -1;
     public static var IDLE      : Int = 0;
     public static var ACTION    : Int = 1;
@@ -346,6 +348,9 @@ class Player extends Entity
             flash(0xFF000000, true);
             shake();
 
+            var sound : String = FlxG.random.getObject(["hit_p1", "hit_p2"]);
+            FlxG.sound.play("assets/sounds/" + sound + ".ogg");
+
             invincible = true;
             invincibleTimer.start(InvincibleTime, function(t:FlxTimer) {
                 invincible = false;
@@ -367,31 +372,36 @@ class Player extends Entity
         // If we have just started falling
         if (!wasFalling && falling)
         {
-            onDead();
+            world.onPlayerDead();
+            onDead(DeathFall);
         }
     }
 
-    public function onDead()
+    public function onDead(?Cause : String = null)
     {
         state = DEAD;
 
         // Lose money
         GameState.money = Std.int(GameState.money/2);
 
-        flash(0xFF000000, 1, true);
-
-        // Generate the lost money
-        var midpoint : FlxPoint = getMidpoint();
-        var generated : Int = 0;
-        var money : Money = null;
-        while (generated < GameState.money)
+        if (Cause != DeathFall)
         {
-            var value : Int = FlxG.random.getObject([1, 5, 10]);
-            generated += value;
-            money = new Money(midpoint.x + FlxG.random.int(-20, 20),
-                            midpoint.y + FlxG.random.int(-20, 20),
-                            world, value);
-            world.addEntity(money);
+            // Flash in black
+            flash(0xFF000000, 1, true);
+
+            // Generate the lost money
+            var midpoint : FlxPoint = getMidpoint();
+            var generated : Int = 0;
+            var money : Money = null;
+            while (generated < GameState.money)
+            {
+                var value : Int = FlxG.random.getObject([1, 5, 10]);
+                generated += value;
+                money = new Money(midpoint.x + FlxG.random.int(-20, 20),
+                                midpoint.y + FlxG.random.int(-20, 20),
+                                world, value);
+                world.addEntity(money);
+            }
         }
     }
 

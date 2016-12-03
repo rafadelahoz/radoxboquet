@@ -11,12 +11,13 @@ class Hospital extends ToolActor
         super(X, Y, World, "HOSPTL", false);
 
         loadGraphic("assets/images/hospital.png");
-        y -= height;
 
         setSize(14, 14);
-        offset.set(1, 1);
+        offset.set(3, 6);
         x += offset.x;
         y += offset.y;
+
+        y -= (offset.y + height);
 
         if (Slide)
             slide(world.player);
@@ -25,5 +26,10 @@ class Hospital extends ToolActor
     override public function update(elapsed : Float)
     {
         super.update(elapsed);
+    }
+
+    override public function getStoragePositionY() : Int
+    {
+        return Std.int(y - offset.y + (offset.y + height));
     }
 }

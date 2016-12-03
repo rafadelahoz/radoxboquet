@@ -28,7 +28,7 @@ class Spitter extends Hazard
         if (["left", "right", "up", "down"].indexOf(face) < 0)
             throw "Invalid facing for Spitter at " + x + ", " + y + ": " + face;
 
-        loadGraphic("assets/images/spitter.png", true, 20, 20);
+        loadGraphic("assets/images/spitter_rock.png", true, 20, 20);
         animation.add("closed", [0]);
         animation.add("open", [1, 1, 1], 10, false);
 

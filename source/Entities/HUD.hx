@@ -90,17 +90,6 @@ class HUD extends FlxGroup
         }
 
         coinsLabel.text = "" + GameState.money;
-        switch (world.state)
-        {
-            case World.INIT:
-                coinsLabel.text += "\nINIT!";
-            case World.GAMEPLAY:
-                coinsLabel.text += "\nGPLAY";
-            case World.INTERACT:
-                coinsLabel.text += "\nINACT";
-            case World.GAMEOVER:
-                coinsLabel.text += "\nGOVER";
-        }
 
         super.update(elapsed);
     }
