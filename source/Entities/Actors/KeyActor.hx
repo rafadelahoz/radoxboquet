@@ -15,8 +15,9 @@ class KeyActor extends ToolActor
     var overlay : FlxSprite;
     var invulnerable : Bool;
     public var currentColor : String;
+    public var keyId : String;
 
-    public function new(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true)
+    public function new(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true, ?Id : String = null)
     {
         super(X, Y, World, "KEY", Color, false);
 
@@ -37,6 +38,20 @@ class KeyActor extends ToolActor
         {
             slide(world.player);
             //doSlide(getMidpoint(), world.player.getMidpoint(), 3);
+        }
+
+        // For unique keys, the id is built and checked vs flag list
+        if (Id != null)
+        {
+            keyId = world.sceneName + "-" + Id;
+            if (GameState.getFlag(keyId))
+            {
+                kill();
+            }
+            else
+            {
+                GameState.setFlag(keyId, true);
+            }
         }
     }
 
@@ -61,6 +76,7 @@ class KeyActor extends ToolActor
         super.update(elapsed);
         overlay.x = x - offset.x;
         overlay.y = y - offset.y;
+        overlay.angle = angle;
     }
 
     override public function draw()
@@ -105,5 +121,18 @@ class KeyActor extends ToolActor
         }
 
         return color;
+    }
+
+    public static function spawn(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true, ?Id : String = null)
+    {
+        var key : KeyActor = new KeyActor(X, Y, World, Color, Slide, Id);
+        if (!key.alive)
+        {
+            key.destroy();
+        }
+        else
+        {
+            World.addEntity(key);
+        }
     }
 }

@@ -190,7 +190,10 @@ class TiledScene extends TiledMap
 					parser.parse(x, y, o);
 
 			/** Collectibles **/
-
+				case "key":
+					var color : String = o.properties.get("color");
+					KeyActor.spawn(x, y, state, color, o.name);
+					// the spawner adds the key to the world
 			/** Elements **/
 				case "solid":
 					var solid : Entity = new Solid(x, y, state, o.width, o.height);
@@ -209,10 +212,13 @@ class TiledScene extends TiledMap
 					if (o.properties.contains("graphic_asset"))
 						door.setupGrahic(o.properties.get("graphic_asset"));
 					state.addEntity(door);
+					trace("Angle: " + o.angle);
+					door.angle = o.angle;
 				case "lockdoor":
 					var color : String = o.properties.get("color");
 					var door : KeyDoor = new KeyDoor(x, y, state, o.name, color);
 					state.addEntity(door);
+					door.angle = o.angle;
 				default:
 					// !
 			}

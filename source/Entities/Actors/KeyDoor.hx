@@ -20,7 +20,7 @@ class KeyDoor extends Door
 
         makeGraphic(20, 20, KeyActor.getColorCode(Color));
         overlay = new FlxSprite(X, Y, "assets/images/lock_door.png");
-        
+
         lockColor = Color;
         opening = false;
     }
@@ -33,6 +33,7 @@ class KeyDoor extends Door
 
     override public function update(elapsed : Float)
     {
+        overlay.angle = angle;
         super.update(elapsed);
         overlay.update(elapsed);
     }
@@ -71,6 +72,7 @@ class KeyDoor extends Door
         world.items.remove(key);
         var xx : Float = getMidpoint().x - key.width/2;
         var yy : Float = getMidpoint().y - key.height/2;
+        FlxTween.tween(key, {angle: angle}, 0.5, {ease: FlxEase.quadOut});
         FlxTween.tween(key, {x : xx, y : yy}, 0.5, {ease: FlxEase.quadOut, onComplete: function(t:FlxTween) {
             t.cancel();
             t.destroy();

@@ -18,7 +18,7 @@ class Thrower extends Enemy
     var LocationThreshold : Float = 100;
 
     var PositioningTime : Float = 4;
-    var Accel : Int = 3000;
+    var Accel : Int = 6000;
     var MaxSpeed : Int = 200;
     var Distance : Int = 60;
     var StopThreshold : Int = 4;

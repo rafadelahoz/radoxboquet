@@ -52,7 +52,7 @@
    <properties>
     <property name="dir" value="down"/>
     <property name="door" value="south"/>
-    <property name="target" value="l1upper"/>
+    <property name="target" value="l1up-left"/>
    </properties>
   </object>
  </objectgroup>

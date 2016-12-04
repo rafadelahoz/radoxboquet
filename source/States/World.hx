@@ -628,12 +628,12 @@ class World extends FlxTransitionableState
             {
                 GameController.DeadContinue();
             }
-            else if (FlxG.keys.justReleased.S)
+            else if (FlxG.keys.justPressed.S)
             {
                 storeSceneActors();
                 GamePersistence.save();
             }
-            else if (FlxG.keys.justReleased.L)
+            else if (FlxG.keys.justPressed.L)
             {
                 GamePersistence.load();
             }
