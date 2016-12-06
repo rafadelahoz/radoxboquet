@@ -1,4 +1,4 @@
--main ApplicationMain 
+-main ApplicationMain
 -cp /usr/local/haxe/flixel/4,0,1
 -D flixel=4.0.1
 -cp /usr/local/haxe/openfl/3,6,1
@@ -18,6 +18,7 @@
 -cp source/Entities/Fire
 -cp source/Entities/Tools
 -cp source/Entities/Actors
+-cp source/Entities/Puzzle
 -cp source/Entities/Enemies
 -cp source/Entities/Hazards
 -cp source/Entities/Interaction

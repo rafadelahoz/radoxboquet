@@ -396,6 +396,8 @@ class World extends FlxTransitionableState
             tools.remove(entity);
         else if (Std.is(entity, Solid))
             solids.remove(entity);
+        else if (Std.is(entity, Hole))
+            holes.remove(entity);
         else if (Std.is(entity, Teleport))
             teleports.remove(entity);
         else if (Std.is(entity, Door))

@@ -37,6 +37,7 @@
 	<classpath name="source/Entities/Fire"/>
 	<classpath name="source/Entities/Tools"/>
 	<classpath name="source/Entities/Actors"/>
+	<classpath name="source/Entities/Puzzle"/>
 	<classpath name="source/Entities/Enemies"/>
 	<classpath name="source/Entities/Hazards"/>
 	<classpath name="source/Entities/Interaction"/>

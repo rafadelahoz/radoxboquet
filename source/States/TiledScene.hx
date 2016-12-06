@@ -212,13 +212,20 @@ class TiledScene extends TiledMap
 					if (o.properties.contains("graphic_asset"))
 						door.setupGrahic(o.properties.get("graphic_asset"));
 					state.addEntity(door);
-					trace("Angle: " + o.angle);
 					door.angle = o.angle;
 				case "lockdoor":
 					var color : String = o.properties.get("color");
 					var door : KeyDoor = new KeyDoor(x, y, state, o.name, color);
 					state.addEntity(door);
 					door.angle = o.angle;
+
+			/** Puzzles **/
+				case "plate":
+					var color : Int = backgroundColor;
+					if (o.properties.contains("color"))
+						color = flixel.util.FlxColor.fromString(o.properties.get("color"));
+					var plate : Plate = new Plate(x, y, state, color);
+					state.addEntity(plate);
 				default:
 					// !
 			}

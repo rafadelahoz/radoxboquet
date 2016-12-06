@@ -30,6 +30,8 @@ class Enemy extends Entity
     {
         hurtTimer.cancel();
         hurtTimer.destroy();
+
+        super.destroy();
     }
 
     override public function onInit()
