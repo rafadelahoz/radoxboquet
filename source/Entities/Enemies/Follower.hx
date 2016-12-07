@@ -35,8 +35,8 @@ class Follower extends Enemy
         hp = 2;
 
         loadGraphic("assets/images/skelefollower.png", true, 20, 20);
-        setSize(18, 18);
-        offset.set(1, 1);
+        setSize(14, 14);
+        offset.set(3, 3);
 
         animation.add("idle", [0, 1], 2);
         animation.add("walk", [0, 1], 6);
@@ -108,6 +108,7 @@ class Follower extends Enemy
 
                 animation.play("idle");
                 locatePlayer();
+
             case Follower.HURT:
                 animation.play("hurt");
             case Follower.CHASE:
@@ -116,6 +117,7 @@ class Follower extends Enemy
 
         flipX = false;
         super.update(elapsed);
+        FlxG.collide(this, world.enemies);
     }
 
     function setupGoto()

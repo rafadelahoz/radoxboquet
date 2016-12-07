@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#d7728c" nextobjectid="178">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#d7728c" nextobjectid="180">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -30,7 +30,15 @@
   <object id="175" name="Door" type="Door" x="300" y="100" width="20" height="20"/>
   <object id="177" type="Plate" x="160" y="100" width="20" height="20">
    <properties>
-    <property name="mcolor" type="color" value="#fffbff0a"/>
+    <property name="door" value="Door"/>
+    <property name="enemy" value="twitcher"/>
+   </properties>
+  </object>
+  <object id="179" name="east" type="Teleport" x="300" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door" value="east"/>
+    <property name="target" value="l1-section3-pre"/>
    </properties>
   </object>
  </objectgroup>

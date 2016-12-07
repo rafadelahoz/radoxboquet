@@ -49,7 +49,7 @@ class ToolActor extends Entity
             playSfx("pickup");
             kill();
             destroy();
-            world.items.remove(this);
+            // world.items.remove(this);
             return true;
         }
         else

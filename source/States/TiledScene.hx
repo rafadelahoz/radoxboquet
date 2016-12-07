@@ -224,7 +224,9 @@ class TiledScene extends TiledMap
 					var color : Int = backgroundColor;
 					if (o.properties.contains("color"))
 						color = flixel.util.FlxColor.fromString(o.properties.get("color"));
-					var plate : Plate = new Plate(x, y, state, color);
+					var door : String = o.properties.get("door");
+					var enemy : String = o.properties.get("enemy");
+					var plate : Plate = new Plate(x, y, state, color, door, enemy);
 					state.addEntity(plate);
 				default:
 					// !

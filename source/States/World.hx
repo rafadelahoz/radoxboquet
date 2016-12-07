@@ -370,6 +370,8 @@ class World extends FlxTransitionableState
             solids.add(entity);
         else if (Std.is(entity, NPC))
             npcs.add(entity);
+        /*else if (Std.is(entity, Plate))
+            items.add(entity);*/
 
         entities.add(entity);
 
@@ -385,7 +387,7 @@ class World extends FlxTransitionableState
         if (Std.is(entity, Breakable))
             breakables.remove(entity);
         else if (Std.is(entity, ToolActor))
-            items.remove(entity);
+            items.remove(entity, true);
         else if (Std.is(entity, Hazard))
             hazards.remove(entity);
         else if (Std.is(entity, Enemy))
@@ -404,6 +406,8 @@ class World extends FlxTransitionableState
             solids.remove(entity);
         else if (Std.is(entity, NPC))
             npcs.remove(entity);
+        /*else if (Std.is(entity, Plate))
+            items.remove(entity);*/
 
         entities.remove(entity, true);
     }

@@ -45,8 +45,8 @@
   <object id="163" name="east" type="Teleport" x="300" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
-    <property name="door" value="west"/>
-    <property name="target" value="l1-section3-middle"/>
+    <property name="door" value="east"/>
+    <property name="target" value="l1-section2-down"/>
    </properties>
   </object>
   <object id="164" type="Fire" x="40" y="160" width="20" height="20">
