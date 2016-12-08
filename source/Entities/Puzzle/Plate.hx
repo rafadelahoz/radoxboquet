@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
@@ -40,8 +41,6 @@ class Plate extends Entity
             enemies = enemies.map(function(elem : String) : String {
                 return StringTools.trim(elem);
             });
-
-            trace(enemies);
         }
         else
         {
@@ -60,8 +59,8 @@ class Plate extends Entity
     override public function update(elapsed : Float)
     {
         overlapsPlayer = overlaps(world.player);
-        overlapsEnemy = overlaps(world.enemies);
-        overlapsItem = overlaps(world.items);
+        overlapsEnemy = checkOverlap(world.enemies);
+        overlapsItem = checkOverlap(world.items);
 
         var overlapped : Bool = overlapsPlayer || overlapsEnemy || overlapsItem;
 
@@ -101,6 +100,23 @@ class Plate extends Entity
         super.update(elapsed);
     }
 
+    function checkOverlap(Group : FlxGroup) : Bool
+    {
+        var overlapping : Bool = false;
+
+        var iterator = Group.iterator(function(elem : FlxBasic) : Bool {
+            var entity : Entity = cast(elem, Entity);
+            return entity.alive && !entity.floating && entity.weights;
+        });
+
+        while (iterator.hasNext() && !overlapping)
+        {
+            overlapping = overlaps(iterator.next());
+        }
+
+        return overlapping;
+    }
+
     function onOverlapPlayer() : Bool
     {
         var handled : Bool = false;
@@ -131,11 +147,11 @@ class Plate extends Entity
         {
             if (item.alive && Std.is(item, Enemy))
             {
-                if (overlaps(item))
+                var enemy : Enemy = cast(item, Enemy);
+                if (enemy.weights && !enemy.floating && this.overlaps(enemy))
                 {
                     var midpoint : FlxPoint = getMidpoint();
-                    var enemy : Enemy = cast(item, Enemy);
-                    FlxTween.tween(item, {x : midpoint.x-enemy.width/2, y : midpoint.y-enemy.height/2}, 0.7);
+                    FlxTween.tween(enemy, {x : midpoint.x-enemy.width/2, y : midpoint.y-enemy.height/2}, 0.7);
                     new FlxTimer().start(0.7, function(t:FlxTimer) {
                         t.destroy();
                         // Choose random position
@@ -150,8 +166,8 @@ class Plate extends Entity
                         // Add de-spawn smoke
                         world.addEntity(new Smoke(enemy.getMidpoint(), world));
                         // Remove enemy
-                        item.kill();
-                        item.destroy();
+                        enemy.kill();
+                        enemy.destroy();
 
                         pos.destroy();
                     });
@@ -171,9 +187,9 @@ class Plate extends Entity
         {
             if (item.alive && Std.is(item, ToolActor))
             {
-                if (overlaps(item))
+                var actor : ToolActor = cast(item, ToolActor);
+                if (actor.weights && !actor.floating && overlaps(actor))
                 {
-                    var actor : ToolActor = cast(item, ToolActor);
                     if (actor.name == "KEY")
                     {
                         if (door != null && door.length > 0)

@@ -77,12 +77,12 @@ class Message extends FlxGroup implements Interaction
 
     public function onUpdate() : Bool
     {
-        if (state == 1 && FlxG.keys.justPressed.S)
+        if (state == 1 && Gamepad.justPressedA())
         {
             state += 1;
             textField.scale.set(1, 0.5);
         }
-        else if (state == 2 && FlxG.keys.justReleased.S)
+        else if (state == 2 && Gamepad.justReleasedA())
         {
             world.onInteractionEnd();
 

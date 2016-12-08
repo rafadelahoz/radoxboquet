@@ -14,6 +14,7 @@ class Entity extends FlxSprite
 
     public var flat : Bool;
     public var floating : Bool;
+    public var weights : Bool;
 
     var shaking : Bool;
     var shakeIntensity : Int;
@@ -34,6 +35,8 @@ class Entity extends FlxSprite
         this.world = World;
         flat = false;
         floating = false;
+        weights = true;
+
         shaking = false;
         shakeTimer = new FlxTimer();
 
@@ -65,6 +68,11 @@ class Entity extends FlxSprite
         {
             velocity.set();
             acceleration.set();
+        }
+
+        if (flammable)
+        {
+            color = flixel.util.FlxColor.interpolate(color, 0xFFFF004D, heat / FlameThreshold);
         }
 
         if (alive)
@@ -187,7 +195,13 @@ class Entity extends FlxSprite
     {
         if (flammable)
         {
+            var oldHeat : Int = heat;
+
             heat += by.heatPower;
+            if (heat > FlameThreshold * 0.7 && oldHeat <= FlameThreshold * 0.7)
+            {
+                shake(0.5);
+            }
             if (heat > FlameThreshold)
             {
                 onFireStart(by);

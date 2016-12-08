@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.util.FlxTimer;
 
 class CurativeItem
@@ -83,6 +84,7 @@ class CurativeItem
         var power : Int = getPower(item);
         if (power > 0)
         {
+            FlxG.sound.play("assets/sounds/eat1.ogg");
             GameState.removeItem(item);
             GameState.addHP(power);
             // Wait for a sec!

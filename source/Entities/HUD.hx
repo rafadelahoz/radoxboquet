@@ -109,7 +109,10 @@ class HUD extends FlxGroup
                 if (hpValue > GameState.hp)
                     hpOverlay.color = 0xFFFF004D;
                 else
+                {
                     hpOverlay.color = 0xFF00FF4D;
+                    world.player.flash(0xFF00FF4D);
+                }
 
                 if (hpTween != null)
                     hpTween.cancel();

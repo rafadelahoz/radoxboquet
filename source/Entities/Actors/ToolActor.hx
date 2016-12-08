@@ -17,15 +17,15 @@ class ToolActor extends Entity
         name = Name;
         property = Property;
 
-        handleGraphic();
+        handleProperties();
 
         if (Slide)
             slide(world.player);
     }
 
-    function handleGraphic()
+    function handleProperties()
     {
-        // Only handle the graphic for thos items that are not special
+        // Only handle the properties for thos items that are not special
         if (SPECIAL_TOOLS.indexOf(name) < 0)
         {
             switch (name)
@@ -33,6 +33,8 @@ class ToolActor extends Entity
                 case "ASHES":
                     loadGraphic("assets/images/ashes.png");
                     y -= height;
+                    weights = false;
+                    flat = true;
                 default:
                     loadGraphic("assets/images/item_bag.png");
                     scale.set(1.3, 1.3);

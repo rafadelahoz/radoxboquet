@@ -59,7 +59,7 @@
     <property name="target" value="l1-section2-down"/>
    </properties>
   </object>
-  <object id="169" type="Area" x="120" y="80" width="100" height="60">
+  <object id="169" type="Area" x="100" y="60" width="140" height="100">
    <properties>
     <property name="follower" value="2..4"/>
    </properties>

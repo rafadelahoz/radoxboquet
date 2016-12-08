@@ -147,19 +147,19 @@ class Shop extends Message
         switch (state)
         {
             case Shop.WAITING:
-                if (FlxG.keys.justPressed.SPACE)
+                if (Gamepad.justPressedSelect())
                 {
                     selection = Std.int((selection + 1) % productsNumber);
                     cursor.y = baseY + 1 + cursor.height*selection;
                 }
-                else if (FlxG.keys.justPressed.S)
+                else if (Gamepad.justPressedA())
                 {
                     handleSelection();
                 }
             case Shop.ACTION:
                 // Nop!
             case Shop.CLOSING:
-                if (FlxG.keys.justReleased.S)
+                if (Gamepad.justReleasedA())
                 {
                     world.onInteractionEnd();
 
@@ -168,7 +168,7 @@ class Shop extends Message
 
                     return false;
                 }
-                else if (FlxG.keys.pressed.S)
+                else if (Gamepad.justPressedA())
                 {
                     textField.scale.set(1, 0.5);
                 }

@@ -71,6 +71,12 @@ class CorpseActor extends ToolActor
         loadGraphic("assets/images/ashes.png");
         solid = false;
         flat = true;
+        weights = false;
+
         super.onFireStart(by);
+
+        color = 0xFFFFFFFF;
+        flammable = false;
+        heat = 0;
     }
 }

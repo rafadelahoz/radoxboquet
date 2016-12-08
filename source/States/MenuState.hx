@@ -40,7 +40,7 @@ class MenuState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (FlxG.keys.justPressed.ENTER)
+		if (Gamepad.justPressedStart())
 		{
 			GameController.StartGame();
 		}

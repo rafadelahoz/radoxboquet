@@ -89,14 +89,14 @@ class Player extends Entity
 
     function onIdleState(elapsed : Float)
     {
-        if (FlxG.keys.justPressed.A)
+        if (Gamepad.justPressedA())
         {
             state = ACTION;
             handleAction();
             return;
         }
 
-        if (FlxG.keys.justPressed.S)
+        if (Gamepad.justPressedB())
         {
             for (entity in world.npcs)
             {
@@ -125,24 +125,24 @@ class Player extends Entity
             }
         }
 
-        if (FlxG.keys.justPressed.SPACE)
+        if (Gamepad.justPressedSelect())
         {
             FlxG.sound.play("assets/sounds/drop.ogg");
             GameState.switchItem();
         }
 
         // Horizontal movement
-        if (FlxG.keys.pressed.LEFT)
+        if (Gamepad.left())
             velocity.x = -WalkSpeed;
-        else if (FlxG.keys.pressed.RIGHT)
+        else if (Gamepad.right())
             velocity.x = WalkSpeed;
         else
             velocity.x = 0;
 
         // Vertical movement
-        if (FlxG.keys.pressed.UP)
+        if (Gamepad.up())
             velocity.y = -WalkSpeed;
-        else if (FlxG.keys.pressed.DOWN)
+        else if (Gamepad.down())
             velocity.y = WalkSpeed;
         else
             velocity.y = 0;
@@ -234,6 +234,7 @@ class Player extends Entity
     function onDeadState(elapsed : Float)
     {
         solid = false;
+        flat = true;
         animation.play("dead");
         velocity.set(0, 0);
         acceleration.set(0, 0);
@@ -348,9 +349,16 @@ class Player extends Entity
             flash(0xFF000000, true);
             shake();
 
-            var sound : String = "hit_p0";
-            // var sound : String = FlxG.random.getObject(["hit_p1", "hit_p2"]);
-            FlxG.sound.play("assets/sounds/" + sound + ".ogg");
+            if (GameState.hp > 0)
+            {
+                // var sound : String = "hit_p0";
+                var sound : String = FlxG.random.getObject(["hurt1", "hurt2", "hurt3", "hurt4", "hurt5"]);
+                playSfx(sound, false);
+            }
+            else
+            {
+                playSfx("death", false);
+            }
 
             invincible = true;
             invincibleTimer.start(InvincibleTime, function(t:FlxTimer) {

@@ -730,6 +730,15 @@ class World extends FlxTransitionableState
                         addEntity(new Fire(snapX + 20*i, snapY, this));
                     });*/
             }
+
+            if (FlxG.keys.justPressed.E)
+            {
+                GameState.addItem("APPFEL");
+                GameState.addItem("KEBABS");
+                GameState.addItem("TASTY1");
+                GameState.addItem("TASTY2");
+                GameState.addItem("FOODIN");
+            }
         }
     }
 }
