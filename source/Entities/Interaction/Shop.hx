@@ -152,14 +152,14 @@ class Shop extends Message
                     selection = Std.int((selection + 1) % productsNumber);
                     cursor.y = baseY + 1 + cursor.height*selection;
                 }
-                else if (Gamepad.justPressedA())
+                else if (Gamepad.justPressedAction())
                 {
                     handleSelection();
                 }
             case Shop.ACTION:
                 // Nop!
             case Shop.CLOSING:
-                if (Gamepad.justReleasedA())
+                if (Gamepad.justReleasedAction())
                 {
                     world.onInteractionEnd();
 
@@ -168,7 +168,7 @@ class Shop extends Message
 
                     return false;
                 }
-                else if (Gamepad.justPressedA())
+                else if (Gamepad.justPressedAction())
                 {
                     textField.scale.set(1, 0.5);
                 }

@@ -89,14 +89,14 @@ class Player extends Entity
 
     function onIdleState(elapsed : Float)
     {
-        if (Gamepad.justPressedA())
+        if (Gamepad.justPressedAction())
         {
             state = ACTION;
             handleAction();
             return;
         }
 
-        if (Gamepad.justPressedB())
+        if (Gamepad.justPressedInteraction())
         {
             for (entity in world.npcs)
             {

@@ -2,8 +2,10 @@ default
 face right
 graphic lever 20 20 [0]
 open l1corridor-left
+sound click2
 
 if door.l1corridor-left
 face right
 graphic lever 20 20 [1]
 close l1corridor-left
+sound click2

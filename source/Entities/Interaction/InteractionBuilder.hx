@@ -47,7 +47,7 @@ class InteractionBuilder
                         commandLine.substring(spacePos, commandLine.length);
                 var shop : Shop = buildShop(world, shopLine);
                 return shop;
-            case "give", "remove", "set", "switch", "money", "open", "close":
+            case "give", "remove", "set", "switch", "money", "open", "close", "sound":
                 var command : Command = new Command(world, commandLine);
                 return command;
         }

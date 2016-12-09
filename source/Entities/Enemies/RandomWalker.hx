@@ -44,6 +44,25 @@ class RandomWalker extends Enemy
         walk();
     }
 
+    override public function destroy()
+    {
+        if (timer != null)
+        {
+            timer.cancel();
+            timer.destroy();
+        }
+
+        if (tween != null)
+        {
+            tween.cancel();
+            tween.destroy();
+        }
+
+        center.destroy();
+
+        super.destroy();
+    }
+
     function walk()
     {
         if (timer != null)

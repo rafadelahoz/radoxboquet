@@ -38,52 +38,52 @@ class Gamepad
         return FlxG.keys.pressed.DOWN || (usepad && pad.getYAxis(FlxGamepadInputID.LEFT_ANALOG_STICK) > 0.5);
     }
 
-    public static function justPressedA() : Bool
+    public static function justPressedAction() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.justPressed.S || (usepad && pad.justPressed.X);
+        return FlxG.keys.justPressed.A || (usepad && pad.justPressed.X);
     }
 
-    public static function A() : Bool
+    public static function Action() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.pressed.S || (usepad && pad.pressed.X);
+        return FlxG.keys.pressed.A || (usepad && pad.pressed.X);
     }
 
-    public static function justReleasedA() : Bool
+    public static function justReleasedAction() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.justReleased.S || (usepad && pad.justReleased.X);
+        return FlxG.keys.justReleased.A || (usepad && pad.justReleased.X);
     }
 
-    public static function justPressedB() : Bool
+    public static function justPressedInteraction() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.justPressed.A || (usepad && pad.justPressed.A);
+        return FlxG.keys.justPressed.S || (usepad && pad.justPressed.A);
     }
 
-    public static function B() : Bool
+    public static function Interaction() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.pressed.A || (usepad && pad.pressed.A);
+        return FlxG.keys.pressed.S || (usepad && pad.pressed.A);
     }
 
-    public static function justReleasedB() : Bool
+    public static function justReleasedInteraction() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
-        return FlxG.keys.justReleased.A || (usepad && pad.justReleased.A);
+        return FlxG.keys.justReleased.S || (usepad && pad.justReleased.A);
     }
 
     public static function justPressedStart() : Bool
