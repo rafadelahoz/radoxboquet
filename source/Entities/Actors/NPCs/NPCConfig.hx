@@ -9,7 +9,8 @@ class NPCConfig
     public var solid : Bool;
 
     public var face : String;
-    public var flip : Bool;
+    public var canturn : Bool;
+    public var canflip : Bool;
     public var flat : Bool;
 
     public var graphic_asset : String;
@@ -32,5 +33,7 @@ class NPCConfig
         solid = true;
         visible = true;
         flat = false;
+        canturn = true;
+        canflip = true;
     }
 }

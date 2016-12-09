@@ -21,7 +21,10 @@ class NPCParser
 
         var npc : NPC = null;
 
-        npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("face"), o.properties.get("canflip") == "true");
+        var canTurn : Bool = o.properties.get("cantturn") != "true";
+        var canFlip : Bool = !o.properties.contains("canflip") || o.properties.get("canflip") == "true";
+        
+        npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("face"), canTurn, canFlip);
         npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
                     o.properties.get("graphic_frames"),
                     Std.parseInt(o.properties.get("graphic_speed")));
@@ -107,8 +110,10 @@ class NPCParser
                 configs.push(config);
             case "enabled":
                 config.enabled = (line == "true");
-            case "flip":
-                config.flip = (line == "true");
+            case "cantturn":
+                config.canturn = (line != "true");
+            case "canflip":
+                config.canflip = (line == "true");
             case "face":
                 config.face = line;
             case "solid":

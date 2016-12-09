@@ -192,7 +192,7 @@ class TiledScene extends TiledMap
 			/** Collectibles **/
 				case "key":
 					var color : String = o.properties.get("color");
-					KeyActor.spawn(x, y, state, color, o.name);
+					KeyActor.spawn(x, y+20, state, color, o.name);
 					// the spawner adds the key to the world
 			/** Elements **/
 				case "solid":

@@ -9,7 +9,7 @@ flat true
 
 # enabled false
 graphic npc_dummy 20 20 1 10
-# flip false
+# cantturn true
 # solid false
 
 #if !has.corpse

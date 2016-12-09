@@ -107,6 +107,7 @@
   <object id="115" name="woman" type="NPC" x="560" y="620" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/woman"/>
     <property name="graphic_speed" type="int" value="1"/>
@@ -146,6 +147,7 @@
   </object>
   <object id="4" name="Sign" type="NPC" x="460" y="660" width="20" height="20">
    <properties>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value=""/>
     <property name="message" value="Welcome to the flea market!"/>
@@ -243,6 +245,7 @@
   </object>
   <object id="29" name="Appfelt" type="NPC" x="600" y="660" width="20" height="20">
    <properties>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="script" value="appfelt.npc"/>
     <property name="solid" type="bool" value="true"/>
    </properties>
@@ -250,6 +253,7 @@
   </object>
   <object id="30" name="man2" type="NPC" x="560" y="740" width="20" height="20">
    <properties>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/man2"/>
     <property name="graphic_speed" type="int" value="2"/>
@@ -260,6 +264,7 @@
   </object>
   <object id="31" name="woman" type="NPC" x="660" y="740" width="20" height="20">
    <properties>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/woman2"/>
     <property name="graphic_speed" type="int" value="3"/>
@@ -285,7 +290,8 @@
   </object>
   <object id="34" name="man3" type="NPC" x="660" y="620" width="20" height="20">
    <properties>
-    <property name="canflip" type="bool" value="true"/>
+    <property name="canflip" type="bool" value="false"/>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/man3"/>
     <property name="graphic_speed" type="int" value="4"/>
@@ -298,6 +304,7 @@
   <object id="35" name="Jealous eastern" type="NPC" x="740" y="640" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="false"/>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/eastern"/>
     <property name="message" value="Have you tried that man's KEBABS? They are so good! Wish I could also make them"/>
@@ -308,6 +315,7 @@
   <object id="37" type="NPC" x="760" y="680" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="false"/>
+    <property name="cantturn" type="bool" value="true"/>
     <property name="face" value="left"/>
     <property name="graphic_asset" value="npcs/tutudog"/>
     <property name="message" value="Hello I'm dog"/>

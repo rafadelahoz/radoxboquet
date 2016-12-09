@@ -1,7 +1,7 @@
 default
 graphic npcs/man3 20 20 2 2
 solid true
-flip false
+cantturn true
 face left
 "Making Kebabs has always been my dream!"
 "Please, try one"
@@ -11,6 +11,6 @@ set gotKebabs
 if flag.gotKebabs
 graphic npcs/man3 20 20 2 2
 solid true
-flip false
+cantturn true
 face left
 shop "Do you want a KEBABS?" KEBABS 5

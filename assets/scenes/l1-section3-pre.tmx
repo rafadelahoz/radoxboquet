@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#fc3a07" nextobjectid="176">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#fc5e1b" nextobjectid="176">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
- <layer name="Tiles" width="17" height="11" visible="0">
+ <layer name="Tiles" width="17" height="11">
   <properties>
    <property name="tileset" value="tileset_a"/>
   </properties>
@@ -38,8 +38,8 @@
   <object id="163" name="east" type="Teleport" x="260" y="80" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
-    <property name="door" value="east"/>
-    <property name="target" value="l1-section2-down"/>
+    <property name="door" value="west"/>
+    <property name="target" value="l1-section3-main"/>
    </properties>
   </object>
   <object id="168" type="Area" x="100" y="80" width="140" height="60">

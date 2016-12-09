@@ -1,13 +1,13 @@
 default
 face left
-cantturn true
+canflip false
 graphic lever 20 20 [0]
-open l1corridor-right
+open column
 sound click2
 
-if door.l1corridor-right
+if door.column
 face left
-cantturn true
+canflip false
 graphic lever 20 20 [1]
-close l1corridor-right
+close column
 sound click2

@@ -3,14 +3,14 @@ enabled false
 
 if flag.flag0
 graphic wombat 20 20 2 10
-flip true
+canflip true
 solid true
 behaviour idle
 "FLAG 0 is ON"
 
 if !has.corpse
 graphic wombat 20 20 [3,4,5,4,3] 10
-flip true
+canflip true
 solid true
 behaviour idle
 "YOU DONT HAVE THE BOWARR"
@@ -19,7 +19,7 @@ set GaveSkeleton true
 
 if has.sword
 graphic wombat 20 20 [3,4,5,4,3] 10
-flip true
+canflip true
 solid true
 behaviour idle
 "YOU HAVE THE SWORD"

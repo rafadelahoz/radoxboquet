@@ -1,16 +1,16 @@
 default
 solid true
-flip true
+canflip true
 "You should not see this, sorry"
 
 if door.Grate
 solid true
-flip true
+canflip true
 "I will close the grate for you"
 close Grate
 
 if !door.Grate
 solid true
-flip true
+canflip true
 "I will open the grate for you"
 open Grate

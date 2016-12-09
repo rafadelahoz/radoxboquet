@@ -22,11 +22,12 @@ class NPC extends Entity
     public var commands : Array<String>;*/
 
     public var face : String;
+    public var canTurn : Bool;
     public var canFlip : Bool;
 
     var tester : FlxObject;
 
-    public function new(X : Float, Y : Float, World : World, Message : String, ?Face : String = null, ?CanFlip : Bool = true)
+    public function new(X : Float, Y : Float, World : World, Message : String, ?Face : String = null, ?CanTurn : Bool = true, ?CanFlip : Bool = true)
     {
         super(X, Y, World);
         immovable = true;
@@ -36,8 +37,8 @@ class NPC extends Entity
         alpha = 0.1;
 
         interactions = ["\"" + Message + "\""];
-        /*messages = [Message];
-        commands = [];*/
+
+        canTurn = CanTurn;
         canFlip = CanFlip;
 
         configs = [];
@@ -47,15 +48,15 @@ class NPC extends Entity
 
         tester = new FlxObject(x, y);
 
-        setFace(Face);
+        setFace(Face, true);
 
         // Random facing if can flip
-        if (canFlip && Face == null)
+        if (canTurn && Face == null)
         {
             if (FlxG.random.bool(50))
-                setFace("right");
+                setFace("right", true);
             else
-                setFace("left");
+                setFace("left", true);
         }
 
         placeTester();
@@ -63,19 +64,24 @@ class NPC extends Entity
         player = world.player;
     }
 
-    public function setFace(towards : String)
+    public function setFace(towards : String, ?force : Bool = false)
     {
         if (towards == null || towards == "")
             face = "right";
         else
             face = towards.toLowerCase();
 
-        switch (face)
+        trace("Look " + face);
+
+        if (canFlip || force)
         {
-            case "left":
-                flipX = true;
-            case "right":
-                flipX = false;
+            switch (face)
+            {
+                case "left":
+                    flipX = true;
+                case "right":
+                    flipX = false;
+            }
         }
 
         placeTester();
@@ -155,6 +161,7 @@ class NPC extends Entity
         }
         else
         {
+            canTurn = false;
             canFlip = false;
             tester.x = getMidpoint().x;
             tester.y = getMidpoint().y;
@@ -175,8 +182,8 @@ class NPC extends Entity
             checkConditions();
         }
 
-        // Turn if someone is behind and we can flip
-        if (canFlip)
+        // Turn if someone is behind and we can turn
+        if (canTurn)
         {
             if (face == "left" && tester.overlapsAt(x + width + 10, tester.y, world.player))
                 setFace("right");
@@ -203,8 +210,9 @@ class NPC extends Entity
         // - we don't care about facing, or
         // - we are facing each other
         // and we are close to each other
-        return ((ignoreFacing || other.flipX != flipX) &&
-                tester.overlaps(other));
+        var otherLeft : Bool = other.x < x;
+        return ((ignoreFacing || (otherLeft && !other.flipX) || (!otherLeft && other.flipX))
+                && tester.overlaps(other));
     }
 
     public function onInteract()
@@ -288,7 +296,9 @@ class NPC extends Entity
                 visible = true;
 
                 solid = config.solid;
-                canFlip = config.flip;
+                canTurn = config.canturn;
+                canFlip = config.canflip;
+                trace("NPC canTurn: " + canTurn + " canFlip: " + canFlip);
                 visible = config.visible;
                 flat = config.flat;
 

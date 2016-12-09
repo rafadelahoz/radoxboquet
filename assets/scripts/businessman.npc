@@ -2,7 +2,7 @@ default
 graphic npcs/businessman 20 20 1 0
 solid true
 face left
-flip false
+cantturn true
 "GOOD MORNING!"
 "I SELL FLEA MARKET STALLS, LIKE THIS ONE"
 "WOULD YOU LIKE A FLEA MARKET STALL?"
