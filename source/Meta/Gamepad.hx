@@ -94,11 +94,35 @@ class Gamepad
         return FlxG.keys.justPressed.ENTER || (usepad && pad.justPressed.START);
     }
 
+    public static function Start() : Bool
+    {
+        var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
+        var usepad : Bool = pad != null;
+
+        return FlxG.keys.pressed.ENTER || (usepad && pad.pressed.START);
+    }
+
+    public static function justReleasedStart() : Bool
+    {
+        var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
+        var usepad : Bool = pad != null;
+
+        return FlxG.keys.justReleased.ENTER || (usepad && pad.justReleased.START);
+    }
+
     public static function justPressedSelect() : Bool
     {
         var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
         var usepad : Bool = pad != null;
 
         return FlxG.keys.justPressed.SPACE || (usepad && (pad.justPressed.BACK || pad.justPressed.B));
+    }
+
+    public static function Debug1() : Bool
+    {
+        var pad : FlxGamepad = FlxG.gamepads.getFirstActiveGamepad();
+        var usepad : Bool = pad != null;
+
+        return FlxG.keys.pressed.SHIFT || (usepad && (pad.pressed.LEFT_SHOULDER));
     }
 }

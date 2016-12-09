@@ -224,17 +224,17 @@ class World extends FlxTransitionableState
             case World.GAMEOVER:
                 if (deadMenu)
                 {
-                    if (FlxG.keys.justReleased.A ||
-                        FlxG.keys.justReleased.S ||
-                        FlxG.keys.justReleased.ENTER)
+                    if (Gamepad.justReleasedAction() ||
+                        Gamepad.justReleasedInteraction() ||
+                        Gamepad.justReleasedStart())
                     {
                         storeSceneActors();
                         GameController.DeadContinue();
                     }
 
-                    if (FlxG.keys.justPressed.A ||
-                        FlxG.keys.justPressed.S ||
-                        FlxG.keys.justPressed.ENTER)
+                    if (Gamepad.justPressedAction() ||
+                        Gamepad.justPressedInteraction() ||
+                        Gamepad.justPressedStart())
                     {
                         deadText.text += "\nOK";
                     }
@@ -252,7 +252,7 @@ class World extends FlxTransitionableState
     function handleCollisions()
     {
         // debug: player ethereal when CONTROL
-        if (FlxG.keys.pressed.SHIFT)
+        if (Gamepad.Debug1())
             player.solid = false;
         else
             player.solid = true;
@@ -660,12 +660,7 @@ class World extends FlxTransitionableState
         {
             if (FlxG.keys.justPressed.R)
             {
-                if (FlxG.keys.pressed.SHIFT)
-                {
-
-                }
-                else
-                    bgColor = FlxG.random.color();
+                bgColor = FlxG.random.color();
             }
 
             if (FlxG.keys.justPressed.F1)

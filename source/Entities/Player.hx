@@ -163,8 +163,8 @@ class Player extends Entity
             flipX = true;
         }
 
-        // DEBUG: Player faster when CONTROL
-        if (FlxG.keys.pressed.SHIFT)
+        // DEBUG: Player faster
+        if (Gamepad.Debug1())
         {
             velocity.x *= 2;
             velocity.y *= 2;
