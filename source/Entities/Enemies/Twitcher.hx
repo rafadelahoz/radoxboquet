@@ -30,6 +30,10 @@ class Twitcher extends Enemy
         animation.add("twitch", [0, 1], 10);
         animation.play("twitch");
 
+        hurtSfxSet = [];
+        for (i in 1...6)
+            hurtSfxSet.push("enemy_b-hurt" + i);
+
         center = new FlxPoint(x, y);
         timer = new FlxTimer();
         twitch();
@@ -40,7 +44,7 @@ class Twitcher extends Enemy
         center.destroy();
         timer.cancel();
         timer.destroy();
-        
+
         super.destroy();
     }
 

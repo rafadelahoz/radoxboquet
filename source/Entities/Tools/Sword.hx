@@ -24,7 +24,7 @@ class Sword extends Tool
         setSize(20, 10);
         offset.set(0, 6);
 
-        y += 6;
+        y += 0;
 
         var sourcex = x;
         var targetx = x;
@@ -32,13 +32,13 @@ class Sword extends Tool
         flipX = player.flipX;
         if (flipX)
         {
-            targetx = player.x - 20;
-            sourcex = player.x - 5;
+            targetx = player.x - 20 - player.offset.x;
+            sourcex = player.x - 5 - player.offset.x;
         }
         else
         {
-            targetx = player.x + 20;
-            sourcex = player.x + 5;
+            targetx = player.x + 20 - player.offset.x;
+            sourcex = player.x + 5 - player.offset.x;
         }
 
         x = sourcex;

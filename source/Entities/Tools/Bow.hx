@@ -19,8 +19,8 @@ class Bow extends Tool
 
         loadGraphic("assets/images/bow.png");
 
-        x = player.x-2;
-        y = player.y-8;
+        x = player.x - 2;
+        y = player.y - player.offset.y - 5;
 
         if (GameState.money >= arrowCost)
         {

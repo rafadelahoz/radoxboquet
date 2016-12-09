@@ -39,8 +39,8 @@ class Player extends Entity
 
         animation.play("idle");
 
-        setSize(18, 18);
-        offset.set(1, 1);
+        setSize(16, 14);
+        offset.set(2, 6);
 
         x -= width/2;
         y -= height/2;
@@ -268,8 +268,8 @@ class Player extends Entity
 
     function dropTool(tool : Item)
     {
-        var right : Float = x + 18;
-        var left : Float = x - 18;
+        var right : Float = x + width - offset.x;
+        var left : Float = x - width - offset.x;
         var ydelta : Float = FlxG.random.float(-3, 3);
         var down : Float = y+height+ydelta;
 

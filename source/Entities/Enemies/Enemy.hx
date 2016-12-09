@@ -10,6 +10,8 @@ class Enemy extends Entity
 {
     var InvincibilityTime : Float = 0.2;
 
+    var hurtSfxSet : Array<String>;
+
     public var power : Int = 5;
 
     public var hp : Int;
@@ -24,6 +26,8 @@ class Enemy extends Entity
 
         invincible = false;
         hurtTimer = new FlxTimer();
+
+        hurtSfxSet = ["enemy_a-hurt1", "enemy_a-hurt2", "enemy_a-hurt3", "enemy_a-hurt4", "enemy_a-hurt5"];
     }
 
     override public function destroy()
@@ -52,7 +56,7 @@ class Enemy extends Entity
         {
             if (tool.power > 0)
             {
-                playSfx("enemy_hurt1", false);
+                playSfx(hurtSfxSet, false);
 
                 hp -= tool.power;
                 invincible = true;

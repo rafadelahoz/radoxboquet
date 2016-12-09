@@ -243,18 +243,25 @@ class Entity extends FlxSprite
 
     /* Instance based Utilities */
 
-    public function playSfx(sound : String, ?usePosition : Bool = true)
+    public function playSfx(?sound : String = null, ?sounds : Array<String> = null, ?usePosition : Bool = true)
     {
+        if (sounds != null)
+        {
+            sound = FlxG.random.getObject(sounds);
+        }
+
+        sound = "assets/sounds/" + sound + ".ogg";
+
         if (usePosition)
         {
-            var snd : FlxSound = FlxG.sound.play("assets/sounds/" + sound + ".ogg", 0);
+            var snd : FlxSound = FlxG.sound.play(sound, 0);
             var midpoint : FlxPoint = getMidpoint();
         	snd.proximity(midpoint.x, midpoint.y, world.player, 100);
             snd.fadeIn(0.2, 0, 1);
         }
         else
         {
-            FlxG.sound.play("assets/sounds/" + sound + ".ogg");
+            FlxG.sound.play(sound);
         }
     }
 

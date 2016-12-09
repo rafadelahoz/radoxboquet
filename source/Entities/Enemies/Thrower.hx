@@ -59,6 +59,10 @@ class Thrower extends Enemy
         positionedTime = 0;
         targetPoint = new FlxPoint();
 
+        hurtSfxSet = [];
+        for (i in 1...6)
+            hurtSfxSet.push("enemy_hurt" + i);
+
         switchState(IDLE);
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#fc3a07" nextobjectid="175">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#fc3a07" nextobjectid="176">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
- <layer name="Tiles" width="17" height="11">
+ <layer name="Tiles" width="17" height="11" visible="0">
   <properties>
    <property name="tileset" value="tileset_a"/>
   </properties>
@@ -25,6 +25,7 @@
    </properties>
   </object>
   <object id="174" type="SOLID" x="260" y="100" width="20" height="40"/>
+  <object id="175" type="SOLID" x="60" y="80" width="20" height="40"/>
  </objectgroup>
  <objectgroup name="Actors">
   <object id="162" name="west" type="Teleport" x="60" y="120" width="20" height="20">
