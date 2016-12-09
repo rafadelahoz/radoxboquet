@@ -37,8 +37,8 @@
   <object id="179" name="east" type="Teleport" x="300" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
-    <property name="door" value="east"/>
-    <property name="target" value="l1-section3-pre"/>
+    <property name="door" value="south"/>
+    <property name="target" value="l1-section3-main"/>
    </properties>
   </object>
  </objectgroup>
