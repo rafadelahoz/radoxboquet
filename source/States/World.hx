@@ -110,6 +110,9 @@ class World extends FlxTransitionableState
         // Store the game state if required
         handleGameState();
 
+        // Store the visit to this room
+        GameState.roomStorage.onEnter(sceneName);
+
         // And delegate to the parent
         super.create();
 
@@ -155,6 +158,13 @@ class World extends FlxTransitionableState
 
         // Add stored actors
         loadStoredActors(sceneName);
+
+        // Add temporary room storage stored actors
+        if (GameState.roomStorage.contains(sceneName))
+        {
+            trace("Using temporary room storage enemies!");
+            GameState.roomStorage.spawnEntities(this);
+        }
 
         // And add the player
         spawnPlayer();
@@ -507,7 +517,7 @@ class World extends FlxTransitionableState
 			add(scene.backgroundTiles);
 
 		if (scene != null)
-			scene.loadObjects(this);
+			scene.loadObjects(this, GameState.roomStorage.contains(sceneName));
 
 		/*if (scene != null)
 			add(scene.overlayTiles);*/
@@ -572,7 +582,10 @@ class World extends FlxTransitionableState
         var transitionFinished : Bool = super.switchTo(next);
         // Store scene data only when transition has finished
         if (transitionFinished)
+        {
             storeSceneActors();
+            handleRoomStorage();
+        }
         // Return
         return transitionFinished;
     }
@@ -622,6 +635,21 @@ class World extends FlxTransitionableState
             }
         }
     }
+
+    function handleRoomStorage()
+    {
+        var current : String = sceneName;
+        var data : Array<PositionEntity> = buildRoomData();
+
+        GameState.roomStorage.onLeave(current, data);
+    }
+
+    function buildRoomData() : Array<PositionEntity>
+    {
+        return GameState.roomStorage.storeEntities(this);
+    }
+
+    /** Debug routines **/
 
     function handleDebugRoutines()
     {

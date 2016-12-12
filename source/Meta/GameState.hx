@@ -22,6 +22,9 @@ class GameState
     public static var savedScene : String;
     public static var savedSpawn : String;
 
+    // Not persistent data
+    public static var roomStorage : RoomStorage;
+
     public static function init()
     {
         name = "WANDERER";
@@ -43,6 +46,8 @@ class GameState
 
         savedScene = "outskirts"; //"w2";
         savedSpawn = null;
+
+        roomStorage = new RoomStorage();
     }
 
     public static function addHP(value : Int)

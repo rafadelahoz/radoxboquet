@@ -71,8 +71,6 @@ class NPC extends Entity
         else
             face = towards.toLowerCase();
 
-        trace("Look " + face);
-
         if (canFlip || force)
         {
             switch (face)
@@ -298,7 +296,6 @@ class NPC extends Entity
                 solid = config.solid;
                 canTurn = config.canturn;
                 canFlip = config.canflip;
-                trace("NPC canTurn: " + canTurn + " canFlip: " + canFlip);
                 visible = config.visible;
                 flat = config.flat;
 

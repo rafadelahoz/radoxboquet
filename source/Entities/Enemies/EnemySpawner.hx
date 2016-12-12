@@ -4,6 +4,7 @@ class EnemySpawner
 {
     static var enemies = ["twitcher", "targetshooter", "randomwalker", "idler",
                             "charger", "thrower", "follower", "bouncy"];
+
     public static function isEnemy(Enemy : String) : Bool
     {
         return enemies.indexOf(Enemy) > -1;
@@ -37,5 +38,27 @@ class EnemySpawner
         }
 
         return enemy;
+    }
+
+    public static function getTypeName(enemy : Enemy)
+    {
+        if (Std.is(enemy, BouncySpikes))
+            return "bouncy";
+        if (Std.is(enemy, Charger))
+            return "charger";
+        if (Std.is(enemy, Follower))
+            return "follower";
+        if (Std.is(enemy, Idler))
+            return "idler";
+        if (Std.is(enemy, RandomWalker))
+            return "randomwalker";
+        if (Std.is(enemy, TargetShooter))
+            return "targetshooter";
+        if (Std.is(enemy, Thrower))
+            return "thrower";
+        if (Std.is(enemy, Twitcher))
+            return "twitcher";
+
+        throw "Unmapped enemy type: " + enemy;
     }
 }
