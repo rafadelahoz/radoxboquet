@@ -310,11 +310,12 @@ class Player extends Entity
         });
     }
 
-    override public function draw()
+    // Debug draw with baseline
+    /*override public function draw()
     {
         super.draw();
         new flixel.FlxSprite(x-20, y+height).makeGraphic(60, 1, 0xFFFFFFFF).draw();
-    }
+    }*/
 
     public function onToolFinish(tool : Tool)
     {
