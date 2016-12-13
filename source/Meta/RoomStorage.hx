@@ -34,17 +34,22 @@ class RoomStorage
             trace("Returning to " + to);
         }
 
-        var rostString : String = "ROST: [";
-        for (room in roomQueue)
-        {
-            rostString += room + " ";
-            if (roomData.exists(room))
-                rostString += "(" + roomData.get(room).length + "), ";
-        }
+        // Debug trace
+            var rostString : String = "ROST: [";
+            for (room in roomQueue)
+            {
+                rostString += room;
+                if (roomData.exists(room))
+                    rostString += "(" + roomData.get(room).length + ")";
+                rostString += ", ";
+            }
+            // Remove the trailing comma
+            if (roomQueue.length > 0)
+                rostString = rostString.substring(0, rostString.length-2);
 
-        rostString += "]";
+            rostString += "]";
 
-        trace(rostString);
+            trace(rostString);
     }
 
     public function onLeave(from : String, fromData : Array<PositionEntity>)
@@ -78,7 +83,7 @@ class RoomStorage
         for (entity in world.enemies)
         {
             enemy = cast(entity, Enemy);
-            stored = new PositionEntity(enemy.x, enemy.y, PositionEntity.Enemy, EnemySpawner.getTypeName(enemy));
+            stored = new PositionEntity(enemy.x, enemy.y, Thesaurus.EnemyType, EnemySpawner.getTypeName(enemy));
             data.push(stored);
         }
 
@@ -110,9 +115,12 @@ class RoomStorage
             case Thesaurus.Corpse:
                 // Don't save corpses on fire
                 if (actor.currentFlame == null)
-                    data = new PositionEntity(actor.x, actor.y, Thesaurus.ActorType, actor.name, actor.property);
+                {
+                    data = new PositionEntity(actor.getStoragePositionX(), actor.getStoragePositionY(), Thesaurus.ActorType, actor.name, actor.property);
+                    trace("Storing " + actor.name + " at " + Std.int(actor.getStoragePositionX()) + ", " + Std.int(actor.getStoragePositionY()));
+                }
                 else // Save ashes instead
-                    data = new PositionEntity(actor.x, actor.y, Thesaurus.ActorType, Thesaurus.Ashes);
+                    data = new PositionEntity(actor.getStoragePositionX(), actor.getStoragePositionY(), Thesaurus.ActorType, Thesaurus.Ashes);
             // Others...?
             default:
                 data = null;
@@ -132,8 +140,11 @@ class RoomStorage
             spawned = null;
             switch (entity.type)
             {
-                case PositionEntity.Enemy:
+                case Thesaurus.EnemyType:
                     spawned = EnemySpawner.spawn(entity.x, entity.y, entity.name, world);
+                case Thesaurus.ActorType:
+                    trace("Spawning " +  entity.name + " at " + entity.x + ", " + entity.y);
+                    spawned = ActorSpawner.spawn(entity.x, entity.y, world, entity.name, entity.property, false);
                 default:
                     trace(entity + " would have been spawned");
             }

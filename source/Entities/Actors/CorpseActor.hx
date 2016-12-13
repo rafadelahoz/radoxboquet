@@ -79,4 +79,9 @@ class CorpseActor extends ToolActor
         flammable = false;
         heat = 0;
     }
+
+    override public function getStoragePositionY() : Int
+    {
+        return Std.int(y - offset.y + (offset.y + height));
+    }
 }

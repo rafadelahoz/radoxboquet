@@ -598,7 +598,7 @@ class World extends FlxTransitionableState
             if (Std.is(item, ToolActor))
             {
                 actor = (cast (item, ToolActor)).getPositionItem();
-                if (actor != null && Thesaurus.SavefileManagedActors.indexOf(actor.name) >= 0)
+                if (actor != null && Thesaurus.managedInSavefile(actor.name))
                     actors.push(actor);
             }
         }
@@ -754,11 +754,19 @@ class World extends FlxTransitionableState
 
             if (FlxG.keys.justPressed.E)
             {
-                GameState.addItem("APPFEL");
+                GameState.addItem("Wombat");
+                GameState.addItem("Dorobo");
+                GameState.addItem("Keychn");
+                GameState.addItem("CORPSE");
+                GameState.addItem("CORPSE");
+                GameState.addItem("CORPSE");
+                GameState.addItem("CORPSE");
+                GameState.addItem("CORPSE");
+                /*GameState.addItem("APPFEL");
                 GameState.addItem("KEBABS");
                 GameState.addItem("TASTY1");
                 GameState.addItem("TASTY2");
-                GameState.addItem("FOODIN");
+                GameState.addItem("FOODIN");*/
             }
         }
     }

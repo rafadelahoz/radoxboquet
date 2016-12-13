@@ -2,8 +2,6 @@ package;
 
 class PositionEntity
 {
-    public static var Enemy : String = "Enemy";
-
     public var x : Float;
     public var y : Float;
     public var type : String;

@@ -20,7 +20,12 @@ class Thesaurus
     public static var ActorType : String = "Actor";
 
     /* Save file managed actors */
-    public static var SavefileManagedActors : Array<String> = [Key, Hospital];
+    // public static var SavefileManagedActors : Array<String> = [Key, Hospital];
+    static var ActorsNotInSavefile : Array<String> = [Corpse, Ashes];
+    public static function managedInSavefile(actor : String)
+    {
+        return ActorsNotInSavefile.indexOf(actor) < 0;
+    }
 
     /* Room storage managed actors */
     public static var RoomStorageManagedActors : Array<String> = [Corpse];
