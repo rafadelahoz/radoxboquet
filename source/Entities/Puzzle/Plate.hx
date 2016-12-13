@@ -33,8 +33,7 @@ class Plate extends Entity
 
         color = Color;
         door = Door;
-        if (door != null)
-            GameState.closeDoor(world.sceneName, door);
+
         if (EnemyList != null && EnemyList.length > 0)
         {
             enemies = EnemyList.split(",");
@@ -54,6 +53,20 @@ class Plate extends Entity
         FlxG.watch.add(this, "overlapsPlayer");
         FlxG.watch.add(this, "overlapsEnemy");
         FlxG.watch.add(this, "overlapsItem");
+    }
+
+    override public function onInit()
+    {
+        super.onInit();
+
+        overlapsPlayer = overlaps(world.player);
+        overlapsEnemy = checkOverlap(world.enemies);
+        overlapsItem = checkOverlap(world.items);
+
+        var overlapped : Bool = overlapsPlayer || overlapsEnemy || overlapsItem;
+
+        if (door != null && !overlapped)
+            GameState.closeDoor(world.sceneName, door);
     }
 
     override public function update(elapsed : Float)

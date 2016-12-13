@@ -118,7 +118,9 @@ class RoomStorage
                 {
                     data = new PositionEntity(actor.getStoragePositionX(), actor.getStoragePositionY(), Thesaurus.ActorType, actor.name, actor.property);
                 }
-                else // Save ashes instead
+            case Thesaurus.Ashes:
+                // Save only flaming "ashes" (corpses are turn into ashes while burning)
+                if (actor.currentFlame != null)
                     data = new PositionEntity(actor.getStoragePositionX(), actor.getStoragePositionY(), Thesaurus.ActorType, Thesaurus.Ashes);
             // Others...?
             default:
@@ -141,7 +143,7 @@ class RoomStorage
             {
                 case Thesaurus.EnemyType:
                     spawned = EnemySpawner.spawn(entity.x, entity.y, entity.name, world);
-                case Thesaurus.ActorType:                    
+                case Thesaurus.ActorType:
                     spawned = ActorSpawner.spawn(entity.x, entity.y, world, entity.name, entity.property, false);
                 default:
                     trace(entity + " would have been spawned");

@@ -28,7 +28,7 @@ class Thesaurus
     }
 
     /* Room storage managed actors */
-    public static var RoomStorageManagedActors : Array<String> = [Corpse];
+    public static var RoomStorageManagedActors : Array<String> = [Corpse, Ashes];
 
     /* Color names */
     public static var Colors : Array<String> = [Yellow, Green, Red];
