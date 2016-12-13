@@ -23,7 +23,6 @@ class NPCParser
 
         var canTurn : Bool = o.properties.get("cantturn") != "true";
         var canFlip : Bool = !o.properties.contains("canflip") || o.properties.get("canflip") == "true";
-        
         npc = new NPC(x, y, world, o.properties.get("message"), o.properties.get("face"), canTurn, canFlip);
         npc.setupGraphic(o.properties.get("graphic_asset"), o.width, o.height,
                     o.properties.get("graphic_frames"),
