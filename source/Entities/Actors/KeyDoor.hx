@@ -18,7 +18,7 @@ class KeyDoor extends Door
     {
         super(X, Y, World, Name);
 
-        makeGraphic(20, 20, KeyActor.getColorCode(Color));
+        makeGraphic(20, 20, Thesaurus.getColorCode(Color));
         overlay = new FlxSprite(X, Y, "assets/images/lock_door.png");
 
         lockColor = Color;

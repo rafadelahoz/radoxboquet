@@ -296,7 +296,7 @@ class Player extends Entity
                 world.addEntity(new CorpseActor(flipX ? left : right, down, world, true));
             case "KEY":
                 world.addEntity(new KeyActor(flipX ? left : right, down, world, tool.property));
-            case "HOSPTL":
+            case Thesaurus.Hospital:
                 world.addEntity(new Hospital(flipX ? left : right, down, world, true));
             default:
                 world.addEntity(new ToolActor(flipX ? left : right, down, world, tool.name));

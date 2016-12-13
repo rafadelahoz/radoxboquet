@@ -178,7 +178,7 @@ class World extends FlxTransitionableState
         // If no entry point provided, try with hospital
         if (spawnDoor == null)
         {
-            var hospital : ToolActor = findActorByName("HOSPTL");
+            var hospital : ToolActor = findActorByName(Thesaurus.Hospital);
             // If the hospital is located, spawn there
             if (hospital != null && Std.is(hospital, Hospital))
             {
@@ -574,8 +574,6 @@ class World extends FlxTransitionableState
         return null;
     }
 
-    var num : Int = 0;
-    public static var STORED_ACTORS : Array<String> = ["KEY", "HOSPTL"];
     override public function switchTo(next : FlxState) : Bool
     {
         // Check whether the transition has finished
@@ -600,7 +598,7 @@ class World extends FlxTransitionableState
             if (Std.is(item, ToolActor))
             {
                 actor = (cast (item, ToolActor)).getPositionItem();
-                if (actor != null && STORED_ACTORS.indexOf(actor.name) >= 0)
+                if (actor != null && Thesaurus.SavefileManagedActors.indexOf(actor.name) >= 0)
                     actors.push(actor);
             }
         }
@@ -618,9 +616,9 @@ class World extends FlxTransitionableState
             {
                 switch (posItem.name)
                 {
-                    case "HOSPTL":
+                    case Thesaurus.Hospital:
                         actor = new Hospital(posItem.x, posItem.y, this);
-                    case "KEY":
+                    case Thesaurus.Key:
                         actor = new KeyActor(posItem.x, posItem.y, this, posItem.property, false);
                     default:
                         actor = new ToolActor(posItem.x, posItem.y, this, posItem.name, posItem.item.property);
@@ -703,7 +701,7 @@ class World extends FlxTransitionableState
                 ShaderManager.get().switchShader(5);
 
             if (FlxG.keys.justPressed.ONE)
-                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject([KeyActor.Green, KeyActor.Red, KeyActor.Yellow])));
+                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject(Thesaurus.Colors)));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)

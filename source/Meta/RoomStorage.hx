@@ -70,15 +70,52 @@ class RoomStorage
     {
         var data : Array<PositionEntity> = [];
 
-        // What to store??
-        // Store enemies
+        // TODO: What to store??
         var stored : PositionEntity = null;
+
+        // Store enemies
         var enemy : Enemy = null;
         for (entity in world.enemies)
         {
             enemy = cast(entity, Enemy);
             stored = new PositionEntity(enemy.x, enemy.y, PositionEntity.Enemy, EnemySpawner.getTypeName(enemy));
             data.push(stored);
+        }
+
+        // Store corpses and others
+        var actor : ToolActor = null;
+        for (entity in world.items)
+        {
+            if (Std.is(entity, ToolActor))
+            {
+                actor = cast(entity, ToolActor);
+                if (Thesaurus.RoomStorageManagedActors.indexOf(actor.name) > -1)
+                {
+                    stored = generateActorData(actor);
+                    if (stored != null)
+                        data.push(stored);
+                }
+            }
+        }
+
+        return data;
+    }
+
+    function generateActorData(actor : ToolActor) : PositionEntity
+    {
+        var data : PositionEntity = null;
+
+        switch (actor.name)
+        {
+            case Thesaurus.Corpse:
+                // Don't save corpses on fire
+                if (actor.currentFlame == null)
+                    data = new PositionEntity(actor.x, actor.y, Thesaurus.ActorType, actor.name, actor.property);
+                else // Save ashes instead
+                    data = new PositionEntity(actor.x, actor.y, Thesaurus.ActorType, Thesaurus.Ashes);
+            // Others...?
+            default:
+                data = null;
         }
 
         return data;

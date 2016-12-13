@@ -33,8 +33,8 @@ class GameState
         money = 13;
 
         items = [];
-        items.push(new Item(" SWORD"));
-        items.push(new Item("BOWARR"));
+        items.push(new Item(Thesaurus.Sword));
+        items.push(new Item(Thesaurus.Bow));
         // items.push(new Item("FIRROD"));
         // items.push(new Item("KEY"));
 
@@ -195,7 +195,7 @@ class GameState
     {
         for (scene in actors.keys())
         {
-            var hospital : PositionItem = findActorByName("HOSPTL", scene);
+            var hospital : PositionItem = findActorByName(Thesaurus.Hospital, scene);
             if (hospital != null)
                 return scene;
         }
