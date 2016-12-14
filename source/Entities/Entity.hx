@@ -46,7 +46,7 @@ class Entity extends FlxSprite
         flammable = false;
         currentFlame = null;
         heat = 0;
-        FlameThreshold = 100;
+        FlameThreshold = 200;
     }
 
     public function onInit()
@@ -200,7 +200,7 @@ class Entity extends FlxSprite
             heat += by.heatPower;
             if (heat > FlameThreshold * 0.7 && oldHeat <= FlameThreshold * 0.7)
             {
-                shake(0.5);
+                shake(1,1);
             }
             if (heat > FlameThreshold)
             {
@@ -218,7 +218,7 @@ class Entity extends FlxSprite
     public function onFuelDepleted()
     {
         flammable = false;
-        currentFlame.extinguish();
+        currentFlame.onFuelDepleted();
         currentFlame = null;
         fuelComponent = null;
     }
@@ -235,7 +235,6 @@ class Entity extends FlxSprite
         if (!flammable)
         {
             flammable = true;
-            FlameThreshold = 100;
             heat = 0;
             fuelComponent = new FuelCanisterComponent(this, Fuel);
         }

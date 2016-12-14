@@ -22,7 +22,7 @@ class CorpseActor extends ToolActor
         hits = 1;
         invulnerable = false;
 
-        setFlammable();
+        setFlammable(flixel.FlxG.updateFramerate * 20);
 
         if (Slide)
             slide(world.player);
