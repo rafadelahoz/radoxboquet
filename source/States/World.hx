@@ -701,7 +701,8 @@ class World extends FlxTransitionableState
                 ShaderManager.get().switchShader(5);
 
             if (FlxG.keys.justPressed.ONE)
-                addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject(Thesaurus.Colors)));
+                // addEntity(new KeyDoor(snapX, snapY, this, null, FlxG.random.getObject(Thesaurus.Colors)));
+                addEntity(new WoolBear(snapX, snapY, this));
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
