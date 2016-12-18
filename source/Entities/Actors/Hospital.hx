@@ -8,7 +8,7 @@ class Hospital extends ToolActor
 {
     public function new(X : Float, Y : Float, World : World, ?Slide : Bool = false)
     {
-        super(X, Y, World, "HOSPTL", false);
+        super(X, Y, World, Thesaurus.Hospital, false);
 
         loadGraphic("assets/images/hospital.png");
 

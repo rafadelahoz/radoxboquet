@@ -22,7 +22,7 @@ class CorpseActor extends ToolActor
         hits = 1;
         invulnerable = false;
 
-        setFlammable();
+        setFlammable(flixel.FlxG.updateFramerate * 20);
 
         if (Slide)
             slide(world.player);
@@ -78,5 +78,10 @@ class CorpseActor extends ToolActor
         color = 0xFFFFFFFF;
         flammable = false;
         heat = 0;
+    }
+
+    override public function getStoragePositionY() : Int
+    {
+        return Std.int(y - offset.y + (offset.y + height));
     }
 }

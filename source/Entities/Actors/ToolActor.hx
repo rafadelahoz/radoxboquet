@@ -5,7 +5,7 @@ import flixel.math.FlxMath;
 
 class ToolActor extends Entity
 {
-    static var SPECIAL_TOOLS : Array<String> = ["CORPSE", "KEY", "HOSPTL"];
+    static var SPECIAL_TOOLS : Array<String> = ["CORPSE", "KEY", Thesaurus.Hospital];
 
     public var name : String;
     public var property : String;

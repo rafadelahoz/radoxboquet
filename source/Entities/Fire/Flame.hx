@@ -8,7 +8,7 @@ import flixel.tweens.FlxTween;
 
 class Flame extends Hazard
 {
-    var HeatDistance : Float = 30;
+    var HeatDistance : Float = 25;
 
     public var heatPower : Int;
     var source : Entity;
@@ -67,6 +67,11 @@ class Flame extends Hazard
             solid = false;
             visible = false;
         }
+    }
+
+    override public function onFuelDepleted()
+    {
+        extinguish();
     }
 
     public function extinguish()

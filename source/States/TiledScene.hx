@@ -111,7 +111,7 @@ class TiledScene extends TiledMap
 		}
 	}
 
-	private function loadObject(state:World, o:TiledObject, g:TiledObjectLayer)
+	private function loadObject(state:World, o:TiledObject, g:TiledObjectLayer, roomStorageUsed : Bool)
 	{
 		var x : Int = o.x + this.x;
 		var y : Int = o.y + this.y;
@@ -123,7 +123,8 @@ class TiledScene extends TiledMap
 		/** Enemies **/
 		if (EnemySpawner.isEnemy(o.type.toLowerCase()))
 		{
-			state.addEntity(EnemySpawner.spawn(x, y, o.type, state));
+			if (!roomStorageUsed)
+				state.addEntity(EnemySpawner.spawn(x, y, o.type, state));
 		}
 		else
 		{
@@ -131,10 +132,13 @@ class TiledScene extends TiledMap
 			{
 			/** Enemies **/
 				case "area":
-					var elements : Map<String, String> = new Map<String, String>();
-					for (prop in o.properties.keysIterator())
-						elements.set(prop, o.properties.get(prop));
-					new SpawnArea(x, y, state, o.width, o.height, elements);
+					if (!roomStorageUsed)
+					{
+						var elements : Map<String, String> = new Map<String, String>();
+						for (prop in o.properties.keysIterator())
+							elements.set(prop, o.properties.get(prop));
+						new SpawnArea(x, y, state, o.width, o.height, elements);
+					}
 			/** Hazards **/
 				case "fire":
 					var fire : Fire = new Fire(x, y, state);
@@ -266,7 +270,7 @@ class TiledScene extends TiledMap
 		return new FlxRect(x, y, fullWidth, fullHeight);
 	}
 
-	public function loadObjects(state : World)
+	public function loadObjects(state : World, roomStorageUsed : Bool)
 	{
 		var layer:TiledObjectLayer;
 		for (layer in layers)
@@ -289,7 +293,7 @@ class TiledScene extends TiledMap
 			//{
 				for (o in objectLayer.objects)
 				{
-					loadObject(state, o, objectLayer);
+					loadObject(state, o, objectLayer, roomStorageUsed);
 				}
 			//}
 		}

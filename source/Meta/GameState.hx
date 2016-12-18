@@ -22,6 +22,9 @@ class GameState
     public static var savedScene : String;
     public static var savedSpawn : String;
 
+    // Not persistent data
+    public static var roomStorage : RoomStorage;
+
     public static function init()
     {
         name = "WANDERER";
@@ -30,8 +33,8 @@ class GameState
         money = 13;
 
         items = [];
-        items.push(new Item(" SWORD"));
-        items.push(new Item("BOWARR"));
+        items.push(new Item(Thesaurus.Sword));
+        items.push(new Item(Thesaurus.Bow));
         // items.push(new Item("FIRROD"));
         // items.push(new Item("KEY"));
 
@@ -43,6 +46,8 @@ class GameState
 
         savedScene = "outskirts"; //"w2";
         savedSpawn = null;
+
+        roomStorage = new RoomStorage();
     }
 
     public static function addHP(value : Int)
@@ -190,7 +195,7 @@ class GameState
     {
         for (scene in actors.keys())
         {
-            var hospital : PositionItem = findActorByName("HOSPTL", scene);
+            var hospital : PositionItem = findActorByName(Thesaurus.Hospital, scene);
             if (hospital != null)
                 return scene;
         }

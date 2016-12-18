@@ -276,31 +276,29 @@ class Player extends Entity
         // Don't place things on walls!
         if (!flipX)
         {
-            while ((overlapsMapAt(right, y, true) || overlapsAt(right, y, world.teleports) || overlapsAt(right, y, world.npcs)) && right > x)
+            while ((overlapsMapAt(right, y, true) ||
+                    overlapsAt(right, y, world.teleports) ||
+                    overlapsAt(right, y, world.npcs)) && right > x)
             {
                 right -= 2;
             }
         }
         else
         {
-            while ((overlapsMapAt(left, y, true) || overlapsAt(left, y, world.teleports) || overlapsAt(left, y, world.npcs)) && left < x)
+            while ((overlapsMapAt(left, y, true) ||
+                    overlapsAt(left, y, world.teleports) ||
+                    overlapsAt(left, y, world.npcs)) && left < x)
             {
                 left += 2;
             }
         }
 
+        // Remove the item from the inventory listing
         GameState.removeItem(tool);
-        switch (tool.name)
-        {
-            case "CORPSE":
-                world.addEntity(new CorpseActor(flipX ? left : right, down, world, true));
-            case "KEY":
-                world.addEntity(new KeyActor(flipX ? left : right, down, world, tool.property));
-            case "HOSPTL":
-                world.addEntity(new Hospital(flipX ? left : right, down, world, true));
-            default:
-                world.addEntity(new ToolActor(flipX ? left : right, down, world, tool.name));
-        }
+
+        // Spawn the actor and add it to the world
+        var toolActor : Entity = ActorSpawner.spawn(flipX ? left : right, down, world, tool.name, tool.property, true);
+        world.addEntity(toolActor);
 
         // Play sound
         FlxG.sound.play("assets/sounds/putdown.ogg");
@@ -311,6 +309,13 @@ class Player extends Entity
             t.destroy();
         });
     }
+
+    // Debug draw with baseline
+    /*override public function draw()
+    {
+        super.draw();
+        new flixel.FlxSprite(x-20, y+height).makeGraphic(60, 1, 0xFFFFFFFF).draw();
+    }*/
 
     public function onToolFinish(tool : Tool)
     {

@@ -6,12 +6,6 @@ import flixel.util.FlxTimer;
 
 class KeyActor extends ToolActor
 {
-    public static var Yellow : String = "YELLOW";
-    public static var Green : String = "GREEN";
-    public static var Red : String = "RED";
-
-    static var colors : Array<String> = [Yellow, Green, Red];
-
     var overlay : FlxSprite;
     var invulnerable : Bool;
     public var currentColor : String;
@@ -19,7 +13,7 @@ class KeyActor extends ToolActor
 
     public function new(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true, ?Id : String = null)
     {
-        super(X, Y, World, "KEY", Color, false);
+        super(X, Y, World, Thesaurus.Key, Color, false);
 
         loadGraphic("assets/images/key.png");
         setSize(8, 17);
@@ -77,6 +71,7 @@ class KeyActor extends ToolActor
         overlay.x = x - offset.x;
         overlay.y = y - offset.y;
         overlay.angle = angle;
+        overlay.scale.set(scale.x, scale.y);
     }
 
     override public function draw()
@@ -90,7 +85,7 @@ class KeyActor extends ToolActor
         var next : String = currentColor;
         while (next == currentColor)
         {
-            next = FlxG.random.getObject(colors);
+            next = FlxG.random.getObject(Thesaurus.Colors);
         }
 
         setColor(next);
@@ -99,28 +94,9 @@ class KeyActor extends ToolActor
 
     public function setColor(Color : String)
     {
-        color = getColorCode(Color);
+        color = Thesaurus.getColorCode(Color);
         currentColor = Color;
         property = currentColor;
-    }
-
-    public static function getColorCode(Color : String) : Int
-    {
-        var color : Int = 0xFFFFFFFF;
-
-        switch (Color)
-        {
-            case "YELLOW":
-                color = 0xFFffc700;
-            case "GREEN":
-                color = 0xFF00FF4D;
-            case "RED":
-                color = 0xFFFF004D;
-            default:
-                color = FlxG.random.color();
-        }
-
-        return color;
     }
 
     public static function spawn(X : Float, Y : Float, World : World, Color : String = null, ?Slide : Bool = true, ?Id : String = null)
