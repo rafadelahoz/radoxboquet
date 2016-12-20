@@ -36,6 +36,8 @@ class MenuState extends FlxState
 		FlxG.sound.volumeDownKeys = null;
 		FlxG.sound.volumeUpKeys = null;
 		FlxG.sound.muteKeys = null;
+
+		// FlxG.log.redirectTraces = true;
 	}
 
 	override public function update(elapsed:Float):Void

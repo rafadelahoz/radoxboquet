@@ -31,10 +31,11 @@ class Thesaurus
     public static var RoomStorageManagedActors : Array<String> = [Corpse, Ashes];
 
     /* Color names */
-    public static var Colors : Array<String> = [Yellow, Green, Red];
     public static var Yellow : String = "YELLOW";
     public static var Green : String = "GREEN";
     public static var Red : String = "RED";
+    public static var Blue : String = "BLUE";
+    public static var Colors : Array<String> = [Yellow, Green, Red, Blue];
 
     public static function getColorCode(Color : String) : Int
     {
@@ -48,6 +49,8 @@ class Thesaurus
                 color = 0xFF00FF4D;
             case Thesaurus.Red:
                 color = 0xFFFF004D;
+            case Thesaurus.Blue:
+                color = 0xFF004DFF;
             default:
                 color = FlxG.random.color();
         }

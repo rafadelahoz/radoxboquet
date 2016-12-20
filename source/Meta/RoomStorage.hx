@@ -11,6 +11,12 @@ class RoomStorage
         roomData = new Map<String, Array<PositionEntity>>();
     }
 
+    public function clear()
+    {
+        roomQueue = [];
+        roomData = new Map<String, Array<PositionEntity>>();
+    }
+
     public function onEnter(to : String)
     {
         // For unpreviously tracked room

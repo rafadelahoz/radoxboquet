@@ -34,6 +34,9 @@ class GameController
         // Setup player state
         GameState.setHP(50);
 
+        // Clear the Room Storage
+        GameState.roomStorage.clear();
+
         // Setup transitions
         FlxTransitionableState.defaultTransIn.direction.set(0, 0);
         FlxTransitionableState.defaultTransOut.direction.set(0, 0);

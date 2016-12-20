@@ -40,6 +40,7 @@ class KeyDoor extends Door
 
     override public function draw()
     {
+        overlay.alpha = alpha;
         super.draw();
         overlay.draw();
     }
