@@ -5,6 +5,7 @@ import haxe.io.Path;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.group.FlxGroup;
@@ -20,6 +21,7 @@ import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 import flixel.addons.editors.tiled.TiledTileLayer;
 import flixel.addons.editors.tiled.TiledTileSet;
+import flixel.addons.editors.tiled.TiledTilePropertySet;
 
 class TiledScene extends TiledMap
 {
@@ -117,11 +119,38 @@ class TiledScene extends TiledMap
 		var y : Int = o.y + this.y;
 
 		// The Y position of objects created from tiles must be corrected by the object height
-		if (o.gid != -1)
+		if (o.gid != -1 && o.objectType != TiledObject.TILE)
+		{
 			y -= g.map.getGidOwner(o.gid).tileHeight;
+		}
 
+		// Load imaged objects as such!
+		if (o.objectType == TiledObject.TILE)
+		{
+			var imageData : TiledImageTile = locateImageData(g.map, o.gid);
+			var imageProps : TiledTilePropertySet = locateImageProperties(g.map, o.gid);
+			// Extract image path
+			var imagePath = imageData.source;
+			var sourceImage : String = imagePath.substring(imagePath.lastIndexOf("/")+1);
+			// Consider image height
+			y -= Std.int(imageData.height);
+			// Consider solid height
+			var solidHeight : Int = 0;
+			if (imageProps.contains("solidheight"))
+			{
+				solidHeight = Std.parseInt(imageProps.get("solidheight"));
+			}
+
+			var scenery : SceneryImage = new SceneryImage(x, y, state, sourceImage, solidHeight);
+			if (o.properties.contains("color"))
+			{
+				scenery.color = FlxColor.fromString(o.properties.get("color"));
+			}
+
+			state.addEntity(scenery);
+		}
 		/** Enemies **/
-		if (EnemySpawner.isEnemy(o.type.toLowerCase()))
+		else if (EnemySpawner.isEnemy(o.type.toLowerCase()))
 		{
 			if (!roomStorageUsed)
 				state.addEntity(EnemySpawner.spawn(x, y, o.type, state));
@@ -279,71 +308,12 @@ class TiledScene extends TiledMap
 				continue;
 			var objectLayer:TiledObjectLayer = cast layer;
 
-			//collection of images layer
-			/*if (layer.name == "images")
+			for (o in objectLayer.objects)
 			{
-				for (o in objectLayer.objects)
-				{
-					loadImageObject(o);
-				}
-			}*/
-
-			//objects layer
-			//if (layer.name == "Actors")
-			//{
-				for (o in objectLayer.objects)
-				{
-					loadObject(state, o, objectLayer, roomStorageUsed);
-				}
-			//}
+				loadObject(state, o, objectLayer, roomStorageUsed);
+			}
 		}
 	}
-
-	/*private function loadImageObject(object:TiledObject)
-	{
-		var tilesImageCollection:TiledTileSet = this.getTileSet("imageCollection");
-		var tileImagesSource:TiledImageTile = tilesImageCollection.getImageSourceByGid(object.gid);
-
-		//decorative sprites
-		var levelsDir:String = "assets/tiled/";
-
-		var decoSprite:FlxSprite = new FlxSprite(0, 0, levelsDir + tileImagesSource.source);
-		if (decoSprite.width != object.width ||
-			decoSprite.height != object.height)
-		{
-			decoSprite.antialiasing = true;
-			decoSprite.setGraphicSize(object.width, object.height);
-		}
-		decoSprite.setPosition(object.x, object.y - decoSprite.height);
-		decoSprite.origin.set(0, decoSprite.height);
-		if (object.angle != 0)
-		{
-			decoSprite.angle = object.angle;
-			decoSprite.antialiasing = true;
-		}
-
-		//Custom Properties
-		if (object.properties.contains("depth"))
-		{
-			var depth = Std.parseFloat( object.properties.get("depth"));
-			decoSprite.scrollFactor.set(depth,depth);
-		}
-
-		backgroundLayer.add(decoSprite);
-	}*/
-
-	/*public function loadImages()
-	{
-		for (layer in layers)
-		{
-			if (layer.type != TiledLayerType.IMAGE)
-				continue;
-
-			var image:TiledImageLayer = cast layer;
-			var sprite = new FlxSprite(image.x, image.y, tilesetPath + image.imagePath);
-			imagesLayer.add(sprite);
-		}
-	}*/
 
 	public function collideWithLevel(obj:FlxObject, ?notifyCallback:FlxObject->FlxObject->Void, ?processCallback:FlxObject->FlxObject->Bool):Bool
 	{
@@ -378,5 +348,51 @@ class TiledScene extends TiledMap
 		}
 
 		return false;
+	}
+
+	public function locateImageData(map : TiledMap, gid : Int) : TiledImageTile
+	{
+		var containerTileset : TiledTileSet = locateTilesetOfGid(map, gid);
+
+		if (containerTileset != null)
+		{
+			// Now lets locate the actual image
+			var target : Int = gid - containerTileset.firstGID;
+			return containerTileset.tileImagesSources[target];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public function locateImageProperties(map : TiledMap, gid : Int) : TiledTilePropertySet
+	{
+		var containerTileset : TiledTileSet = locateTilesetOfGid(map, gid);
+
+		if (containerTileset != null)
+		{
+			// Now lets locate the actual image
+			var target : Int = gid - containerTileset.firstGID;
+			return containerTileset.tileProps[target];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	function locateTilesetOfGid(map : TiledMap, gid : Int) : TiledTileSet
+	{
+		for (set in map.tilesets)
+		{
+			if (set.firstGID <= gid && set.tileImagesSources != null)
+			{
+				if (set.firstGID + set.tileImagesSources.length > gid)
+					return set;
+			}
+		}
+
+		return null;
 	}
 }

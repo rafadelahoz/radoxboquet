@@ -81,7 +81,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="193" name="s3key" type="Key" x="260" y="60" width="20" height="20">
+  <object id="193" name="s3key" type="Key" x="260" y="59" width="20" height="20">
    <properties>
     <property name="color" value="RED"/>
    </properties>

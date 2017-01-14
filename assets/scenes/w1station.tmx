@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="15" tilewidth="20" tileheight="20" backgroundcolor="#e1ff1f" nextobjectid="210">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <tileset firstgid="601" name="Buildings" tilewidth="100" tileheight="140" tilecount="9" columns="0">
+  <tile id="0">
+   <image width="100" height="140" source="../scenery/building_a.png"/>
+  </tile>
+  <tile id="1">
+   <image width="100" height="120" source="../scenery/building_b.png"/>
+  </tile>
+  <tile id="2">
+   <image width="80" height="80" source="../scenery/building_c.png"/>
+  </tile>
+  <tile id="3">
+   <image width="80" height="60" source="../scenery/building_d.png"/>
+  </tile>
+  <tile id="7">
+   <image width="100" height="120" source="../scenery/building_e.png"/>
+  </tile>
+  <tile id="8">
+   <image width="100" height="100" source="../scenery/building_f.png"/>
+  </tile>
+  <tile id="9">
+   <image width="80" height="120" source="../scenery/building_g1.png"/>
+  </tile>
+  <tile id="10">
+   <image width="80" height="80" source="../scenery/building_g2.png"/>
+  </tile>
+  <tile id="11">
+   <image width="80" height="100" source="../scenery/building_g3.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="613" name="Decoration" tilewidth="40" tileheight="40" tilecount="2" columns="0">
+  <tile id="0">
+   <properties>
+    <property name="solidheight" type="int" value="20"/>
+   </properties>
+   <image width="20" height="40" source="../scenery/bus_stop.png"/>
+  </tile>
+  <tile id="1">
+   <image width="40" height="40" source="../scenery/bus.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tiles" width="17" height="15">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   OwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAADsAAAAAAAAAOwAAAAAAAAA7AAAAAAAAADsAAAAAAAAAOwAAAI8AAAA7AAAAOwAAAI8AAAA7AAAAJwAAADsAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPAAAAjwAAAI8AAACPAAAAjwAAAI8AAAA7AAAAOwAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABLAAAASgAAAEoAAABLAAAAjwAAAI8AAACPAAAAjwAAAFcBAABXAQAAAAAAAFcBAABZAQAAVwEAAFcBAAAAAAAAAAAAAAAAAAAAAAAASwAAAEsAAABLAAAASwAAAEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFoBAADBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwEAAFcBAAAnAAAAAAAAAAAAAAAAAAAAWgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAAAAAAAAAAAAAAAAAAAAAAJwAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAAAAAAA7AAAAOwAAAAAAAAAAAAAAAAAAAAAAAACcAAAAnAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOwAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsAAAA7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="206" type="Solid" x="200" y="220" width="40" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="155" name="Spawn" type="Teleport" x="160" y="220" width="20" height="20">
+   <properties>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+  <object id="203" name="west" type="Teleport" x="0" y="100" width="20" height="20">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="east"/>
+    <property name="target" value="w1s1_2"/>
+   </properties>
+  </object>
+  <object id="204" type="Bus stop" gid="613" x="180" y="220" width="20" height="40"/>
+  <object id="205" gid="2147484262" x="200" y="240" width="40" height="40"/>
+  <object id="207" name="east" type="Teleport" x="320" y="120" width="20" height="20">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door" value="west"/>
+    <property name="target" value="w1test"/>
+   </properties>
+  </object>
+  <object id="208" gid="2147484262" x="200" y="300" width="40" height="40"/>
+ </objectgroup>
+</map>

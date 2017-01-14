@@ -44,7 +44,7 @@ class GameState
         doors = new Map<String, Map<String, Bool>>();
         actors = new Map<String, Array<PositionItem>>();
 
-        savedScene = "outskirts"; //"w2";
+        savedScene = "w1s0";
         savedSpawn = null;
 
         roomStorage = new RoomStorage();
