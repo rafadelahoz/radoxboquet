@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="51" height="11" tilewidth="20" tileheight="20" backgroundcolor="#e1ff1f" nextobjectid="226">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/w1_tset.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <tileset firstgid="601" name="Buildings" tilewidth="160" tileheight="140" tilecount="13" columns="0">
+  <tile id="0">
+   <image width="100" height="140" source="../scenery/building_a.png"/>
+  </tile>
+  <tile id="1">
+   <image width="100" height="120" source="../scenery/building_b.png"/>
+  </tile>
+  <tile id="2">
+   <image width="80" height="80" source="../scenery/building_c.png"/>
+  </tile>
+  <tile id="3">
+   <image width="80" height="60" source="../scenery/building_d.png"/>
+  </tile>
+  <tile id="7">
+   <image width="100" height="120" source="../scenery/building_e.png"/>
+  </tile>
+  <tile id="8">
+   <image width="100" height="100" source="../scenery/building_f.png"/>
+  </tile>
+  <tile id="9">
+   <image width="80" height="120" source="../scenery/building_g1.png"/>
+  </tile>
+  <tile id="10">
+   <image width="80" height="80" source="../scenery/building_g2.png"/>
+  </tile>
+  <tile id="11">
+   <image width="80" height="100" source="../scenery/building_g3.png"/>
+  </tile>
+  <tile id="16">
+   <image width="60" height="60" source="../scenery/w1_h0.png"/>
+  </tile>
+  <tile id="17">
+   <image width="60" height="60" source="../scenery/w1_h1.png"/>
+  </tile>
+  <tile id="18">
+   <image width="80" height="60" source="../scenery/w1_h2.png"/>
+  </tile>
+  <tile id="19">
+   <image width="160" height="80" source="../scenery/w1_touristoffice.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="621" name="Trees" tilewidth="20" tileheight="40" tilecount="6" columns="0">
+  <tile id="0">
+   <image width="20" height="40" source="../scenery/tree-0.png"/>
+  </tile>
+  <tile id="1">
+   <image width="20" height="40" source="../scenery/tree-1.png"/>
+  </tile>
+  <tile id="2">
+   <image width="20" height="40" source="../scenery/tree-2.png"/>
+  </tile>
+  <tile id="3">
+   <image width="20" height="40" source="../scenery/tree-3.png"/>
+  </tile>
+  <tile id="4">
+   <image width="20" height="40" source="../scenery/tree-4.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solidheight" type="int" value="20"/>
+   </properties>
+   <image width="20" height="40" source="../scenery/tree-5.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tiles" width="51" height="11">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   JwAAADsAAAAnAAAAOwAAACcAAAB/AAAAgAAAAKgAAACAAAAApwAAAKcAAACAAAAAgAAAAIEAAAB/AAAAgAAAAKcAAACnAAAApwAAAIAAAACnAAAAqAAAAKcAAACTAAAAgAAAAKcAAACoAAAApwAAAIAAAACAAAAAgAAAAKgAAACAAAAAqAAAAKcAAACnAAAApwAAAKcAAACAAAAAgAAAAIAAAACBAAAAAAAAAAAAAAAhAAAAOwAAACcAAAA7AAAAAAAAAAAAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAAAAAAfwAAAIAAAACAAAAAqAAAAIAAAACoAAAAgAAAAIAAAACAAAAAqAAAAKgAAACTAAAAgAAAAIEAAAB/AAAApwAAAKgAAACnAAAAgAAAAKgAAACoAAAApwAAAIAAAACBAAAAfwAAAKgAAACAAAAApwAAAIAAAACnAAAAqAAAAIAAAACoAAAAgQAAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAAAADsAAAAAAAAAJwAAAAAAAAA7AAAAJwAAADsAAAAnAAAAOwAAAAAAAAAAAAAAfwAAAIAAAACnAAAAqAAAAKgAAACnAAAApwAAAKcAAACnAAAAgAAAAIAAAACAAAAAgAAAAIAAAACBAAAAfwAAAKgAAACAAAAAgAAAAIAAAACoAAAApwAAAIAAAACAAAAAgAAAAKgAAACAAAAAgAAAAIAAAACAAAAAkwAAAIAAAACAAAAAgAAAAIAAAACAAAAAgQAAAH8AAACAAAAAgQAAAAAAAAAnAAAAOwAAACcAAAAAAAAAOwAAAAAAAAA7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAAAACcAAAA7AAAAJwAAADsAAAAnAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAA7AAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAADsAAAAAAAAAAAAAAAAAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOwAAACcAAAA7AAAAJwAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsAAAAAAAAAOwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAAnAAAAAAAAAH8AAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAA7AAAAJwAAADsAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAnAAAAOwAAACcAAAAnAAAAJwAAACcAAAA7AAAAJwAAADsAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAnAAAAJwAAADsAAAA7AAAAIQAAACEAAAAhAAAAIQAAACEAAACAAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAADsAAAAnAAAAOwAAACcAAAA7AAAA
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="216" type="Solid" x="0" y="80" width="900" height="20"/>
+  <object id="217" type="Solid" x="0" y="200" width="580" height="20"/>
+  <object id="218" type="Solid" x="600" y="200" width="320" height="20"/>
+  <object id="219" type="Solid" x="900" y="100" width="100" height="20"/>
+  <object id="220" type="Solid" x="920" y="120" width="20" height="20"/>
+  <object id="221" type="Solid" x="960" y="120" width="20" height="20"/>
+  <object id="222" type="Solid" x="940" y="160" width="20" height="20"/>
+  <object id="223" type="Solid" x="980" y="160" width="20" height="20"/>
+  <object id="224" type="Solid" x="920" y="180" width="100" height="20"/>
+  <object id="225" type="Solid" x="1000" y="80" width="20" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="207" gid="617" x="460" y="100" width="60" height="60"/>
+  <object id="208" name="south" type="Teleport" x="580" y="200" width="20" height="20">
+   <properties>
+    <property name="dir" value="up"/>
+    <property name="door" value="north"/>
+    <property name="target" value="w1fieldcrops"/>
+   </properties>
+  </object>
+  <object id="209" name="west" type="Teleport" x="0" y="100" width="20" height="100">
+   <properties>
+    <property name="dir" value="right"/>
+    <property name="door" value="east"/>
+    <property name="target" value="w1s2"/>
+   </properties>
+  </object>
+  <object id="211" name="east" type="Teleport" x="1000" y="120" width="20" height="40">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door" value="west"/>
+    <property name="target" value="w1test"/>
+   </properties>
+  </object>
+  <object id="212" type="Area" x="140" y="100" width="120" height="80">
+   <properties>
+    <property name="twitcher" value="1...3"/>
+   </properties>
+  </object>
+  <object id="215" type="Area" x="620" y="120" width="120" height="60">
+   <properties>
+    <property name="follower" value="1...2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -81,6 +81,7 @@ class TiledScene extends TiledMap
 				throw "Tileset " + tilesetName + " could not be found. Check the name in the layer 'tileset' property or something.";
 
 			var processedPath = buildPath(tileset);
+			trace(processedPath);
 
 			var tilemap : FlxTilemap = new FlxTilemap();
 			/*tilemap.widthInTiles = width;
@@ -128,26 +129,31 @@ class TiledScene extends TiledMap
 		if (o.objectType == TiledObject.TILE)
 		{
 			var imageData : TiledImageTile = locateImageData(g.map, o.gid);
-			var imageProps : TiledTilePropertySet = locateImageProperties(g.map, o.gid);
-			// Extract image path
-			var imagePath = imageData.source;
-			var sourceImage : String = imagePath.substring(imagePath.lastIndexOf("/")+1);
-			// Consider image height
-			y -= Std.int(imageData.height);
-			// Consider solid height
-			var solidHeight : Int = 0;
-			if (imageProps.contains("solidheight"))
+			if (imageData == null)
 			{
-				solidHeight = Std.parseInt(imageProps.get("solidheight"));
-			}
+				trace("Couldn't find data for " + o.gid);
+			} else {
+				var imageProps : TiledTilePropertySet = locateImageProperties(g.map, o.gid);
+				// Extract image path
+				var imagePath = imageData.source;
+				var sourceImage : String = imagePath.substring(imagePath.lastIndexOf("/")+1);
+				// Consider image height
+				y -= Std.int(imageData.height);
+				// Consider solid height
+				var solidHeight : Int = 0;
+				if (imageProps.contains("solidheight"))
+				{
+					solidHeight = Std.parseInt(imageProps.get("solidheight"));
+				}
 
-			var scenery : SceneryImage = new SceneryImage(x, y, state, sourceImage, solidHeight);
-			if (o.properties.contains("color"))
-			{
-				scenery.color = FlxColor.fromString(o.properties.get("color"));
-			}
+				var scenery : SceneryImage = new SceneryImage(x, y, state, sourceImage, solidHeight);
+				if (o.properties.contains("color"))
+				{
+					scenery.color = FlxColor.fromString(o.properties.get("color"));
+				}
 
-			state.addEntity(scenery);
+				state.addEntity(scenery);
+			}
 		}
 		/** Enemies **/
 		else if (EnemySpawner.isEnemy(o.type.toLowerCase()))
