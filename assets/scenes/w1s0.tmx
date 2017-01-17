@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="15" tilewidth="20" tileheight="20" backgroundcolor="#e1ff1f" nextobjectid="210">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="19" height="17" tilewidth="20" tileheight="20" backgroundcolor="#e1ff1f" nextobjectid="228">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/tileset_a.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -43,38 +43,57 @@
    <image width="40" height="40" source="../scenery/bus.png"/>
   </tile>
  </tileset>
- <layer name="Tiles" width="17" height="15">
+ <layer name="Tiles" width="19" height="17">
   <properties>
    <property name="tileset" value="tileset_a"/>
   </properties>
   <data encoding="base64">
-   OwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAADsAAAAAAAAAOwAAAAAAAAA7AAAAAAAAADsAAAAAAAAAOwAAAI8AAAA7AAAAOwAAAI8AAAA7AAAAJwAAADsAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPAAAAjwAAAI8AAACPAAAAjwAAAI8AAAA7AAAAOwAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABLAAAASgAAAEoAAABLAAAAjwAAAI8AAACPAAAAjwAAAFcBAABXAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASwAAAEsAAABLAAAASwAAAEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVwEAAFcBAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJwAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjwAAAI8AAACPAAAAjwAAAAAAAAAAAAAAJwAAAI8AAAA7AAAAOwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI8AAACPAAAAjwAAAI8AAACPAAAAAAAAACcAAAA7AAAAJwAAACcAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjwAAAI8AAACPAAAAjwAAAAAAAAAAAAAAOwAAACcAAAA7AAAAOwAAADsAAAAnAAAAAAAAAAAAAABaAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAAnAAAAOwAAACcAAAAnAAAAJwAAADsAAAAnAAAAAAAAAFoBAAAAAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAADsAAAAnAAAAOwAAADsAAAA7AAAAJwAAADsAAAA1AAAAWgEAADUAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAJwAAADsAAAAnAAAA
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAAAAAAAAAAAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAAnAAAAOwAAACcAAAA7AAAAJwAAADsAAAAAAAAAAAAAADsAAAAAAAAAOwAAAAAAAAA7AAAAAAAAADsAAAAAAAAAOwAAAI8AAAA7AAAAOwAAAI8AAAA7AAAAJwAAADsAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI8AAACPAAAAjwAAAI8AAACPAAAAjwAAADsAAAA7AAAAOwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASwAAAEoAAABKAAAASwAAAI8AAACPAAAAjwAAAI8AAAAAAAAAAAAAAFcBAABXAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASwAAAEsAAABLAAAASwAAAEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXAQAAVwEAAAAAAAAAAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPAAAAjwAAAI8AAACPAAAAAAAAAAAAAAAnAAAAjwAAAAAAAAAAAAAAOwAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPAAAAjwAAAI8AAACPAAAAjwAAAAAAAAAnAAAAOwAAACcAAAAAAAAAAAAAACcAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjwAAAI8AAACPAAAAjwAAAAAAAAAAAAAAOwAAACcAAAA7AAAAAAAAAAAAAAA7AAAAOwAAACcAAAAAAAAAAAAAAFoBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJwAAACcAAAA7AAAAJwAAAAAAAAAAAAAAJwAAACcAAAA7AAAAJwAAAAAAAABaAQAAAAAAABkAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAA7AAAAJwAAADsAAAAAAAAAAAAAADsAAAA7AAAAJwAAADsAAAA1AAAAWgEAADUAAAAZAAAAGQAAABkAAAAZAAAAGQAAABkAAAAZAAAAJwAAADsAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   </data>
  </layer>
- <objectgroup name="Solids"/>
+ <objectgroup name="Solids">
+  <object id="210" type="Solid" x="20" y="160" width="20" height="40"/>
+  <object id="211" type="Solid" x="60" y="260" width="20" height="20"/>
+  <object id="212" type="Solid" x="40" y="200" width="20" height="60"/>
+  <object id="213" type="Solid" x="80" y="280" width="20" height="40"/>
+  <object id="214" type="Solid" x="100" y="300" width="20" height="20"/>
+  <object id="215" type="Solid" x="140" y="300" width="20" height="20"/>
+  <object id="216" type="Solid" x="160" y="280" width="120" height="40"/>
+  <object id="217" type="Solid" x="280" y="260" width="20" height="20"/>
+  <object id="218" type="Solid" x="300" y="220" width="20" height="40"/>
+  <object id="219" type="Solid" x="320" y="200" width="20" height="20"/>
+  <object id="220" type="Solid" x="300" y="80" width="40" height="20"/>
+  <object id="221" type="Solid" x="280" y="60" width="20" height="20"/>
+  <object id="222" type="Solid" x="40" y="40" width="240" height="20"/>
+  <object id="223" type="Solid" x="220" y="60" width="40" height="20"/>
+  <object id="224" type="Solid" x="60" y="60" width="20" height="20"/>
+  <object id="225" type="Solid" x="100" y="60" width="20" height="20"/>
+  <object id="226" type="Solid" x="140" y="60" width="20" height="20"/>
+  <object id="227" type="Solid" x="20" y="60" width="20" height="20"/>
+ </objectgroup>
  <objectgroup name="Actors">
-  <object id="203" name="west" type="Teleport" x="0" y="100" width="20" height="20">
+  <object id="203" name="west" type="Teleport" x="20" y="80" width="20" height="80">
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>
     <property name="target" value="w1s1_2"/>
    </properties>
   </object>
-  <object id="207" name="east" type="Teleport" x="320" y="80" width="20" height="100">
+  <object id="207" name="east" type="Teleport" x="340" y="100" width="20" height="100">
    <properties>
     <property name="dir" value="left"/>
     <property name="door" value="west"/>
     <property name="target" value="w1s2"/>
    </properties>
   </object>
-  <object id="208" name="south" type="Teleport" x="100" y="280" width="20" height="20">
+  <object id="208" name="south" type="Teleport" x="120" y="300" width="20" height="20">
    <properties>
     <property name="dir" value="up"/>
     <property name="door" value="exit"/>
     <property name="target" value="w1station"/>
    </properties>
   </object>
-  <object id="209" type="NPC" x="180" y="140" width="20" height="20">
+  <object id="209" type="NPC" x="200" y="160" width="20" height="20">
    <properties>
     <property name="canflip" type="bool" value="false"/>
     <property name="cantturn" type="bool" value="true"/>
