@@ -107,6 +107,13 @@ class World extends FlxTransitionableState
             entity.onInit();
         }
 
+        state = GAMEPLAY;
+
+        for (area in scene.spawnAreas)
+        {
+            area.onInit();
+        }
+
         // Store the game state if required
         handleGameState();
 
@@ -115,8 +122,6 @@ class World extends FlxTransitionableState
 
         // And delegate to the parent
         super.create();
-
-        state = GAMEPLAY;
     }
 
     function setupCamera()
@@ -706,7 +711,7 @@ class World extends FlxTransitionableState
             else if (FlxG.keys.justPressed.TWO)
                 addEntity(new KeyActor(snapX, snapY+20, this, "GREEN"));
             else if (FlxG.keys.justPressed.THREE)
-                addEntity(new Follower(snapX, snapY, this));
+                addEntity(EnemySpawner.spawn(snapX, snapY, "follower", this));
             else if (FlxG.keys.justPressed.FOUR)
                 addEntity(new Hospital(snapX, snapY+20, this));
             else if (FlxG.keys.justPressed.FIVE)

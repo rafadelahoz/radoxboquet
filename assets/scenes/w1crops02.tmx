@@ -109,6 +109,7 @@
   </object>
   <object id="227" type="Area" x="80" y="80" width="180" height="60">
    <properties>
+    <property name="badcrop" value="2"/>
     <property name="twitcher" value="2...4"/>
    </properties>
   </object>

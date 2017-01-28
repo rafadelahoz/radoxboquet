@@ -20,6 +20,7 @@ class Follower extends Enemy
     var PlayerNearDistance : Int = 60;
     var ChaseSpeed : Int = 20;
     var PlayerFarDistance : Int = 120;
+    var AlertTime : Float = 0.6;
     var HurtTime : Float = 0.6;
 
     var state : Int;
@@ -27,14 +28,20 @@ class Follower extends Enemy
     var target : FlxPoint;
     var midpoint : FlxPoint;
     var tester : FlxObject;
+    var dochase : Bool;
 
     override public function onInit()
     {
         super.onInit();
 
         hp = 2;
+        spawnsCorpse = (type != "badcrop");
 
-        loadGraphic("assets/images/skelefollower.png", true, 20, 20);
+        if (type == "badcrop")
+            loadGraphic("assets/images/badcrop" + FlxG.random.int(0, 1) + ".png", true, 20, 20);
+        else
+            loadGraphic("assets/images/skelefollower.png", true, 20, 20);
+
         setSize(14, 14);
         offset.set(3, 3);
 
@@ -80,7 +87,18 @@ class Follower extends Enemy
                     switchState(CHASE);
                 });
             case Follower.CHASE:
-                // Nothing
+                if (state != Follower.HURT)
+                {
+                    world.add(new Emotion(this, AlertTime));
+                    dochase = false;
+                    timer.start(AlertTime, function(t:FlxTimer) {
+                        dochase = true;
+                    });
+                }
+                else
+                {
+                    dochase = true;
+                }
         }
 
         state = newState;
@@ -175,13 +193,21 @@ class Follower extends Enemy
 
     function onChaseState(elapsed : Float)
     {
-        midpoint = getMidpoint(midpoint);
-        target = world.player.getMidpoint(target);
-        flixel.math.FlxVelocity.moveTowardsPoint(this, target, ChaseSpeed);
-        animation.play("walk");
+        if (dochase)
+        {
+            midpoint = getMidpoint(midpoint);
+            target = world.player.getMidpoint(target);
+            flixel.math.FlxVelocity.moveTowardsPoint(this, target, ChaseSpeed);
 
-        if (midpoint.distanceTo(target) > PlayerFarDistance)
-            switchState(IDLE);
+            if (midpoint.distanceTo(target) > PlayerFarDistance)
+                switchState(IDLE);
+        }
+        else
+        {
+            velocity.set();
+        }
+
+        animation.play("walk");
     }
 
     override function hurtSlide(cause : FlxObject)

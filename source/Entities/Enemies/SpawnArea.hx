@@ -5,9 +5,29 @@ import flixel.FlxObject;
 
 class SpawnArea
 {
+    var x : Float;
+    var y : Float;
+    var w : Int;
+    var h : Int;
+    var elements : Map<String, String>;
+    var world : World;
+
     public function new(X : Float, Y : Float, World : World, Width : Int, Height : Int, Elements : Map<String, String>)
     {
-        var x, y : Float;
+        x = X;
+        y = Y;
+        world = World;
+
+        w = Width;
+        h = Height;
+
+        elements = Elements;
+    }
+
+    public function onInit()
+    {
+        var xx, yy : Float;
+        var tries : Int;
         var value : String;
         var number : Null<Int>;
         var enemy : Enemy;
@@ -15,10 +35,10 @@ class SpawnArea
         var tester : FlxObject = new FlxObject(0, 0);
         tester.setSize(20, 20);
 
-        for (element in Elements.keys())
+        for (element in elements.keys())
         {
             // Fetch the specified value for the element
-            value = Elements.get(element);
+            value = elements.get(element);
 
             // It can be a range
             if (value.indexOf("...") > 0)
@@ -43,19 +63,26 @@ class SpawnArea
 
             for (times in 0...number)
             {
-                x = FlxG.random.float(X, X+Width-20);
-                y = FlxG.random.float(Y, Y+Height-20);
-                while (tester.overlapsAt(x, y, World.solids) ||
-                        tester.overlapsAt(x, y, World.enemies))
+                xx = FlxG.random.float(x, x+w-20);
+                yy = FlxG.random.float(y, y+h-20);
+
+                tries = 0;
+
+                while ((tester.overlapsAt(x, y, world.solids) ||
+                        tester.overlapsAt(x, y, world.enemies)) && tries < 100)
                 {
-                    x = FlxG.random.float(X, X+Width-20);
-                    y = FlxG.random.float(Y, Y+Height-20);
+                    xx = FlxG.random.float(x, x+w-20);
+                    yy = FlxG.random.float(y, y+h-20);
+                    tries++;
                 }
 
-                enemy = EnemySpawner.spawn(x, y, element, World);
+                if (tries >= 100)
+                    trace("Aborting spawn of " + element + ", no space found?");
+
+                enemy = EnemySpawner.spawn(xx, yy, element, world);
 
                 if (enemy != null)
-                    World.addEntity(enemy);
+                    world.addEntity(enemy);
             }
         }
     }

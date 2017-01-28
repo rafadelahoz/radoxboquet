@@ -3,7 +3,7 @@ package;
 class EnemySpawner
 {
     static var enemies = ["twitcher", "targetshooter", "randomwalker", "idler",
-                            "charger", "thrower", "follower", "bouncy"];
+                            "charger", "thrower", "follower", "bouncy", "badcrop"];
 
     public static function isEnemy(Enemy : String) : Bool
     {
@@ -17,21 +17,21 @@ class EnemySpawner
         switch (Enemy.toLowerCase())
         {
             case "twitcher":
-                enemy = new Twitcher(X, Y, World);
+                enemy = new Twitcher(X, Y, World, Enemy);
             case "targetshooter":
-                enemy = new TargetShooter(X, Y, World);
+                enemy = new TargetShooter(X, Y, World, Enemy);
             case "randomwalker":
-                enemy = new RandomWalker(X, Y, World);
+                enemy = new RandomWalker(X, Y, World, Enemy);
             case "idler":
-                enemy = new Idler(X, Y, World);
+                enemy = new Idler(X, Y, World, Enemy);
             case "charger":
-                enemy = new Charger(X, Y, World);
+                enemy = new Charger(X, Y, World, Enemy);
             case "thrower":
-                enemy = new Thrower(X, Y, World);
-            case "follower":
-                enemy = new Follower(X, Y, World);
+                enemy = new Thrower(X, Y, World, Enemy);
+            case "follower", "badcrop":
+                enemy = new Follower(X, Y, World, Enemy);
             case "bouncy":
-                enemy = new BouncySpikes(X, Y, World);
+                enemy = new BouncySpikes(X, Y, World, Enemy);
             default:
                 trace("Not spawning anything for " + Enemy);
                 enemy = new Enemy(X, Y, World);
@@ -59,6 +59,6 @@ class EnemySpawner
         if (Std.is(enemy, Twitcher))
             return "twitcher";
 
-        throw "Unmapped enemy type: " + enemy;
+        throw "Unmapped enemy type: " + Type.typeof(enemy);
     }
 }

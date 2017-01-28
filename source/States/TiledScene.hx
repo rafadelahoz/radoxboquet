@@ -39,6 +39,9 @@ class TiledScene extends TiledMap
 	public var backgroundTiles : FlxGroup;
 	public var collidableTileLayers : Array<FlxTilemap>;
 
+	// Spawn Areas
+	public var spawnAreas : Array<SpawnArea>;
+
 	public function new(World : World, sceneName : String)
 	{
 		world = World;
@@ -54,6 +57,7 @@ class TiledScene extends TiledMap
 		// overlayTiles = new FlxGroup();
 		backgroundTiles = new FlxGroup();
 		collidableTileLayers = new Array<FlxTilemap>();
+		spawnAreas = [];
 
 		/* Read config info */
 
@@ -172,7 +176,7 @@ class TiledScene extends TiledMap
 						var elements : Map<String, String> = new Map<String, String>();
 						for (prop in o.properties.keysIterator())
 							elements.set(prop, o.properties.get(prop));
-						new SpawnArea(x, y, state, o.width, o.height, elements);
+						spawnAreas.push(new SpawnArea(x, y, state, o.width, o.height, elements));
 					}
 			/** Hazards **/
 				case "fire":

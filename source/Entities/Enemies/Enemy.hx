@@ -12,20 +12,27 @@ class Enemy extends Entity
 
     var hurtSfxSet : Array<String>;
 
+    public var type : String;
+
     public var power : Int = 5;
 
     public var hp : Int;
     public var invincible : Bool;
 
+    public var spawnsCorpse : Bool;
+
     var hurtTimer : FlxTimer;
     var rewards : Array<Int> = [1];
 
-    public function new(X : Float, Y : Float, World : World)
+    public function new(X : Float, Y : Float, World : World, ?Type : String = null)
     {
         super(X, Y, World);
 
+        type = Type;
+
         invincible = false;
         hurtTimer = new FlxTimer();
+        spawnsCorpse = true;
 
         hurtSfxSet = ["enemy_a-hurt1", "enemy_a-hurt2", "enemy_a-hurt3", "enemy_a-hurt4", "enemy_a-hurt5"];
     }
@@ -103,7 +110,8 @@ class Enemy extends Entity
         if (t != null)
             t.cancel();
 
-        spawnCorpse();
+        if (spawnsCorpse)
+            spawnCorpse();
         spawnReward();
 
         kill();

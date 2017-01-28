@@ -89,7 +89,8 @@ class RoomStorage
         for (entity in world.enemies)
         {
             enemy = cast(entity, Enemy);
-            stored = new PositionEntity(enemy.x, enemy.y, Thesaurus.EnemyType, EnemySpawner.getTypeName(enemy));
+            stored = new PositionEntity(enemy.x, enemy.y, Thesaurus.EnemyType, enemy.type);
+            trace("Stored " + stored.type + ": " + stored.name + ", " + stored.property);
             data.push(stored);
         }
 
