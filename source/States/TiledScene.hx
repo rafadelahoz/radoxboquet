@@ -231,7 +231,13 @@ class TiledScene extends TiledMap
 				case "npc":
 					var parser : NPCParser = new NPCParser(state);
 					parser.parse(x, y, o);
-
+				case "dog":
+					var index : Int = -1;
+					if (o.properties.contains("index"))
+						index = Std.parseInt(o.properties.get("index"));
+					var dog : Dog = new Dog(x, y, state, o.properties.get("graphic"), index);
+					state.addEntity(dog);
+					
 			/** Collectibles **/
 				case "key":
 					var color : String = o.properties.get("color");

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="11" tilewidth="20" tileheight="20" backgroundcolor="#9bf6b1" nextobjectid="291">
+ <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
+  <image source="../scenery/w1_tset.png" trans="ff00ff" width="400" height="600"/>
+ </tileset>
+ <tileset firstgid="601" name="Buildings" tilewidth="60" tileheight="60" tilecount="8" columns="0">
+  <tile id="16">
+   <image width="60" height="60" source="../scenery/w1_h0.png"/>
+  </tile>
+  <tile id="20">
+   <image width="40" height="40" source="../scenery/spacehouse_0.png"/>
+  </tile>
+  <tile id="21">
+   <image width="40" height="40" source="../scenery/spacehouse_1.png"/>
+  </tile>
+  <tile id="22">
+   <image width="40" height="40" source="../scenery/spacehouse_2.png"/>
+  </tile>
+  <tile id="23">
+   <image width="40" height="40" source="../scenery/spacehouse_3.png"/>
+  </tile>
+  <tile id="24">
+   <image width="20" height="20" source="../scenery/spacemen-ship-part0.png"/>
+  </tile>
+  <tile id="25">
+   <image width="20" height="20" source="../scenery/spacemen-ship-part1.png"/>
+  </tile>
+  <tile id="26">
+   <image width="40" height="40" source="../scenery/spacemen-ship.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="628" name="Trees" tilewidth="20" tileheight="40" tilecount="6" columns="0">
+  <tile id="0">
+   <image width="20" height="40" source="../scenery/tree-0.png"/>
+  </tile>
+  <tile id="1">
+   <image width="20" height="40" source="../scenery/tree-1.png"/>
+  </tile>
+  <tile id="2">
+   <image width="20" height="40" source="../scenery/tree-2.png"/>
+  </tile>
+  <tile id="3">
+   <image width="20" height="40" source="../scenery/tree-3.png"/>
+  </tile>
+  <tile id="4">
+   <image width="20" height="40" source="../scenery/tree-4.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solidheight" type="int" value="20"/>
+   </properties>
+   <image width="20" height="40" source="../scenery/tree-5.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tiles" width="34" height="11">
+  <properties>
+   <property name="tileset" value="tileset_a"/>
+  </properties>
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAIQAAACEAAAAhAAAAQwEAAIAAAACAAAAAQwEAAEMBAAAhAAAAIQAAAAAAAAA7AAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAAAACcAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABHAQAASAEAAEkBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQAAACcAAAA7AAAAOwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbwEAAFwBAABdAQAAAAAAAAAAAAA1AAAANQAAADUAAABHAQAASAEAAEIBAAA7AAAAJwAAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABHAQAASAEAAEgBAABJAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABvAQAAcQEAAAAAAAAAAAAANQAAAAAAAAA1AAAAWwEAAFwBAABDAQAAJwAAADsAAAAnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbwEAAHABAABwAQAAcQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADUAAAA1AAAANQAAAG8BAABcAQAARAEAACcAAAAnAAAAOwAAACcAAAAAAAAAJwAAAAAAAAAnAAAAAAAAACcAAAAAAAAAAAAAAAAAAAAAAAAAJwAAAAAAAAAAAAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAnAAAAJwAAAAAAAAAAAAAAJwAAACcAAAAAAAAAAAAAAAAAAAAAAAAAbwEAACcAAAA7AAAAOwAAADsAAAA7AAAAJwAAADsAAAAnAAAAOwAAACcAAAA7AAAAJwAAACcAAAAnAAAAJwAAADsAAAAnAAAAJwAAADsAAAAnAAAAJwAAACcAAAAnAAAAOwAAADsAAAAnAAAAJwAAADsAAAA7AAAAJwAAACcAAAAnAAAAJwAAACcAAAA7AAAAJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+  </data>
+ </layer>
+ <objectgroup name="Solids">
+  <object id="211" type="Solid" x="40" y="20" width="500" height="20"/>
+  <object id="213" type="Solid" x="20" y="20" width="20" height="180"/>
+  <object id="216" type="Solid" x="640" y="20" width="20" height="180"/>
+  <object id="220" type="Solid" x="580" y="20" width="60" height="20"/>
+  <object id="222" type="Solid" x="40" y="180" width="600" height="20"/>
+  <object id="259" type="Solid" x="40" y="60" width="40" height="20"/>
+  <object id="260" type="Solid" x="380" y="60" width="40" height="20"/>
+  <object id="261" type="Solid" x="120" y="80" width="40" height="20"/>
+  <object id="262" type="Solid" x="200" y="80" width="60" height="20"/>
+  <object id="263" type="Solid" x="420" y="160" width="40" height="20"/>
+  <object id="274" gid="621" x="40" y="80" width="40" height="40"/>
+  <object id="275" type="Solid" x="500" y="160" width="40" height="20"/>
+  <object id="276" type="Solid" x="440" y="80" width="40" height="20"/>
+  <object id="277" type="Solid" x="120" y="160" width="20" height="20"/>
+  <object id="278" type="Solid" x="160" y="160" width="20" height="20"/>
+  <object id="279" type="Solid" x="80" y="160" width="20" height="20"/>
+  <object id="280" type="Solid" x="40" y="160" width="20" height="20"/>
+  <object id="287" type="Solid" x="540" y="100" width="60" height="20"/>
+  <object id="288" type="Solid" x="540" y="140" width="60" height="20"/>
+  <object id="289" type="Solid" x="540" y="120" width="20" height="20"/>
+  <object id="290" type="Solid" x="580" y="120" width="20" height="20"/>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="240" gid="621" x="380" y="80" width="40" height="40"/>
+  <object id="241" gid="624" x="300" y="100" width="40" height="40"/>
+  <object id="242" gid="623" x="120" y="100" width="40" height="40"/>
+  <object id="243" gid="622" x="440" y="100" width="40" height="40"/>
+  <object id="244" gid="617" x="200" y="100" width="60" height="60"/>
+  <object id="247" type="NPC" x="440" y="100" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
+    <property name="graphic_asset" value="npcs/spaceman"/>
+    <property name="graphic_speed" type="int" value="5"/>
+    <property name="message" value="What if our homeworld is actually the field parish?"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="249" name="north" type="Teleport" x="540" y="20" width="40" height="20">
+   <properties>
+    <property name="dir" value="down"/>
+    <property name="door" value="south"/>
+    <property name="target" value="w1crops23"/>
+   </properties>
+  </object>
+  <object id="250" type="NPC" x="320" y="100" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
+    <property name="graphic_asset" value="npcs/spaceman_c"/>
+    <property name="graphic_speed" type="int" value="3"/>
+    <property name="message" value="I'm sick tired of cobbage, but I really can't stop eating it."/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="251" type="NPC" x="240" y="100" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
+    <property name="face" value="left"/>
+    <property name="graphic_asset" value="npcs/spaceman2"/>
+    <property name="graphic_speed" type="int" value="2"/>
+    <property name="message" value="What? I like rural buildings more than our capsules."/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="252" gid="627" x="140" y="140" width="40" height="40"/>
+  <object id="253" gid="626" x="120" y="140" width="20" height="20"/>
+  <object id="254" gid="625" x="180" y="120" width="20" height="20"/>
+  <object id="256" type="NPC" x="180" y="120" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
+    <property name="face" value="left"/>
+    <property name="graphic_asset" value="npcs/spaceman2_b"/>
+    <property name="graphic_speed" type="int" value="3"/>
+    <property name="message" value="No, I'm not working on the ship. I'm dismantling it."/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="257" type="Solid" x="140" y="100" width="40" height="40"/>
+  <object id="258" type="NPC" x="120" y="100" width="20" height="20">
+   <properties>
+    <property name="canflip" type="bool" value="true"/>
+    <property name="cantturn" type="bool" value="true"/>
+    <property name="face" value="right"/>
+    <property name="graphic_asset" value="npcs/spaceman_b"/>
+    <property name="graphic_speed" type="int" value="4"/>
+    <property name="message" value="I prefer eating cobbage to this work for sure"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="264" gid="629" x="100" y="80" width="20" height="40"/>
+  <object id="265" gid="629" x="80" y="100" width="20" height="40"/>
+  <object id="268" gid="629" x="280" y="80" width="20" height="40"/>
+  <object id="269" gid="629" x="260" y="100" width="20" height="40"/>
+  <object id="270" gid="629" x="280" y="120" width="20" height="40"/>
+  <object id="271" gid="629" x="280" y="280" width="20" height="40"/>
+  <object id="272" gid="629" x="40" y="280" width="20" height="40"/>
+  <object id="273" gid="629" x="360" y="100" width="20" height="40"/>
+  <object id="281" type="Solid" x="260" y="160" width="20" height="20"/>
+  <object id="282" type="Solid" x="320" y="160" width="20" height="20"/>
+  <object id="284" name="Dog" type="Dog" x="520" y="80" width="20" height="20">
+   <properties>
+    <property name="index" type="int" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="285" name="Dog" type="Dog" x="560" y="120" width="20" height="20">
+   <ellipse/>
+  </object>
+  <object id="286" name="Dog" type="Dog" x="600" y="60" width="20" height="20">
+   <properties>
+    <property name="index" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

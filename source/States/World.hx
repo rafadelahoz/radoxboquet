@@ -383,7 +383,7 @@ class World extends FlxTransitionableState
             teleports.add(entity);
         else if (Std.is(entity, Door))
             solids.add(entity);
-        else if (Std.is(entity, NPC))
+        else if (Std.is(entity, NPC) || Std.is(entity, Dog))
             npcs.add(entity);
         /*else if (Std.is(entity, Plate))
             items.add(entity);*/

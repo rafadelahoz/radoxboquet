@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#9b3e25" nextobjectid="254">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="11" tilewidth="20" tileheight="20" backgroundcolor="#9b3e25" nextobjectid="255">
  <tileset firstgid="1" name="tileset_a" tilewidth="20" tileheight="20" tilecount="600" columns="20">
   <image source="../scenery/w1_tset.png" trans="ff00ff" width="400" height="600"/>
  </tileset>
@@ -117,7 +117,7 @@
     <property name="target" value="w1crops12"/>
    </properties>
   </object>
-  <object id="232" name="north" type="Teleport" x="160" y="180" width="20" height="20">
+  <object id="232" name="south" type="Teleport" x="160" y="180" width="20" height="20">
    <properties>
     <property name="dir" value="up"/>
     <property name="door" value="north"/>
@@ -127,5 +127,10 @@
   <object id="233" type="Post" gid="621" x="220" y="120" width="20" height="40"/>
   <object id="234" type="Post" gid="621" x="140" y="80" width="20" height="40"/>
   <object id="235" type="Post" gid="621" x="100" y="160" width="20" height="40"/>
+  <object id="254" type="Area" x="80" y="60" width="180" height="100">
+   <properties>
+    <property name="twitcher" value="3...6"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
