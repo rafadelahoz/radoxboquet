@@ -108,21 +108,21 @@
   <object id="239" type="Hole" x="240" y="120" width="20" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="224" name="west" type="Teleport" x="20" y="100" width="20" height="20">
+  <object id="224" name="west" type="Teleport" x="0" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>
     <property name="target" value="w1crops00"/>
    </properties>
   </object>
-  <object id="225" name="east" type="Teleport" x="300" y="100" width="20" height="20">
+  <object id="225" name="east" type="Teleport" x="320" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
     <property name="door" value="west"/>
     <property name="target" value="w1crops20"/>
    </properties>
   </object>
-  <object id="226" name="south" type="Teleport" x="160" y="180" width="20" height="20">
+  <object id="226" name="south" type="Teleport" x="160" y="200" width="20" height="20">
    <properties>
     <property name="dir" value="up"/>
     <property name="door" value="north"/>

@@ -107,7 +107,7 @@
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>
-    <property name="target" value="w1s2"/>
+    <property name="target" value="w1s0"/>
    </properties>
   </object>
   <object id="210" type="Area" x="500" y="80" width="120" height="80">

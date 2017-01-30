@@ -88,14 +88,14 @@
   <object id="239" type="Solid" x="180" y="120" width="20" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="208" name="north" type="Teleport" x="160" y="20" width="20" height="20">
+  <object id="208" name="north" type="Teleport" x="160" y="0" width="20" height="20">
    <properties>
     <property name="dir" value="down"/>
     <property name="door" value="south"/>
     <property name="target" value="w1crops22"/>
    </properties>
   </object>
-  <object id="225" name="west" type="Teleport" x="20" y="100" width="20" height="20">
+  <object id="225" name="west" type="Teleport" x="0" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>
@@ -107,14 +107,14 @@
     <property name="follower" value="0...2"/>
    </properties>
   </object>
-  <object id="233" name="south" type="Teleport" x="200" y="180" width="40" height="20">
+  <object id="233" name="south" type="Teleport" x="200" y="200" width="40" height="20">
    <properties>
     <property name="dir" value="up"/>
     <property name="door" value="north"/>
     <property name="target" value="w1crops-spacemen-h"/>
    </properties>
   </object>
-  <object id="238" name="east" type="Teleport" x="300" y="100" width="20" height="20">
+  <object id="238" name="east" type="Teleport" x="320" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
     <property name="door" value="west"/>

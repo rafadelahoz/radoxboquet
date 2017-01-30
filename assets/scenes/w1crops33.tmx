@@ -44,7 +44,7 @@
    <image width="160" height="80" source="../scenery/w1_touristoffice.png"/>
   </tile>
  </tileset>
- <tileset firstgid="625" name="Trees" tilewidth="20" tileheight="40" tilecount="6" columns="0">
+ <tileset firstgid="621" name="Trees" tilewidth="20" tileheight="40" tilecount="6" columns="0">
   <tile id="0">
    <image width="20" height="40" source="../scenery/tree-0.png"/>
   </tile>
@@ -90,7 +90,7 @@
   <object id="248" type="Solid" x="260" y="60" width="20" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="225" name="west" type="Teleport" x="20" y="100" width="20" height="20">
+  <object id="225" name="west" type="Teleport" x="0" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>

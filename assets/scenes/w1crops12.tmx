@@ -88,21 +88,21 @@
   <object id="230" type="Solid" x="160" y="100" width="20" height="20"/>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="208" name="north" type="Teleport" x="160" y="20" width="20" height="20">
+  <object id="208" name="north" type="Teleport" x="160" y="0" width="20" height="20">
    <properties>
     <property name="dir" value="down"/>
     <property name="door" value="south"/>
     <property name="target" value="w1crops11"/>
    </properties>
   </object>
-  <object id="224" name="west" type="Teleport" x="20" y="100" width="20" height="20">
+  <object id="224" name="west" type="Teleport" x="0" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="right"/>
     <property name="door" value="east"/>
     <property name="target" value="w1crops02"/>
    </properties>
   </object>
-  <object id="225" name="east" type="Teleport" x="300" y="100" width="20" height="20">
+  <object id="225" name="east" type="Teleport" x="320" y="100" width="20" height="20">
    <properties>
     <property name="dir" value="left"/>
     <property name="door" value="west"/>
@@ -110,7 +110,7 @@
    </properties>
   </object>
   <object id="227" type="Post" gid="621" x="160" y="120" width="20" height="40"/>
-  <object id="232" name="south" type="Teleport" x="160" y="180" width="20" height="20">
+  <object id="232" name="south" type="Teleport" x="160" y="200" width="20" height="20">
    <properties>
     <property name="dir" value="up"/>
     <property name="door" value="north"/>
