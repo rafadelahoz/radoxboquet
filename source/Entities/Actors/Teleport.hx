@@ -79,6 +79,16 @@ class Teleport extends Entity
                 }
             }
 
+            var tiledLevel : String = "assets/scenes/" + target + ".tmx";
+            var xml = Xml.parse(openfl.Assets.getText(tiledLevel));
+            var fast = new haxe.xml.Fast(xml.firstElement());
+            var targetColor : Int = world.bgColor;
+            if (fast.has.backgroundcolor)
+                targetColor = flixel.util.FlxColor.fromString(fast.att.backgroundcolor);
+
+            FlxTransitionableState.defaultTransOut.color = world.bgColor;
+            FlxTransitionableState.defaultTransIn.color = targetColor;
+
             // Teleport!
             FlxG.switchState(new World(target, door, direction));
         }
