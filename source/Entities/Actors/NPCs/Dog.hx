@@ -15,7 +15,7 @@ class Dog extends Entity
     static var IDLE : Int = 0;
     static var WALK : Int = 1;
 
-    var IdleRadius : Int = 25;
+    var IdleRadius : Int = 35;
     var IdleTime : Float = 2.5;
 
     var IdleSpeed : Int = 50;
@@ -41,7 +41,7 @@ class Dog extends Entity
         var frames : Int = Std.int(graphic.bitmap.width / 20);
         trace(Index);
         if (Index < 0)
-            Index = FlxG.random.int(0, frames);
+            Index = FlxG.random.int(0, frames-1);
         else if (Index >= frames)
             Index = frames-1;
 
@@ -50,11 +50,18 @@ class Dog extends Entity
         animation.add("dog", [Index]);
         animation.play("dog");
 
+        setSize(18, 8);
+        offset.set(1, 11);
+        x += 1;
+        y += 11;
+
+        flipX = FlxG.random.bool(50);
+
         timer = new FlxTimer();
         target = new FlxPoint();
-        tween = null;
 
         drawy = 0;
+        tween = FlxTween.tween(this, {drawy : drawy-1}, 0.1, {ease: FlxEase.sineInOut, type : FlxTween.PINGPONG});
 
         immovable = true;
 
@@ -68,9 +75,7 @@ class Dog extends Entity
         switch (newState)
         {
             case Dog.IDLE:
-                if (tween != null)
-                    tween.cancel();
-                tween = FlxTween.tween(this, {drawy : drawy-1}, 0.1, {ease: FlxEase.sineInOut, type : FlxTween.PINGPONG});
+                tween.duration = 0.15;
                 timer.start(Entity.widenFloat(IdleTime), function(t:FlxTimer) {
                     switchState(WALK);
                 });
@@ -87,14 +92,19 @@ class Dog extends Entity
         {
             case Dog.IDLE:
                 velocity.set();
+
             case Dog.WALK:
                 if (getMidpoint().distanceTo(target) < WalkStopThreshold)
                 {
-                    tween.cancel();
+                    // tween.cancel();
+                    velocity.set();
+                    acceleration.set();
                     switchState(IDLE);
                 }
 
-                flipX = (velocity.x < 0);
+                // Update flip only when moving
+                if (velocity.x != 0 || velocity.y != 0)
+                    flipX = (velocity.x < 0);
         }
 
         super.update(elapsed);
@@ -108,14 +118,14 @@ class Dog extends Entity
         group.add(world.npcs);
         group.add(world.teleports);
 
-        var home = FlxPoint.get(x, y);
+        var home : FlxPoint = getMidpoint();
 
         // Choose walk target position
         target = getPositionInRadius(home, IdleRadius, 10);
         var tries : Int = 0;
         while (tries < 100 && overlapsAt(target.x, target.y, group))
         {
-            target = getPositionInRadius(home, IdleRadius, 10);
+            target = getPositionInRadius(home, IdleRadius, IdleRadius/2);
             tries += 1;
         }
 
@@ -130,9 +140,7 @@ class Dog extends Entity
 
         home.destroy();
 
-        if (tween != null)
-            tween.cancel();
-        tween = FlxTween.tween(this, {drawy : drawy-1}, 0.05, {ease: FlxEase.sineInOut, type : FlxTween.PINGPONG});
+        tween.duration = 0.075;
     }
 
     public static function getPositionInRadius(from : FlxPoint, radius : Float, ?minRadius : Float = 0) : FlxPoint
