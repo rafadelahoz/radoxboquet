@@ -8,7 +8,6 @@ class SceneryImage extends Entity
 
         loadGraphic("assets/scenery/" + Image);
 
-        // Pending baseline
         if (SolidHeight > 0)
         {
             world.addEntity(new Solid(x, y + (height-SolidHeight), world, Std.int(width), SolidHeight));
